@@ -3,11 +3,13 @@ const mongoose = require('mongoose')
 const OrderSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.SchemaTypes.ObjectId,
-        required: true
+        required: true,
+        ref: 'users'
     },
     product_id: {
         type: mongoose.SchemaTypes.ObjectId,
-        required: true
+        required: true,
+        ref: 'products'
     },
     quantity: {
         type: mongoose.SchemaTypes.Number,
@@ -28,5 +30,6 @@ const OrderSchema = new mongoose.Schema({
         default: new Date()
     }
 })
+
 
 module.exports = mongoose.model('orders', OrderSchema)

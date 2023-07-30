@@ -4,10 +4,12 @@ const SelledOrdersSchma = new mongoose.Schema({
     user_id: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
+        ref: 'users'
     },
     product_id: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
+        ref: 'products'
     },
     quantity: {
         type: mongoose.SchemaTypes.Number,

@@ -5,10 +5,12 @@ const ProductCatagoryRatingSchema = new mongoose.Schema({
     product_catagory_id: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
+        ref: 'product_catagorys'
     },
     user_id: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
+        ref: 'users'
     },
     created_at: {
         type: mongoose.SchemaTypes.Date,
