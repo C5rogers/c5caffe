@@ -15,12 +15,12 @@ const ProductCatagoryRatingSchema = new mongoose.Schema({
     created_at: {
         type: mongoose.SchemaTypes.Date,
         required: true,
-        default: new Date.now()
+        default: new Date()
     },
     updated_at: {
         type: mongoose.SchemaTypes.Date,
         required: true,
-        default: new Date.now()
+        default: new Date()
     }
 })
 
