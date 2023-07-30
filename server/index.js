@@ -7,7 +7,6 @@ const authRouter = require('./src/routes/auth')
 require('dotenv').config()
 require('./src/database/connection')
 require('./src/strategys/local_login')
-require('./src/strategys/local_signup')
 
 
 //defining the app

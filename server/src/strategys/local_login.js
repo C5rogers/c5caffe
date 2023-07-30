@@ -27,11 +27,11 @@ passport.use(
             }
 
             const userDb = await User.findOne({ email })
-            if (!userDb) {
+            if (!userDb || userDb == null) {
                 errors.message = "Invalid credentials"
             }
             if (Object.keys(errors).length > 0) {
-                done(errors, null)
+                return done(errors, null)
             }
             const isValidPassowrd = compareHashedPassword(password, userDb.password)
             if (isValidPassowrd) {
