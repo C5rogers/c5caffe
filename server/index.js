@@ -25,6 +25,8 @@ app.use((req, res, next) => {
     console.log(`${req.method}:${req.url}`)
     next()
 })
+app.use(express.static('public'))
+
 
 //defining passport
 app.use(passport.initialize())
