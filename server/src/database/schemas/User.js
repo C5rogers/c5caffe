@@ -36,12 +36,12 @@ const UserSchema = new mongoose.Schema({
     created_at: {
         type: mongoose.SchemaTypes.Date,
         required: true,
-        default: new Date()
+        default: new Date.now()
     },
     updated_at: {
         type: mongoose.SchemaTypes.Date,
         required: true,
-        default: new Date()
+        default: new Date.now()
     }
 })
 
