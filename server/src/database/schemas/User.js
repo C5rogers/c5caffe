@@ -5,6 +5,10 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.String,
         required: true
     },
+    gender: {
+        type: mongoose.SchemaTypes.String,
+        required: true
+    },
     email: {
         type: mongoose.SchemaTypes.String,
         required: true
