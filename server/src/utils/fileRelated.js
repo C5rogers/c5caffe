@@ -9,8 +9,11 @@ const getFileExtension = (base64Data) => {
     const fileExtension = base64Data.substring(base64Data.indexOf('/') + 1, base64Data.indexOf(';base64'))
     return fileExtension
 }
-
+const getUniqueFileName = () => {
+    return Date.now() + '-' + Math.round(Math.random() * 1e9)
+}
 module.exports = {
     generateHashedFileName,
-    getFileExtension
+    getFileExtension,
+    getUniqueFileName
 }

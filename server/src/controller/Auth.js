@@ -9,8 +9,18 @@ const path = require('path')
 module.exports.Signup_post = async(req, res) => {
     const { username, email, phone, location, password, gender, profile } = req.body
     try {
+        //there is some bug right here the upload works fine but cant access the file to get the filename
         if (profile) {
-            return res.status(201).json("almost registered")
+            let filename = profile.filename
+            const hashedUserPassword = hashedPassword(password)
+            const newUser = await User.create({ username, gender, email, phone, location, password: hashedUserPassword, profile: filename, roll: "user" })
+            const token = generateToken(newUser._id)
+            res.cookie('jwt', token, {
+                httpOnly: true,
+                secure: dotenv.parsed.NODE_ENV === 'production',
+                maxAge: dotenv.parsed.COOKI_MAX_AGE
+            })
+            return res.status(201).json({ message: "authenticated successfully", user: newUser })
         } else {
             let hashedFileName
             if (gender == 'm' || gender == 'M') {
