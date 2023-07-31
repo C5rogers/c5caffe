@@ -27,7 +27,7 @@ router.post("/login", (req, res, next) => {
 }, AuthController.Login_post)
 
 
-router.post("/login", async(req, res, next) => {
+router.post("/signup", async(req, res, next) => {
     const { username, email, phone, location, password, gender, profile } = req.body
     const errors = {}
     let result = validator.isValidName(username)

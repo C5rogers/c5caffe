@@ -4,9 +4,11 @@ const passport = require('passport')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const authRouter = require('./src/routes/auth')
+const middleware = require('./src/middlewares/authCheck')
 require('dotenv').config()
 require('./src/database/connection')
-    // require('./src/strategys/local')
+
+// require('./src/strategys/local')
 
 
 //defining the app
@@ -32,7 +34,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 //define the routes here
-app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/auth', middleware.check_authed, authRouter)
 
 //initialize the app
 app.listen(process.env.SERVER_PORT, () => console.log(`the server runs at port: ${process.env.SERVER_PORT}`))

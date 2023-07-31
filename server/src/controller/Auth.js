@@ -4,10 +4,10 @@ const User = require('../database/schemas/User')
 const { generateHashedFileName, getFileExtension } = require('../utils/fileRelated')
 const { generateToken } = require('../utils/jwt')
 const dotenv = require('dotenv').config('../../.env')
+const path = require('path')
 
 module.exports.Signup_post = async(req, res) => {
     const { username, email, phone, location, password, gender, profile } = req.body
-    const errors = {}
     try {
         if (profile) {
             return res.status(201).json("almost registered")
@@ -27,7 +27,7 @@ module.exports.Signup_post = async(req, res) => {
                 secure: dotenv.parsed.NODE_ENV === 'production',
                 maxAge: dotenv.parsed.COOKI_MAX_AGE
             })
-            return res.status(201).json("Authenticated successfully")
+            return res.status(201).json({ message: "authenticated successfully", user: newUser })
         }
     } catch (error) {
         console.log(error)
@@ -56,7 +56,7 @@ module.exports.Login_post = async(req, res) => {
                 secure: dotenv.parsed.NODE_ENV === 'production',
                 maxAge: dotenv.parsed.COOKI_MAX_AGE
             })
-            return res.status(200).json("Authenticated successfully")
+            return res.status(200).json({ message: "Authenticated successfully", user: userDb })
         } else {
             errors.message = "Invalid credentials"
             return res.status(401).json(errors)

@@ -1,0 +1,34 @@
+const { verfiyToken } = require('../utils/jwt')
+
+module.exports.protect_with_auth = (req, res, next) => {
+    const token = req.cookies.jwt
+    if (!token) {
+        return res.status(401).json({ errors: "Unauthorized" })
+    }
+    try {
+        const decoded = verfiyToken(token)
+        if (decoded) {
+            next()
+        }
+    } catch (error) {
+        return res.status(401).json(error.message)
+    }
+}
+
+module.exports.check_authed = (req, res, next) => {
+    const token = req.cookies.jwt
+    if (token) {
+        try {
+            const decoded = verfiyToken(token)
+            if (decoded) {
+                return res.status(200).json({ message: "You are already authenticated" })
+            } else {
+                next()
+            }
+        } catch (error) {
+            next()
+        }
+    } else {
+        next()
+    }
+}
