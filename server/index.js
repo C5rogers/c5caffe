@@ -4,7 +4,7 @@ const passport = require('passport')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const authRouter = require('./src/routes/auth')
-const middleware = require('./src/middlewares/authCheck')
+const productRouter = require('./src/routes/services/product')
 require('dotenv').config()
 require('./src/database/connection')
 
@@ -35,6 +35,7 @@ app.use(passport.session())
 
 //define the routes here
 app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/product', productRouter)
 
 //initialize the app
 app.listen(process.env.SERVER_PORT, () => console.log(`the server runs at port: ${process.env.SERVER_PORT}`))
