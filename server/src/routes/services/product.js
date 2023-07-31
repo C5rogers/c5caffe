@@ -7,6 +7,7 @@ const ProductController = require('../../controller/services/Product')
 
 const router = Router()
 
+//dont forgate to validate the product while it is create and also delete and update too
 router.get('/', ProductController.Products_get)
 router.get('/:id', ProductController.Product_get)
 router.post('/create', middleware.protect_with_auth, ProductController.Product_create)
