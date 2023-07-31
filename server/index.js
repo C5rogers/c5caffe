@@ -34,7 +34,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 //define the routes here
-app.use('/api/v1/auth', middleware.check_authed, authRouter)
+app.use('/api/v1/auth', authRouter)
 
 //initialize the app
 app.listen(process.env.SERVER_PORT, () => console.log(`the server runs at port: ${process.env.SERVER_PORT}`))

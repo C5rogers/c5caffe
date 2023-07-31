@@ -1,19 +1,18 @@
 const validator = require('../utils/validator')
 const { compareHashedPassword, hashedPassword } = require('../utils/password')
 const User = require('../database/schemas/User')
-const { generateHashedFileName, getFileExtension } = require('../utils/fileRelated')
 const { generateToken } = require('../utils/jwt')
 const dotenv = require('dotenv').config('../../.env')
 const path = require('path')
 
 module.exports.Signup_post = async(req, res) => {
-    const { username, email, phone, location, password, gender, profile } = req.body
+    const { username, email, phone, location, password, gender } = req.body
     try {
-        //there is some bug right here the upload works fine but cant access the file to get the filename
-        if (profile) {
-            let filename = profile.filename
+        if (req.file) {
+            let filename = req.file.filename
+            let filepath = path.join(__dirname, '/public/profile', filename)
             const hashedUserPassword = hashedPassword(password)
-            const newUser = await User.create({ username, gender, email, phone, location, password: hashedUserPassword, profile: filename, roll: "user" })
+            const newUser = await User.create({ username, gender, email, phone, location, password: hashedUserPassword, profile: filepath, roll: "user" })
             const token = generateToken(newUser._id)
             res.cookie('jwt', token, {
                 httpOnly: true,
@@ -43,9 +42,6 @@ module.exports.Signup_post = async(req, res) => {
         console.log(error)
         res.status(500).json(error)
     }
-
-
-
 }
 module.exports.Login_post = async(req, res) => {
     try {
@@ -76,4 +72,10 @@ module.exports.Login_post = async(req, res) => {
         console.log('error:' + error)
         res.status(500).json(error)
     }
+}
+
+
+module.exports.Logout_post = async(req, res) => {
+    res.clearCookie("jwt")
+    return res.status(200).json({ message: "loged out successfully" })
 }
