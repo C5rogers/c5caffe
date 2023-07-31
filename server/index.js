@@ -8,6 +8,7 @@ const productRouter = require('./src/routes/services/product')
 const ratingRouter = require('./src/routes/services/rating')
 const middleware = require('./src/middlewares/authCheck')
 const orderRouter = require('./src/routes/services/order')
+const selledOrderRouter = require('./src/routes/services/selledorder')
 require('dotenv').config()
 require('./src/database/connection')
 
@@ -41,6 +42,7 @@ app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/product', productRouter)
 app.use('/api/v1/rating', middleware.protect_with_auth, ratingRouter)
 app.use('/api/v1/order', middleware.protect_with_auth, orderRouter)
+app.use('/api/v1/selled_order', middleware.protect_with_auth, selledOrderRouter)
 
 //initialize the app
 app.listen(process.env.SERVER_PORT, () => console.log(`the server runs at port: ${process.env.SERVER_PORT}`))

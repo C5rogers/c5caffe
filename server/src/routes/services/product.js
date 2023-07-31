@@ -11,7 +11,7 @@ const router = Router()
 router.get('/', ProductController.Products_get)
 router.get('/:id', ProductController.Product_get)
 router.post('/create', middleware.protect_with_auth, ProductController.Product_create)
-router.put('/update', middleware.protect_with_auth, ProductController.Product_edit)
-router.delete('/delete', middleware.protect_with_auth, ProductController.Product_delete)
+router.put('/update/:id', middleware.protect_with_auth, ProductController.Product_edit)
+router.delete('/delete/:id', middleware.protect_with_auth, ProductController.Product_delete)
 
 module.exports = router
