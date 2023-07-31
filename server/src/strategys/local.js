@@ -21,10 +21,12 @@ passport.use(
             if (result == 1) {
                 errors.password = "Password is required"
             }
-
             if (Object.keys(errors).length > 0) {
+                console.log(errors)
                 done(errors, null)
+                    // return done(null, false, errors)
             }
+
 
             const userDb = await User.findOne({ email })
             if (!userDb || userDb == null) {
@@ -32,19 +34,22 @@ passport.use(
             }
             if (Object.keys(errors).length > 0) {
                 return done(errors, null)
+                    // return done(null, false, errors)
             }
             const isValidPassowrd = compareHashedPassword(password, userDb.password)
             if (isValidPassowrd) {
                 passport.serializeUser((userDb, done) => {
-                    done(null, userDb)
+                    return done(null, userDb)
                 })
             } else {
                 errors.message = "Invalid credentials"
                 done(errors, null)
+                    // return done(null, false, errors)
             }
         } catch (error) {
             console.log('error:' + error)
             done(error, null)
+                // return done(null, false, error)
         }
     })
 )

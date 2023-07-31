@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const authRouter = require('./src/routes/auth')
 require('dotenv').config()
 require('./src/database/connection')
-require('./src/strategys/local_login')
+    // require('./src/strategys/local')
 
 
 //defining the app
@@ -16,7 +16,7 @@ app.use(cookieParser())
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true
 }))
 app.use(bodyParser.json({ limit: "200mb" }))
 app.use(bodyParser.urlencoded({ extended: true }))
