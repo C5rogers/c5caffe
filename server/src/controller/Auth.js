@@ -48,8 +48,8 @@ module.exports.Login_post = async(req, res) => {
         if (Object.keys(errors).length > 0) {
             return res.status(401).json(errors)
         }
-        const isValidPassowrd = compareHashedPassword(password, userDb.password)
-        if (isValidPassowrd) {
+        const crossCheckPassword = await compareHashedPassword(password, userDb.password)
+        if (crossCheckPassword) {
             const token = generateToken(userDb._id)
             res.cookie('jwt', token, {
                 httpOnly: true,
