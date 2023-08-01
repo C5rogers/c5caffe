@@ -1,8 +1,9 @@
 // .populate('products')
 // .populate('publisher', 'companyName -_id')
 const Product = require('../../database/schemas/Product')
-const catagory = require('../../database/schemas/ProductCatagory')
+const Catagory = require('../../database/schemas/ProductCatagory')
 const { isValidObjectId } = require('mongoose')
+const path = require('path')
 
 
 module.exports.Products_get = async(req, res) => {
@@ -31,7 +32,25 @@ module.exports.Product_get = async(req, res) => {
 }
 
 module.exports.Product_create = async(req, res) => {
-
+    try {
+        const { name, price, catagory } = req.body
+        const parsedPrice = Number(price)
+        const image = req.file
+        let filename = image.filename
+        let filepath = path.join(__dirname, '/public/products/images', filename)
+        const preExistedCatagory = await Catagory.findOne({ $or: [{ catagory }] })
+        if (preExistedCatagory) {
+            const newProduct = await Product.create({ name, price: parsedPrice, catagory: preExistedCatagory, image: filepath })
+            return res.status(201).json(newProduct)
+        } else {
+            const newCatagory = await Catagory.create({ catagory })
+            const newProduct = await Product.create({ name, price: parsedPrice, catagory: newCatagory, image: filepath })
+            return res.status(201).json(newProduct)
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(error)
+    }
 }
 
 module.exports.Product_edit = async(req, res) => {

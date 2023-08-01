@@ -11,9 +11,20 @@ const ProfileStorage = multer.diskStorage({
     }
 })
 
-const ProductStorage = multer.diskStorage({
+const ProductStorageImages = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/products')
+        cb(null, 'public/products/images')
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = getUniqueFileName()
+        const fileExtension = path.extname(file.originalname)
+        cb(null, file.filename + '-' + uniqueSuffix + fileExtension)
+    }
+})
+
+const ProductStorageVideios = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/products/videos')
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = getUniqueFileName()
@@ -24,5 +35,6 @@ const ProductStorage = multer.diskStorage({
 
 module.exports = {
     ProfileStorage,
-    ProductStorage
+    ProductStorageImages,
+    ProductStorageVideios
 }

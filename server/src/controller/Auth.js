@@ -13,7 +13,7 @@ module.exports.Signup_post = async(req, res) => {
             let filepath = path.join(__dirname, '/public/profile', filename)
             const hashedUserPassword = hashedPassword(password)
             const newUser = await User.create({ username, gender, email, phone, location, password: hashedUserPassword, profile: filepath, roll: "user" })
-            const token = generateToken(newUser._id)
+            const token = generateToken(newUser._id, newUser.roll)
             res.cookie('jwt', token, {
                 httpOnly: true,
                 secure: dotenv.parsed.NODE_ENV === 'production',
@@ -56,7 +56,7 @@ module.exports.Login_post = async(req, res) => {
         }
         const crossCheckPassword = await compareHashedPassword(password, userDb.password)
         if (crossCheckPassword) {
-            const token = generateToken(userDb._id)
+            const token = generateToken(userDb._id, userDb.roll)
             res.cookie('jwt', token, {
                 httpOnly: true,
                 secure: dotenv.parsed.NODE_ENV === 'production',

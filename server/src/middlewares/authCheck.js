@@ -1,4 +1,4 @@
-const { verfiyToken } = require('../utils/jwt')
+const { verfiyToken, getRollFromToken } = require('../utils/jwt')
 
 module.exports.protect_with_auth = (req, res, next) => {
     const token = req.cookies.jwt
@@ -12,6 +12,16 @@ module.exports.protect_with_auth = (req, res, next) => {
         }
     } catch (error) {
         return res.status(401).json(error.message)
+    }
+}
+
+module.exports.check_auth_admin = (req, res, next) => {
+    const token = req.cookies.jwt
+    const roll = getRollFromToken(token)
+    if (roll === "admin") {
+        next()
+    } else {
+        return res.status(401).json({ errors: "Unauthorized" })
     }
 }
 

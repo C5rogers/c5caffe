@@ -73,3 +73,29 @@ module.exports.custome_signup_validations = async(req, res, next) => {
 
     next()
 }
+
+
+module.exports.custome_product_create_validation = (req, res, next) => {
+    const { name, price, catagory } = req.body
+    const errors = {}
+    if (!name) {
+        errors.name = "Name field is required"
+    }
+    if (!price) {
+        errors.price = "Price is also required"
+    }
+    const parsed = Number(price)
+    if (isNaN(parsed)) {
+        errors.price = "Invalid price value"
+    }
+    if (!catagory) {
+        errors.catagory = "Catagory is required also"
+    }
+    if (!req.file) {
+        errors.image = "Image also required"
+    }
+    if (Object.keys(errors).length > 0) {
+        return res.status(400).json(errors)
+    }
+    next()
+}
