@@ -18,6 +18,11 @@ const ProductSchema = new mongoose.Schema({
         required: true,
         default: 0
     },
+    catagory: {
+        type: mongoose.SchemaTypes.ObjectId,
+        required: true,
+        ref: 'product_catagorys'
+    },
     created_at: {
         type: mongoose.SchemaTypes.Date,
         required: true,
