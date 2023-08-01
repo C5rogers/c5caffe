@@ -21,7 +21,7 @@ const ProductSchema = new mongoose.Schema({
     catagory: {
         type: mongoose.SchemaTypes.ObjectId,
         required: true,
-        ref: 'product_catagorys'
+        ref: 'product_catagorys',
     },
     created_at: {
         type: mongoose.SchemaTypes.Date,

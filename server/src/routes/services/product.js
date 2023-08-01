@@ -13,7 +13,7 @@ const router = Router()
 router.get('/', ProductController.Products_get)
 router.get('/:id', ProductController.Product_get)
 router.post('/create', middleware.protect_with_auth, middleware.check_auth_admin, upload.single('image'), validations.custome_product_create_validation, ProductController.Product_create)
-router.put('/update/:id', middleware.protect_with_auth, middleware.check_auth_admin, upload.single('image'), ProductController.Product_edit)
+router.put('/update/:id', middleware.protect_with_auth, middleware.check_auth_admin, upload.single('image'), validations.custome_product_create_validation, ProductController.Product_edit)
 router.delete('/delete/:id', middleware.protect_with_auth, middleware.check_auth_admin, ProductController.Product_delete)
 
 module.exports = router
