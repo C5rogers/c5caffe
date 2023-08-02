@@ -1,5 +1,6 @@
 const validator = require('../utils/validator')
 const User = require('../database/schemas/User')
+const { isValidObjectId } = require('mongoose')
 
 module.exports.custome_login_validations = (req, res, next) => {
     const { email, password } = req.body
@@ -93,6 +94,34 @@ module.exports.custome_product_create_validation = (req, res, next) => {
     }
     if (!req.file) {
         errors.image = "Image also required"
+    }
+    if (Object.keys(errors).length > 0) {
+        return res.status(400).json(errors)
+    }
+    next()
+}
+
+module.exports.custome_order_create_validation = (req, res, next) => {
+    const { product_id, quantity, total_price } = req.body
+    const errors = {}
+    if (!product_id) {
+        errors.product_id = "Product id is required"
+    } else if (!isValidObjectId(product_id)) {
+        errors.product_id = "Invalid product id"
+    }
+    if (!quantity) {
+        errors.quantity = "There is no order with no quantity"
+    }
+    let parsed = Number(quantity)
+    if (isNaN(parsed)) {
+        errors.quantity = "Invalid quantity value"
+    }
+    if (!total_price) {
+        errors.total_price = "Total price is also required"
+    }
+    parsed = Number(total_price)
+    if (isNaN(parsed)) {
+        errors.total_price = "Invalid toatl price value"
     }
     if (Object.keys(errors).length > 0) {
         return res.status(400).json(errors)
