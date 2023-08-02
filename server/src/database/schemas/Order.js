@@ -19,6 +19,11 @@ const OrderSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.Number,
         required: true
     },
+    status: {
+        type: mongoose.SchemaTypes.String,
+        required: true,
+        default: "unpayed"
+    },
     created_at: {
         type: mongoose.SchemaTypes.Date,
         required: true,

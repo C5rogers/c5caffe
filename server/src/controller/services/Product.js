@@ -1,4 +1,3 @@
-// .populate('products')
 // .populate('publisher', 'companyName -_id')
 const Product = require('../../database/schemas/Product')
 const Catagory = require('../../database/schemas/ProductCatagory')
@@ -94,7 +93,6 @@ module.exports.Product_delete = async(req, res) => {
         const theProduct = await Product.findOne({ _id: product_id })
         if (theProduct) {
             await Product.deleteOne({ _id: product_id })
-                //delete the image from the public folder 
             await fs.unlink(theProduct.image, (error) => {
                 if (error) {
                     console.log("Error in deleting the file")
@@ -109,21 +107,3 @@ module.exports.Product_delete = async(req, res) => {
         return res.status(500).json(error)
     }
 }
-
-
-// const House = mongoose.model("House", houseSchema)
-
-// // Create a Owner
-// const alex = await Owner.create({name: "Alex Merced"})
-
-// // Create a new house
-// House.create({
-//     street: "100 Maple Street",
-//     city: "Fort Townville,
-//     state: "New West Virgota",
-//     zip: "77777"
-//     owner: alex
-// })
-
-// // query for all houses, use populate to include owner info
-// House.find({}).populate("owner")
