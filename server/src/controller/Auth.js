@@ -10,7 +10,7 @@ module.exports.Signup_post = async(req, res) => {
     try {
         if (req.file) {
             let filename = req.file.filename
-            let filepath = path.join(__dirname, '/public/profile', filename)
+            let filepath = path.join(dotenv.parsed.UPLOAD_FILE_PATH, '/public/profile', filename)
             const hashedUserPassword = hashedPassword(password)
             const newUser = await User.create({ username, gender, email, phone, location, password: hashedUserPassword, profile: filepath, roll: "user" })
             const token = generateToken(newUser._id, newUser.roll)
@@ -27,7 +27,7 @@ module.exports.Signup_post = async(req, res) => {
             } else {
                 hashedFileName = 'female.png'
             }
-            const filepath = path.join(__dirname, '/public/profile', hashedFileName)
+            const filepath = path.join(dotenv.parsed.UPLOAD_FILE_PATH, '/public/profile', hashedFileName)
             const newUserPassword = hashedPassword(password)
             const newUser = await User.create({ username, gender, email, phone, location, password: newUserPassword, profile: filepath, roll: "user" })
             const token = generateToken(newUser._id)
