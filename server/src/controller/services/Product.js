@@ -27,8 +27,8 @@ module.exports.Product_get = async(req, res) => {
         const product_id = req.params.id
         if (isValidObjectId(product_id)) {
             const product = await Product.findOne({ _id: product_id }).populate("catagory")
-            const product_rating = await ProductRating.findOne({ product_id }).populate("user_id product_id")
-            return res.status(200).json(product, product_rating)
+            const product_rating = await ProductRating.findOne({ product_id }).populate("user_id", "_id username gender location profile").populate("product_id", "_id name image price rating catagory")
+            return res.status(200).json({ product, product_rating })
         } else {
             return res.status(400).json({ message: "Invalid parameter" })
         }
