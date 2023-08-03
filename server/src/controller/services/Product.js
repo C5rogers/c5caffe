@@ -1,4 +1,3 @@
-// .populate('publisher', 'companyName -_id')
 const Product = require('../../database/schemas/Product')
 const Catagory = require('../../database/schemas/ProductCatagory')
 const { isValidObjectId } = require('mongoose')
