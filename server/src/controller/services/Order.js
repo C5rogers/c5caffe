@@ -87,5 +87,21 @@ module.exports.Order_edit = async(req, res) => {
 
 }
 module.exports.Order_delete = async(req, res) => {
-
+    try {
+        const order_id = req.params.id
+        if (isValidObjectId(order_id)) {
+            const order = await Order.findOne({ _id: order_id })
+            if (order) {
+                Order.deleteOne({ _id: order_id })
+                return res.status(200).json({ message: "Order deleted successfully" })
+            } else {
+                return res.status(400).json({ message: "There is no order with this id to delete" })
+            }
+        } else {
+            return res.status(400).json({ message: "Invalid order id" })
+        }
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(error)
+    }
 }

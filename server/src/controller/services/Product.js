@@ -5,12 +5,18 @@ const { isValidObjectId } = require('mongoose')
 const path = require('path')
 const fs = require('fs').promises
 const dotenv = require('dotenv').config('../../../.env')
+const ProductRating = require('../../database/schemas/ProductRating')
+const SelledOrder = require('../../database/schemas/SelledOrder')
+const User = require('../../database/schemas/User')
 
 
 module.exports.Products_get = async(req, res) => {
     try {
         const products = await Product.find({}).populate("catagory")
-        return res.status(200).json(products)
+        const product_ratings = await ProductRating.find({}).populate("user_id", "_id username gender location profile").populate("product_id", "_id name image price rating catagory")
+        const selled_order_count = await SelledOrder.find({}).count()
+        const users_count = await User.find({}).count()
+        return res.status(200).json({ products, product_ratings, selled_order_count, users_count })
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)
@@ -21,7 +27,8 @@ module.exports.Product_get = async(req, res) => {
         const product_id = req.params.id
         if (isValidObjectId(product_id)) {
             const product = await Product.findOne({ _id: product_id }).populate("catagory")
-            return res.status(200).json(product)
+            const product_rating = await ProductRating.findOne({ product_id }).populate("user_id product_id")
+            return res.status(200).json(product, product_rating)
         } else {
             return res.status(400).json({ message: "Invalid parameter" })
         }

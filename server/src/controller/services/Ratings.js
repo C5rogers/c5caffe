@@ -23,7 +23,7 @@ module.exports.Product_like = async(req, res) => {
                 } else {
                     await product.updateOne({ rating: product.rating + 1 })
                     const updatedProduct = await Product.findOne({ _id: product_id })
-                    const rating = ProductRating.create({ user_id: user, product_id: updatedProduct })
+                    const rating = await ProductRating.create({ user_id: user, product_id: updatedProduct })
                     return res.status(201).json({ message: "Product is liked successfully", rating })
                 }
             } else {
@@ -51,7 +51,7 @@ module.exports.Product_dislike = async(req, res) => {
                     await product.updateOne({ rating: product.rating - 1 })
                     const updated_product = await Product.findOne({ _id: product_id })
                     await ProductRating.deleteOne({ _id: ratedProduct._id })
-                    return res.status(200).json({ message: "Product disliked successfully" }, updated_product)
+                    return res.status(200).json({ message: "Product disliked successfully", updated_product })
                 } else {
                     return res.status(400).json({ message: "The product is not rated at all" })
                 }
