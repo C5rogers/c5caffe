@@ -81,7 +81,7 @@ module.exports.Order_init = async(req, res) => {
         const user = await User.findOne({ _id: user_id })
         const merged_carts = await Cart.find({ $and: [{ user: user_id }, { status: "unordered" }] })
         if (merged_carts.length > 0) {
-            overall_total_price = get_total_order_price(merged_carts)
+            overall_total_price = await get_total_order_price(merged_carts)
             const form = {
                 verifyed_total_price: overall_total_price,
                 email: user.email,
@@ -104,7 +104,8 @@ module.exports.Order_init = async(req, res) => {
             return res.status(400).json({ message: "First need to have cart to order" })
         }
     } catch (error) {
-
+        console.log(error)
+        return res.status(500).json(error)
     }
 }
 module.exports.Order_complete = async(req, res) => {

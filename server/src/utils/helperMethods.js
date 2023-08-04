@@ -32,7 +32,7 @@ const create_cart_from_cookie = async(carts, user_id) => {
 const get_total_order_price = async(carts) => {
     let overall_order_price = 0
     carts.forEach(cart => {
-        overall_order_price += cart.overall_price
+        overall_order_price = overall_order_price + cart.overall_price
     })
     return overall_order_price
 }
