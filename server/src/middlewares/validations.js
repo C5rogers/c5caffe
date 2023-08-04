@@ -144,7 +144,7 @@ module.exports.custome_cart_create_validation = (req, res, next) => {
         errors.ammount = "Ammount also required"
     }
     const parsed = Number(ammount)
-    if (isNan(parsed)) {
+    if (isNaN(parsed)) {
         errors.ammount = "Invlaid ammount number"
     }
     if (Object.keys(errors).length > 0) {
