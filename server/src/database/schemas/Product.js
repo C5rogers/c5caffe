@@ -5,6 +5,9 @@ const ProductSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.String,
         required: true
     },
+    description: {
+        type: mongoose.SchemaTypes.String
+    },
     image: {
         type: mongoose.SchemaTypes.String,
         required: true

@@ -77,7 +77,7 @@ module.exports.custome_signup_validations = async(req, res, next) => {
 
 
 module.exports.custome_product_create_validation = (req, res, next) => {
-    const { name, price, catagory } = req.body
+    const { name, price, catagory, description } = req.body
     const errors = {}
     if (!name) {
         errors.name = "Name field is required"
@@ -94,6 +94,9 @@ module.exports.custome_product_create_validation = (req, res, next) => {
     }
     if (!req.file) {
         errors.image = "Image also required"
+    }
+    if (!description) {
+        errors.description = "Description is also required"
     }
     if (Object.keys(errors).length > 0) {
         return res.status(400).json(errors)

@@ -40,18 +40,18 @@ module.exports.Product_get = async(req, res) => {
 
 module.exports.Product_create = async(req, res) => {
     try {
-        const { name, price, catagory } = req.body
+        const { name, price, catagory, description } = req.body
         const parsedPrice = Number(price)
         const image = req.file
         let filename = image.filename
         let filepath = path.join(dotenv.parsed.UPLOAD_FILE_PATH, '/public/products/images', filename)
         const preExistedCatagory = await Catagory.findOne({ catagory })
         if (preExistedCatagory) {
-            const newProduct = await Product.create({ name, price: parsedPrice, catagory: preExistedCatagory, image: filepath })
+            const newProduct = await Product.create({ name, price: parsedPrice, description, catagory: preExistedCatagory, image: filepath })
             return res.status(201).json(newProduct)
         } else {
             const newCatagory = await Catagory.create({ catagory })
-            const newProduct = await Product.create({ name, price: parsedPrice, catagory: newCatagory, image: filepath })
+            const newProduct = await Product.create({ name, price: parsedPrice, description, catagory: newCatagory, image: filepath })
             return res.status(201).json(newProduct)
         }
     } catch (error) {
@@ -62,7 +62,7 @@ module.exports.Product_create = async(req, res) => {
 
 module.exports.Product_edit = async(req, res) => {
     try {
-        const { name, price, catagory } = req.body
+        const { name, price, catagory, description } = req.body
         const file = req.file
         let filename = file.filename
         let filepath = path.join(dotenv.parsed.UPLOAD_FILE_PATH, '/public/products/images', filename)
@@ -76,12 +76,12 @@ module.exports.Product_edit = async(req, res) => {
             })
             const preExistedCatagory = await Catagory.findOne({ catagory })
             if (preExistedCatagory) {
-                await theProduct.updateOne({ name, price, catagory: preExistedCatagory, image: filepath })
+                await theProduct.updateOne({ name, price, description, catagory: preExistedCatagory, image: filepath })
                 const updatedProduct = await Product.findOne({ _id: product_id })
                 return res.status(200).json({ message: "Product updated successfully", product: updatedProduct })
             } else {
                 const newCatagory = await Catagory.create({ catagory })
-                await theProduct.updateOne({ name, price, catagory: newCatagory, image: filepath })
+                await theProduct.updateOne({ name, price, description, catagory: newCatagory, image: filepath })
                 const updatedProduct = await Product.findOne({ _id: product_id })
                 res.status(200).json({ message: "Product updated successfully", product: updatedProduct })
             }
