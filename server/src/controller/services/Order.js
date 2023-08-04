@@ -5,14 +5,17 @@ const dotenv = require('dotenv').config('../../../.env')
 const { getIdFromToken } = require('../../utils/jwt')
 const { isValidObjectId } = require('mongoose')
 const axios = require('axios')
-const { validate_total_order_price } = require('../../utils/helperMethods')
+const { validate_total_order_price, create_cart_from_cookie, get_total_order_price } = require('../../utils/helperMethods')
 const { init_payment } = require('../../config/chapa')
+const Cart = require('../../database/schemas/Cart')
+const SelledOrder = require('../../database/schemas/SelledOrder')
+
 
 module.exports.Orders_get = async(req, res) => {
     try {
         const token = req.cookies.jwt
         const user_id = getIdFromToken(token)
-        const orders = await Order.find({ user_id }).populate("product")
+        const orders = await Order.find({ user: user_id }).populate("user", "_id username gender location profile").populate("carts")
         return res.status(200).json(orders)
     } catch (error) {
         console.log(error)
@@ -20,62 +23,119 @@ module.exports.Orders_get = async(req, res) => {
     }
 }
 module.exports.Order_get = async(req, res) => {
-    try {
-        const _id = req.params.id
-        const errors = {}
-        if (isValidObjectId) {
-            const token = req.cookies.jwt
-            const user_id = getIdFromToken(token)
-            const order = await Order.findOne({ $and: [{ _id }, { user_id }] }).populate("product")
-            return res.status(200).json(order)
-        } else {
-            errors.order_id = "Invalid order id"
-            return res.status(400).json(errors)
-        }
-    } catch (error) {
+        try {
+            const _id = req.params.id
+            const errors = {}
+            if (isValidObjectId) {
+                const token = req.cookies.jwt
+                const user_id = getIdFromToken(token)
+                const order = await Order.findOne({ $and: [{ _id }, { user: user_id }] }).populate("user", "_id username gender location profile").populate("carts")
+                return res.status(200).json(order)
+            } else {
+                errors.order_id = "Invalid order id"
+                return res.status(400).json(errors)
+            }
+        } catch (error) {
 
+        }
     }
-}
+    // module.exports.Order_init = async(req, res) => {
+    //     try {
+    //         const { product_id, quantity, total_price } = req.body
+    //         const token = req.cookies.jwt
+    //         const user_id = getIdFromToken(token)
+    //         const user = await User.findOne({ _id: user_id })
+    //         const product = await Product.findOne({ _id: product_id })
+    //         let verifyed_total_price
+    //         if (validate_total_order_price(Number(total_price), Number(quantity), product.price)) {
+    //             verifyed_total_price = Number(total_price)
+    //         } else {
+    //             verifyed_total_price = Number(quantity) * product.price
+    //         }
+    //         const form = {
+    //             verifyed_total_price,
+    //             email: user.email,
+    //             username: user.username,
+    //             phone: user.phone,
+    //             id: user._id
+    //         }
+    //         const chapaResponce = await init_payment(form)
+    //         if (chapaResponce) {
+    //             const newOrder = await Order.create({ user_id: user, product, quantity, total_price: verifyed_total_price })
+    //             return res.status(200).json({ paymentUrl: chapaResponce.data.data.checkout_url, newOrder })
+    //         } else {
+    //             return res.status(400).json({ message: "Invalid request" })
+    //         }
+
+//     } catch (error) {
+//         console.log("error: " + error)
+//         return res.status(500).json(error)
+//     }
+// }
+
 module.exports.Order_init = async(req, res) => {
     try {
-        const { product_id, quantity, total_price } = req.body
         const token = req.cookies.jwt
         const user_id = getIdFromToken(token)
+        let another_carts = []
+        let carts = []
+        let merged_carts = []
+        let overall_total_price
         const user = await User.findOne({ _id: user_id })
-        const product = await Product.findOne({ _id: product_id })
-        let verifyed_total_price
-        if (validate_total_order_price(Number(total_price), Number(quantity), product.price)) {
-            verifyed_total_price = Number(total_price)
+        if (req.cookies.carts) {
+            const cookie_carts = JSON.parse(req.cookies.carts)
+            const created_cart_ids = await create_cart_from_cookie(cookie_carts, user_id)
+            if (created_cart_ids) {
+                carts = Cart.find({
+                    '_id': {
+                        $in: created_cart_ids
+                    }
+                })
+            }
+        }
+        if (req.body.carts) {
+            another_carts = await Cart.find({
+                '_id': {
+                    $in: req.body.carts
+                }
+            })
+        }
+        merged_carts = [...carts, ...another_carts]
+        if (merged_carts.length > 0) {
+            overall_total_price = get_total_order_price(merged_carts)
+            const form = {
+                verifyed_total_price: overall_total_price,
+                email: user.email,
+                username: user.username,
+                phone: user.phone,
+                id: user._id
+            }
+            const chapaResponce = await init_payment(form)
+            if (chapaResponce) {
+                const newOrder = await Order.create({ user, carts: merged_carts, total_price: overall_total_price })
+                const theOrder = await Order.find({ _id: newOrder._id }).populate("user", "_id username gender location profile").populate("carts")
+                return res.status(201).json({ paymentUrl: chapaResponce.data.data.checkout_url, theOrder })
+            } else {
+                return res.status(400).json({ message: "Invalid order request" })
+            }
         } else {
-            verifyed_total_price = Number(quantity) * product.price
+            return res.status(400).json({ message: "First need to have cart to order" })
         }
-        const form = {
-            verifyed_total_price,
-            email: user.email,
-            username: user.username,
-            phone: user.phone,
-            id: user._id
-        }
-        const chapaResponce = await init_payment(form)
-        if (chapaResponce) {
-            const newOrder = await Order.create({ user_id: user, product, quantity, total_price: verifyed_total_price })
-            return res.status(200).json({ paymentUrl: chapaResponce.data.data.checkout_url, newOrder })
-        } else {
-            return res.status(400).json({ message: "Invalid request" })
-        }
-
     } catch (error) {
-        console.log("error: " + error)
-        return res.status(500).json(error)
+
     }
 }
 module.exports.Order_complete = async(req, res) => {
     try {
         const order_id = req.params.id
+        const token = req.cookies.jwt
+        const user_id = getIdFromToken(token)
+        const user = User.findOne({ _id: user_id })
         if (isValidObjectId(order_id)) {
             const theOrder = await Order.findOne({ _id: order_id })
             theOrder.updateOne({ status: "payed" })
-            const updatedOrder = await Order.findOne({ _id: order_id })
+            const updatedOrder = await Order.findOne({ _id: order_id }).populate("user", "_id username gender location profile").populate("carts")
+            await SelledOrder.create({ user, carts: updatedOrder.carts, total_price: updatedOrder.total_price })
             return res.status(200).json({ message: "Order payed successfully", updatedOrder })
         } else {
             return res.status(400).json({ message: "Invalid order id" })
@@ -92,6 +152,10 @@ module.exports.Order_delete = async(req, res) => {
         if (isValidObjectId(order_id)) {
             const order = await Order.findOne({ _id: order_id })
             if (order) {
+                const carts = order.carts
+                carts.forEach(async(cart) => {
+                    await Cart.deleteOne({ _id: cart })
+                });
                 Order.deleteOne({ _id: order_id })
                 return res.status(200).json({ message: "Order deleted successfully" })
             } else {
