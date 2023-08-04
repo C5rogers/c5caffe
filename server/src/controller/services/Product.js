@@ -98,6 +98,7 @@ module.exports.Product_delete = async(req, res) => {
         const product_id = req.params.id
         const theProduct = await Product.findOne({ _id: product_id })
         if (theProduct) {
+            await ProductRating.deleteMany({ product_id })
             await Product.deleteOne({ _id: product_id })
             await fs.unlink(theProduct.image, (error) => {
                 if (error) {
