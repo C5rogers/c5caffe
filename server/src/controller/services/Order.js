@@ -6,6 +6,7 @@ const { getIdFromToken } = require('../../utils/jwt')
 const { isValidObjectId } = require('mongoose')
 const axios = require('axios')
 const { validate_total_order_price } = require('../../utils/helperMethods')
+const { init_payment } = require('../../config/chapa')
 
 module.exports.Orders_get = async(req, res) => {
     try {
@@ -56,25 +57,21 @@ module.exports.Order_init = async(req, res) => {
         } else {
             verifyed_total_price = Number(quantity) * product.price
         }
-        const body = {
-            'amount': verifyed_total_price,
-            "currency": "ETB",
-            "email": user.email,
-            "phone_number": user.phone,
-            "user_name": user.name,
-            "callback_url": "https://webhook.site/077164d6-29cb-40df-ba29-8a00e59a7e60",
-            "return_url": "https://www.google.com/",
-            "customization[title]": "c5caffe payment method",
-            "customization[description]": "Our caffe also provide very simple and optional payment methods and gateways for our clients. and this make us unique"
+        const form = {
+            verifyed_total_price,
+            email: user.email,
+            username: user.username,
+            phone: user.phone,
+            id: user._id
         }
-        const newOrder = await Order.create({ user_id: user, product, quantity, total_price: verifyed_total_price })
-        const chapaResponce = await axios.post(dotenv.parsed.CHAPA_PAYMENT_ENDPOINT, { body }, {
-            headers: {
-                'Authorization': 'Bearer ' + dotenv.parsed.CHAPA_SECRET_KEY,
-                'Content-Type': 'application/json',
-            }
-        })
-        return res.status(200).json({ paymentUrl: chapaResponce.data.paymentUrl })
+        const chapaResponce = await init_payment(form)
+        if (chapaResponce) {
+            await Order.create({ user_id: user, product, quantity, total_price: verifyed_total_price })
+            return res.status(200).json({ paymentUrl: chapaResponce.data.data.checkout_url })
+        } else {
+            return res.status(400).json({ message: "Invalid request" })
+        }
+
     } catch (error) {
         console.log("error: " + error)
         return res.status(500).json(error)
