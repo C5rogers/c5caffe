@@ -10,8 +10,7 @@ const router = Router()
 router.get('/', middleware.protect_with_auth, OrderController.Orders_get)
 router.get('/:id', middleware.protect_with_auth, OrderController.Order_get)
 router.post('/init', middleware.protect_with_auth, validations.custome_order_create_validation, OrderController.Order_init)
-router.post('/complete', middleware.protect_with_auth, OrderController.Order_complete)
-router.put('/update/:id', middleware.protect_with_auth, OrderController.Order_edit)
+router.post('/complete/:id', middleware.protect_with_auth, OrderController.Order_complete)
 router.delete('/delete/:id', middleware.protect_with_auth, OrderController.Order_delete)
 
 module.exports = router

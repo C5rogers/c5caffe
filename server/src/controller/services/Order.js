@@ -37,14 +37,6 @@ module.exports.Order_get = async(req, res) => {
     }
 }
 module.exports.Order_init = async(req, res) => {
-    //this is the place where we are going to call the chapa end point to done the request
-    //extract the data 
-    //make sure the correct total_price is
-    //get the user and product information 
-    //create the order
-    //get the payment link from chapa
-    //return the link to client
-
     try {
         const { product_id, quantity, total_price } = req.body
         const token = req.cookies.jwt
@@ -66,8 +58,8 @@ module.exports.Order_init = async(req, res) => {
         }
         const chapaResponce = await init_payment(form)
         if (chapaResponce) {
-            await Order.create({ user_id: user, product, quantity, total_price: verifyed_total_price })
-            return res.status(200).json({ paymentUrl: chapaResponce.data.data.checkout_url })
+            const newOrder = await Order.create({ user_id: user, product, quantity, total_price: verifyed_total_price })
+            return res.status(200).json({ paymentUrl: chapaResponce.data.data.checkout_url, newOrder })
         } else {
             return res.status(400).json({ message: "Invalid request" })
         }
@@ -78,10 +70,21 @@ module.exports.Order_init = async(req, res) => {
     }
 }
 module.exports.Order_complete = async(req, res) => {
-    console.log("we are here now")
-}
-module.exports.Order_edit = async(req, res) => {
+    try {
+        const order_id = req.params.id
+        if (isValidObjectId(order_id)) {
+            const theOrder = await Order.findOne({ _id: order_id })
+            theOrder.updateOne({ status: "payed" })
+            const updatedOrder = await Order.findOne({ _id: order_id })
+            return res.status(200).json({ message: "Order payed successfully", updatedOrder })
+        } else {
+            return res.status(400).json({ message: "Invalid order id" })
+        }
 
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(error)
+    }
 }
 module.exports.Order_delete = async(req, res) => {
     try {
