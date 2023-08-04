@@ -4,7 +4,6 @@ const User = require('../database/schemas/User')
 const { generateToken } = require('../utils/jwt')
 const dotenv = require('dotenv').config('../../.env')
 const path = require('path')
-const Cart = require('../database/schemas/Cart')
 const { create_cart_from_cookie } = require('../utils/helperMethods')
 
 
