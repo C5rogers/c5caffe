@@ -15,6 +15,11 @@ const CartSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.Number,
         required: true,
     },
+    status: {
+        type: mongoose.SchemaTypes.String,
+        required: true,
+        default: "unordered"
+    },
     overall_price: {
         type: mongoose.SchemaTypes.Number,
         required: true,

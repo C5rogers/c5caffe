@@ -25,6 +25,7 @@ module.exports.Signup_post = async(req, res) => {
             if (req.cookies.carts) {
                 const carts = JSON.parse(req.cookies.carts)
                 await create_cart_from_cookie(carts, newUser._id)
+                res.clearCookie("carts")
             }
             const theUser = await User.findOne({ _id: newUser._id }).select("_id username gender location profile")
             return res.status(201).json({ message: "authenticated successfully", user: theUser })
@@ -48,6 +49,7 @@ module.exports.Signup_post = async(req, res) => {
             if (req.cookies.carts) {
                 const carts = JSON.parse(req.cookies.carts)
                 await create_cart_from_cookie(carts, newUser._id)
+                res.clearCookie("carts")
             }
             const theUser = await User.findOne({ _id: newUser._id }).select("_id username gender location profile")
             return res.status(201).json({ message: "authenticated successfully", user: theUser })
@@ -80,6 +82,7 @@ module.exports.Login_post = async(req, res) => {
             if (req.cookies.carts) {
                 const carts = JSON.parse(req.cookies.carts)
                 await create_cart_from_cookie(carts, userDb._id)
+                res.clearCookie("carts")
             }
             const theUser = await User.findOne({ _id: userDb._id }).select("_id username gender location profile")
             return res.status(200).json({ message: "Authenticated successfully", user: theUser })

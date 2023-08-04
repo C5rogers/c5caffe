@@ -77,30 +77,9 @@ module.exports.Order_init = async(req, res) => {
     try {
         const token = req.cookies.jwt
         const user_id = getIdFromToken(token)
-        let another_carts = []
-        let carts = []
-        let merged_carts = []
         let overall_total_price
         const user = await User.findOne({ _id: user_id })
-        if (req.cookies.carts) {
-            const cookie_carts = JSON.parse(req.cookies.carts)
-            const created_cart_ids = await create_cart_from_cookie(cookie_carts, user_id)
-            if (created_cart_ids) {
-                carts = Cart.find({
-                    '_id': {
-                        $in: created_cart_ids
-                    }
-                })
-            }
-        }
-        if (req.body.carts) {
-            another_carts = await Cart.find({
-                '_id': {
-                    $in: req.body.carts
-                }
-            })
-        }
-        merged_carts = [...carts, ...another_carts]
+        const merged_carts = await Cart.find({ $and: [{ user: user_id }, { status: "unordered" }] })
         if (merged_carts.length > 0) {
             overall_total_price = get_total_order_price(merged_carts)
             const form = {
@@ -112,6 +91,9 @@ module.exports.Order_init = async(req, res) => {
             }
             const chapaResponce = await init_payment(form)
             if (chapaResponce) {
+                merged_carts.forEach(async(cart) => {
+                    await cart.updateOne({ status: "ordered" })
+                });
                 const newOrder = await Order.create({ user, carts: merged_carts, total_price: overall_total_price })
                 const theOrder = await Order.find({ _id: newOrder._id }).populate("user", "_id username gender location profile").populate("carts")
                 return res.status(201).json({ paymentUrl: chapaResponce.data.data.checkout_url, theOrder })
