@@ -128,3 +128,24 @@ module.exports.custome_order_create_validation = (req, res, next) => {
     }
     next()
 }
+module.exports.custome_cart_create_validation = (req, res, next) => {
+    const { product_id, ammount } = req.body
+    const errors = {}
+    if (!product_id) {
+        errors.product_id = "Product is required"
+    }
+    if (!isValidObjectId(product_id)) {
+        errors.product_id = "Invalid product reference"
+    }
+    if (!ammount) {
+        errors.ammount = "Ammount also required"
+    }
+    const parsed = Number(ammount)
+    if (isNan(parsed)) {
+        errors.ammount = "Invlaid ammount number"
+    }
+    if (Object.keys(errors).length > 0) {
+        return res.status(400).json(errors)
+    }
+    next()
+}

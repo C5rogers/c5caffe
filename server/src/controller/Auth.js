@@ -4,6 +4,9 @@ const User = require('../database/schemas/User')
 const { generateToken } = require('../utils/jwt')
 const dotenv = require('dotenv').config('../../.env')
 const path = require('path')
+const Cart = require('../database/schemas/Cart')
+const { create_cart_from_cookie } = require('../utils/helperMethods')
+
 
 module.exports.Signup_post = async(req, res) => {
     const { username, email, phone, location, password, gender } = req.body
@@ -15,11 +18,17 @@ module.exports.Signup_post = async(req, res) => {
             const newUser = await User.create({ username, gender, email, phone, location, password: hashedUserPassword, profile: filepath, roll: "user" })
             const token = generateToken(newUser._id, newUser.roll)
             res.cookie('jwt', token, {
-                httpOnly: true,
-                secure: dotenv.parsed.NODE_ENV === 'production',
-                maxAge: dotenv.parsed.COOKI_MAX_AGE
-            })
-            return res.status(201).json({ message: "authenticated successfully", user: newUser })
+                    httpOnly: true,
+                    secure: dotenv.parsed.NODE_ENV === 'production',
+                    maxAge: dotenv.parsed.COOKI_MAX_AGE
+                })
+                //if there is cart in the cookie create the cart object
+            if (req.cookies.carts) {
+                const carts = JSON.parse(req.cookies.carts)
+                await create_cart_from_cookie(carts, newUser._id)
+            }
+            const theUser = await User.findOne({ _id: newUser._id }).select("_id username gender location profile")
+            return res.status(201).json({ message: "authenticated successfully", user: theUser })
         } else {
             let hashedFileName
             if (gender == 'm' || gender == 'M') {
@@ -32,11 +41,17 @@ module.exports.Signup_post = async(req, res) => {
             const newUser = await User.create({ username, gender, email, phone, location, password: newUserPassword, profile: filepath, roll: "user" })
             const token = generateToken(newUser._id)
             res.cookie('jwt', token, {
-                httpOnly: true,
-                secure: dotenv.parsed.NODE_ENV === 'production',
-                maxAge: dotenv.parsed.COOKI_MAX_AGE
-            })
-            return res.status(201).json({ message: "authenticated successfully", user: newUser })
+                    httpOnly: true,
+                    secure: dotenv.parsed.NODE_ENV === 'production',
+                    maxAge: dotenv.parsed.COOKI_MAX_AGE
+                })
+                //if there is cart in the cookie create the cart object
+            if (req.cookies.carts) {
+                const carts = JSON.parse(req.cookies.carts)
+                await create_cart_from_cookie(carts, newUser._id)
+            }
+            const theUser = await User.findOne({ _id: newUser._id }).select("_id username gender location profile")
+            return res.status(201).json({ message: "authenticated successfully", user: theUser })
         }
     } catch (error) {
         console.log(error)
@@ -58,11 +73,17 @@ module.exports.Login_post = async(req, res) => {
         if (crossCheckPassword) {
             const token = generateToken(userDb._id, userDb.roll)
             res.cookie('jwt', token, {
-                httpOnly: true,
-                secure: dotenv.parsed.NODE_ENV === 'production',
-                maxAge: dotenv.parsed.COOKI_MAX_AGE
-            })
-            return res.status(200).json({ message: "Authenticated successfully", user: userDb })
+                    httpOnly: true,
+                    secure: dotenv.parsed.NODE_ENV === 'production',
+                    maxAge: dotenv.parsed.COOKI_MAX_AGE
+                })
+                //if there is also cart inthe cookie create the cart object
+            if (req.cookies.carts) {
+                const carts = JSON.parse(req.cookies.carts)
+                await create_cart_from_cookie(carts, userDb._id)
+            }
+            const theUser = await User.findOne({ _id: userDb._id }).select("_id username gender location profile")
+            return res.status(200).json({ message: "Authenticated successfully", user: theUser })
         } else {
             errors.message = "Invalid credentials"
             return res.status(401).json(errors)
