@@ -59,7 +59,7 @@ module.exports.custome_signup_validations = async(req, res, next) => {
         errors.location = "Location is requierd"
     }
     if (Object.keys(errors).length > 0) {
-        return res.status(401).json(errors)
+        return res.status(400).json(errors)
     }
     const userDb = await User.findOne({
         $or: [
