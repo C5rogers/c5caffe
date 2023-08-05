@@ -1,6 +1,7 @@
 const validator = require('../utils/validator')
 const User = require('../database/schemas/User')
 const { isValidObjectId } = require('mongoose')
+const { deleteUploadedImage, deleteUploadedProfile } = require('../utils/fileRelated')
 
 module.exports.custome_login_validations = (req, res, next) => {
     const { email, password } = req.body
@@ -59,6 +60,9 @@ module.exports.custome_signup_validations = async(req, res, next) => {
         errors.location = "Location is requierd"
     }
     if (Object.keys(errors).length > 0) {
+        if (req.file) {
+            deleteUploadedProfile(req.file.filename)
+        }
         return res.status(400).json(errors)
     }
     const userDb = await User.findOne({
@@ -68,6 +72,9 @@ module.exports.custome_signup_validations = async(req, res, next) => {
         ]
     })
     if (userDb) {
+        if (req.file) {
+            deleteUploadedProfile(req.file.filename)
+        }
         errors.message = "You already have an account with this credentials"
         return res.status(401).json(errors)
     }
@@ -99,6 +106,9 @@ module.exports.custome_product_create_validation = (req, res, next) => {
         errors.description = "Description is also required"
     }
     if (Object.keys(errors).length > 0) {
+        if (req.file) {
+            deleteUploadedImage(req.file.filename)
+        }
         return res.status(400).json(errors)
     }
     next()
