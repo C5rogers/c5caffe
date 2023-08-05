@@ -10,6 +10,7 @@ const User = require('../../database/schemas/User')
 
 
 module.exports.Products_get = async(req, res) => {
+    //need to handle the request with pagination option
     try {
         const products = await Product.find({}).populate("catagory")
         const product_ratings = await ProductRating.find({}).populate("user_id", "_id username gender location profile").populate("product_id", "_id name image price rating catagory")
