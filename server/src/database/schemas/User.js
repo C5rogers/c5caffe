@@ -7,7 +7,6 @@ const UserSchema = new mongoose.Schema({
     },
     gender: {
         type: mongoose.SchemaTypes.String,
-        required: true
     },
     email: {
         type: mongoose.SchemaTypes.String,
@@ -15,15 +14,12 @@ const UserSchema = new mongoose.Schema({
     },
     phone: {
         type: mongoose.SchemaTypes.String,
-        required: true
     },
     location: {
         type: mongoose.SchemaTypes.String,
-        required: true
     },
     password: {
         type: mongoose.SchemaTypes.String,
-        required: true
     },
     profile: {
         type: mongoose.SchemaTypes.String,

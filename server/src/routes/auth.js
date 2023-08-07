@@ -17,7 +17,9 @@ router.post("/signup", middleware.check_authed, upload.single('profile'), valida
 router.post("/logout", middleware.protect_with_auth, AuthController.Logout_post)
 
 router.get('/google', passport.authenticate('google', {
-    scope: 'profile'
+    scope: ['profile', 'email', ]
 }))
+
+router.get('/google/callback', AuthController.Google_loged)
 
 module.exports = router

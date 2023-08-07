@@ -9,6 +9,17 @@ passport.use(new GooglePassportStrategy({
     callbackURL: dotenv.parsed.GOOGLE_CALLBACK_URL,
     passReqToCallback: true
 }, function(request, accessToken, refreshToken, profile, done) {
-    console.log(profile)
-    done(null, profile)
+    let user = User.find({ email: profile.emails })
+    if (user) {
+        passport.serializeUser((user, done) => {
+            done(null, user)
+        })
+    } else {
+        user = User.create({ username: profile.username, email: profile.emails, profile: profile.profileUrl })
+        passport.serializeUser((user, done) => {
+            done(null, user)
+        })
+    }
+    const userProfile = profile
+    done(null, userProfile)
 }))

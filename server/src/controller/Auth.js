@@ -102,3 +102,8 @@ module.exports.Logout_post = async(req, res) => {
     res.clearCookie("jwt")
     return res.status(200).json({ message: "loged out successfully" })
 }
+
+module.exports.Google_loged = async(req, res) => {
+    const user = req.user
+    console.log(user)
+}
