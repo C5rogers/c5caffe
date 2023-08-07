@@ -6,11 +6,13 @@ const Product = require('../../database/schemas/Product')
 
 module.exports.Carts_get = async(req, res) => {
     try {
+        const { page = 1, limit = 15 } = req.query
         const token = req.cookies.jwt
         const user_id = getIdFromToken(token)
-        const carts = await Cart.find({ $and: [{ user: user_id }, { status: "unordered" }] }).populate("user", "_id username gender location profile").populate("product")
+        const carts = await Cart.find({ $and: [{ user: user_id }, { status: "unordered" }] }).limit(limit * 1).skip((page - 1) * limit).populate("user", "_id username gender location profile").populate("product")
         const cart_counts = await Cart.find({ $and: [{ user: user_id }, { status: "unordered" }] }).count()
-        return res.status(200).json({ carts, cart_counts })
+        const total_pages = Math.ceil(cart_counts / limit)
+        return res.status(200).json({ carts, cart_counts, total_pages, current_page: page })
     } catch (error) {
         console.log(error)
         return res.status(400).json(error)

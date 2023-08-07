@@ -12,6 +12,7 @@ const cartRouter = require('./src/routes/services/cart')
 const selledOrderRouter = require('./src/routes/services/selledorder')
 require('dotenv').config()
 require('./src/database/connection')
+require('./src/strategys/google')
 
 // require('./src/strategys/local')
 

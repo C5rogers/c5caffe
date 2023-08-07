@@ -13,10 +13,13 @@ const SelledOrder = require('../../database/schemas/SelledOrder')
 
 module.exports.Orders_get = async(req, res) => {
     try {
+        const { page = 1, limit = 15 } = req.query
         const token = req.cookies.jwt
         const user_id = getIdFromToken(token)
-        const orders = await Order.find({ user: user_id }).populate("user", "_id username gender location profile").populate("carts")
-        return res.status(200).json(orders)
+        const orders = await Order.find({ user: user_id }).limit(limit * 1).skip((page - 1) * limit).populate("user", "_id username gender location profile").populate("carts")
+        const orders_count = await Order.count()
+        const total_pages = Math.ceil(orders_count / limit)
+        return res.status(200).json({ orders, total_pages, current_page: page })
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)

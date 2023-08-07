@@ -4,9 +4,11 @@ const { getIdFromToken } = require('../../utils/jwt')
 
 module.exports.Selled_orders_get = async(req, res) => {
     try {
-        const selled_orders = await SelledOrder.find({}).populate("user", "_id username gender location profile").populate("carts")
+        const { page = 1, limit = 15 } = req.query
+        const selled_orders = await SelledOrder.find({}).limit(limit * 1).skip((page - 1) * limit).populate("user", "_id username gender location profile").populate("carts")
         const selled_order_counts = await SelledOrder.find({}).count()
-        return res.status(200).json({ selled_orders, selled_order_counts })
+        const total_pages = Math.ceil(selled_order_counts / limit)
+        return res.status(200).json({ selled_orders, selled_order_counts, total_pages, current_page: page })
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)

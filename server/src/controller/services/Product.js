@@ -12,11 +12,14 @@ const User = require('../../database/schemas/User')
 module.exports.Products_get = async(req, res) => {
     //need to handle the request with pagination option
     try {
-        const products = await Product.find({}).populate("catagory")
+        const { page = 1, limit = 15 } = req.query
+        const products = await Product.find({}).limit(limit * 1).skip((page - 1) * limit).populate("catagory")
+        const product_count = await Product.count()
         const product_ratings = await ProductRating.find({}).populate("user_id", "_id username gender location profile").populate("product_id", "_id name image price rating catagory")
         const selled_order_count = await SelledOrder.find({}).count()
         const users_count = await User.find({}).count()
-        return res.status(200).json({ products, product_ratings, selled_order_count, users_count })
+        const total_pages = Math.ceil(product_count / limit)
+        return res.status(200).json({ products, product_ratings, total_pages, current_page: page, selled_order_count, users_count })
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)
