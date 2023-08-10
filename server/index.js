@@ -14,7 +14,6 @@ require('dotenv').config()
 require('./src/database/connection')
 require('./src/strategys/google')
 
-// require('./src/strategys/local')
 
 
 //defining the app
