@@ -1,4 +1,7 @@
-<script lang="ts" setup></script>
+<script setup>
+import "tw-elements/dist/css/tw-elements.min.css";
+initTE({ Ripple });
+</script>
 
 <template>
   <div>
@@ -7,4 +10,3 @@
   </div>
 </template>
 
-<style scoped></style>

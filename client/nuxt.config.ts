@@ -1,9 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    modules: [
-      '@nuxtjs/tailwindcss'
-    ],
-  devtools: { enabled: true },
+  css: ['~/assets/css/tailwind.css'],
+  devtools: { enabled: true },  
+  dev:true,
+  postcss:{
+    plugins:{
+      tailwindcss:{},
+      autoprefixer: {},
+    }
+  },
   app:{
     head:{
       title:'C5 Online Caffe',
