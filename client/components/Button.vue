@@ -1,7 +1,11 @@
 <script setup>
 import {Collapse, Dropdown, Ripple, initTE} from 'tw-elements'
 
+
+const isLoading=ref(false)
+
 onMounted(() => {
+    isLoading.value=props.isLoading
     initTE({ Collapse, Dropdown, Ripple  });  
 })
 
@@ -16,6 +20,7 @@ const props=defineProps({
 })
 
 const handleClick=()=>{
+    isLoading.value=!isLoading.value
     emit('click')
 }
 </script>
@@ -38,7 +43,7 @@ const handleClick=()=>{
     items-center
     justify-center w-full
     " @click="handleClick" :class="{[theme]:theme}, {[text_theme] : text_theme}">
-        <span v-if="isLoading">
+        <span v-if="isLoading" class="w-full flex items-center justify-center">
             <Loading/>
         </span>
         <slot v-else>
