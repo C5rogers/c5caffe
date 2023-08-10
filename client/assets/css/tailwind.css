@@ -10,3 +10,8 @@
         @apply p-3 rounded-md bg-white shadow-md h-full;
     }
 }
+
+.router-link-exact-active {
+    color: #f57e16;
+    border-bottom: 5px #f57e16 solid;
+}

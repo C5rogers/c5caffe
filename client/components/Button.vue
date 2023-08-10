@@ -16,11 +16,17 @@ const props=defineProps({
     isLoading:{
         type:Boolean,
         default:false
+    },
+    noLoader:{
+        type:Boolean,
+        default:true
     }
 })
 
 const handleClick=()=>{
-    isLoading.value=!isLoading.value
+    if(!props.noLoader){
+        isLoading.value=!isLoading.value
+    }
     emit('click')
 }
 </script>

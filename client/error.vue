@@ -24,7 +24,7 @@ const handleGoHome=()=>clearError({redirect:'/'})
             </p>
         </div>
         <div class="w-32">
-            <Button theme="bg-secondary" :is-loading="isLoading" text_theme="text-white" @click="handleGoHome">Go Home</Button>
+            <Button theme="bg-secondary" :no-loader='false' :is-loading="isLoading" text_theme="text-white" @click="handleGoHome">Go Home</Button>
         </div>
     </div>
     
