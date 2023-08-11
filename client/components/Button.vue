@@ -1,13 +1,13 @@
 <script setup>
-import {Collapse, Dropdown, Ripple, initTE} from 'tw-elements'
+// import {Collapse, Dropdown, Ripple, initTE} from 'tw-elements'
 
 
 const isLoading=ref(false)
 
-onMounted(() => {
-    isLoading.value=props.isLoading
-    initTE({ Collapse, Dropdown, Ripple  });  
-})
+// onMounted(() => {
+//     isLoading.value=props.isLoading
+//     initTE({ Collapse, Dropdown, Ripple  });  
+// })
 
 const emit=defineEmits(['click'])
 const props=defineProps({

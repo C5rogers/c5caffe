@@ -11,6 +11,7 @@ onMounted(()=>{
     })
 })
 
+const changeSmallDirection=ref(false)
 const changeDirection=ref(false)
 const router=useRouter()   
 const handleRedirect=()=>{
@@ -30,10 +31,21 @@ const handleToLogin=()=>{
 const handleMenuClic=()=>{
     changeDirection.value=!changeDirection.value
 }
-
-const togleNavBar=()=>{
-   
+const handleSmallMenuClick=()=>{
+    changeSmallDirection.value=!changeSmallDirection.value
 }
+
+const openNavBar=()=>{
+    const sidebar=document.getElementById("sidenav-2")
+    sidebar.classList.remove("-left-[500px]")
+    sidebar.classList.add('left-0')
+}
+const closeNavBar=()=>{
+    const sidebar=document.getElementById("sidenav-2")
+    sidebar.classList.remove('left-0')
+    sidebar.classList.add('-left-[500px]')
+}
+
 </script>
 <template>
     <!-- the normal header -->
@@ -71,7 +83,7 @@ const togleNavBar=()=>{
                                 aria-current="true"
                                 >
                                 <span>
-                                    <i class="fas fa-money-check-alt"></i>
+                                    <i class="fa-brands fa-paypal"></i>
                                 </span>
                                 Payment
                                 </a>
@@ -141,12 +153,10 @@ const togleNavBar=()=>{
                 data-te-target="#sidenav-2"
                 aria-controls="#sidenav-2"
                 aria-haspopup="true"
-                @click="togleNavBar"
+                @click="openNavBar"
                 >
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <!-- the logo -->
-                <Logo @click="handleRedirect"/>
             </div>
             <!-- the right one -->
             <div class="flex items-center gap-4">
@@ -164,15 +174,23 @@ const togleNavBar=()=>{
       <!-- the absolute one -->
       <div 
         id="sidenav-2"
-        class="fixed left-0 top-0 z-[1035] py-10  px-4 h-screen w-60 -translate-x-full overflow-hidden bg-white shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] data-[te-sidenav-hidden='false']:translate-x-0 dark:bg-zinc-800"
+        class="fixed -left-[500px] top-0 z-[1035] flex flex-col gap-5  px-4 h-screen w-60 -translate-x-full overflow-hidden bg-white shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] data-[te-sidenav-hidden='false']:translate-x-0 dark:bg-zinc-800"
         data-te-sidenav-init
         data-te-sidenav-hidden="false"
         data-te-sidenav-mode="side"
         data-te-sidenav-content="#content"
       >
+      <!-- hte heaader -->
+      <div class="flex gap-2 items-center mb-5 mt-2 border-b py-2 px-1">
+        <!-- the logo -->
+        <Logo @click="closeNavBar"/>
+        <span>
+           <span class="text-secondary">C5</span> Online Caffe
+        </span>
+      </div>
         <ul class="relative m-0 list-none px-[0.2rem] flex flex-col gap-4 font-Roboto" data-te-sidenav-menu-ref>
             <li class="relative">
-                <nuxt-link to="/" data-te-sidenav-link-ref class="flex items-center gap-4 w-full transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm">
+                <nuxt-link to="/" data-te-sidenav-link-ref class="flex items-center gap-4 w-full border-b border-b-5 transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm uppercase">
                     <span>
                         <i class="fa fa-home" aria-hidden="true"></i>
                     </span>
@@ -181,41 +199,92 @@ const togleNavBar=()=>{
                     </span>
                 </nuxt-link>
             </li>
-            <li>
-                <button data-te-sidenav-link-ref class="flex items-center gap-4 w-full transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm">
+            <li class="relative">
+                <button data-te-sidenav-link-ref class="flex items-center gap-4 w-full border-b border-b-5 transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm uppercase"
+                @click="handleSmallMenuClick"
+                >
                     <span>
-                        <i class="fa-solid fa-bars"></i>
+                        <i class="fa-solid fa-list"></i>
                     </span>
                     <span>
                         Menu 
-                        <span><i class="fa fa-angle-right transition duration-150 ease-out" :class="{'rotate-90':changeDirection}"></i></span>
+                        <span><i class="fa fa-angle-right transition duration-150 ease-out" :class="{'rotate-90':changeSmallDirection}"></i></span>
                     </span>
                 </button>
+                <ul
+                class="!visible relative ml-5 hidden list-none p-0 data-[te-collapse-show]:block "
+                data-te-sidenav-collapse-ref
+                >
+                    <li>
+                        <a href="#"
+                                class=" text-sm px-1 border-b text-gray-800 flex gap-3 items-center py-1  hover:text-secondary hover:border-b-secondary"
+                                aria-current="true"
+                                >
+                                <span>
+                                    <i class="fa-brands fa-paypal"></i>
+                                </span>
+                                Payment
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                                aria-current="true"
+                                class=" text-sm px-1 border-b text-gray-800 flex gap-3 items-center py-1  hover:text-secondary hover:border-b-secondary"
+                                >
+                                <span>
+                                    <i class="fas fa-shipping-fast"></i>
+                                </span>
+                                Delivery
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                                aria-current="true"
+                                class=" text-sm px-1 border-b text-gray-800 flex gap-3 items-center py-1  hover:text-secondary hover:border-b-secondary"
+                                >
+                                <span>
+                                    <i class="fas fa-user-secret"></i>
+                                </span>
+                                Privacy Policy
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                                aria-current="true"
+                                class=" text-sm px-1 border-b text-gray-800 flex gap-3 items-center py-1  hover:text-secondary hover:border-b-secondary"
+                                >
+                                <span>
+                                    <i class="fas fa-building"></i>
+                                </span>
+                                Company Policy
+                        </a>
+                    </li>
+                </ul>
             </li>
-            <li>
-                <nuxt-link to="/product" data-te-sidenav-link-ref class="flex items-center gap-4 w-full transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm">
+            <li class="relative">
+                <nuxt-link to="/product" data-te-sidenav-link-ref class="flex items-center gap-4 w-full border-b border-b-5 transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm uppercase">
                     <span>
-                        <i class="fa fa-product-hunt" aria-hidden="true"></i>
+                        <i class="fa-solid fa-tag"></i>
                     </span>
                     <span>
                         Products
                     </span>
                 </nuxt-link>
             </li>
-            <li>
-                <nuxt-link to="/about" data-te-sidenav-link-ref class="flex items-center gap-4 w-full transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm">
+            <li class="relative">
+                <nuxt-link to="/about" data-te-sidenav-link-ref class="flex items-center gap-4 w-full border-b border-b-5 transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm uppercase">
                     <span>
-                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        <i class="fa-solid fa-circle-info"></i>
                     </span>
                     <span>
                         About Us
                     </span>
                 </nuxt-link>
             </li>
-            <li>
-                <nuxt-link to="/contact" data-te-sidenav-link-ref class="flex items-center gap-4 w-full transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm">
+            <li class="relative">
+                <nuxt-link to="/contact" data-te-sidenav-link-ref class="flex items-center gap-4 w-full border-b border-b-5 transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm uppercase">
                     <span>
-                        <i class="fa fa-address-book" aria-hidden="true"></i>
+                        <i class="fa-solid fa-headphones"></i>
                     </span>
                     <span>
                         Contact Us
