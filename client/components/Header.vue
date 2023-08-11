@@ -49,7 +49,7 @@ const closeNavBar=()=>{
 </script>
 <template>
     <!-- the normal header -->
-    <header class=" hidden sm:flex px-4 py-1 sticky top-0 right-0 left-0 z-10 shadow-sm  items-center justify-center">
+    <header class=" hidden sm:flex px-4 py-1 sticky top-0 right-0 left-0 z-10 shadow-sm  items-center justify-center bg-white">
         <Logo @click="handleRedirect"/>
         <Infobar/>
         <!-- the navigation and the login and signup button -->
@@ -163,11 +163,11 @@ const closeNavBar=()=>{
                 <!-- the cart icon -->
                 <Cart/>
                 <div>
-                    <button data-te-ripple-init  data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md transition duration-200 hover:shadow-md hover:bg-gray-100 " @click="handleToLogin">LOGIN</button>
+                    <button data-te-ripple-init  data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md transition duration-200 sm:hover:shadow-md hover:bg-gray-100 " @click="handleToLogin">LOGIN</button>
                         <span>
                             <i class="fa fa-angle-right"></i>
                         </span>
-                    <button data-te-ripple-init data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md duration-200 hover:shadow-md hover:bg-gray-100 " @click="handleToSignup">SIGNUP</button>
+                    <button data-te-ripple-init data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md duration-200 sm:hover:shadow-md hover:bg-gray-100 " @click="handleToSignup">SIGNUP</button>
                 </div>
             </div>
         </div>
@@ -292,6 +292,10 @@ const closeNavBar=()=>{
                 </nuxt-link>
             </li>
         </ul>
-      </div>
+        <!-- the footer -->
+        <div class="mt-auto mb-10 mx-auto text-xs text-gray-500">
+            <span>&copy;</span> 2015 E.C
+        </div>
+    </div>
     </header>
 </template>

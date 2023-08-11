@@ -14,6 +14,10 @@
     }
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .router-link-exact-active {
     color: #f57e16;
     border-bottom: 5px #f57e16 solid;
