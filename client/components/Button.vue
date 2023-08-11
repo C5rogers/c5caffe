@@ -31,7 +31,8 @@ const handleClick=()=>{
 }
 </script>
 <template>
-    <button
+    <ClientOnly placeholder="loading...">
+        <button
     type="button"
     data-te-ripple-init
     data-te-ripple-color="white"
@@ -56,4 +57,6 @@ const handleClick=()=>{
 
         </slot>
     </button>
+    </ClientOnly>
+    
 </template>
