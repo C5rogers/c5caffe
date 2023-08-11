@@ -8,7 +8,7 @@ const handleGoHome=()=>{
 
 <template>
 
-    <footer class="w-full h-80 bg-primary text-white mt-auto relative shadow-lg">
+    <footer class="w-full h-80 bg-primary text-white mt-auto relative shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
         <!-- the right box -->
         <div class="w-3/4 h-56 bg-white text-primary ml-auto rounded-tl-xl flex justify-between items-center px-3 gap-5 relative">
             <!-- the left -->
