@@ -8,9 +8,9 @@ const handleGoHome=()=>{
 
 <template>
 
-    <footer class=" w-full h-80 bg-primary text-white mt-auto relative shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
+    <footer class=" w-full h-fit sm:h-80 bg-primary text-white mt-auto relative shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)]">
         <!-- the right box -->
-        <div class="w-full sm:w-3/4 h-56 bg-white text-primary ml-auto sm:rounded-tl-xl flex justify-between items-center px-3 gap-5 relative">
+        <div class="w-full md:w-3/4 h-fit sm:h-56 bg-gray-100 sm:bg-white text-primary ml-auto md:rounded-tl-xl flex justify-between items-center px-3 gap-5 relative">
             <!-- the left -->
             <div class="hidden md:flex w-1/4  items-center justify-center">
                 <!-- the absolute circle -->
@@ -27,10 +27,10 @@ const handleGoHome=()=>{
                 </div>
             </div>
             <!-- the right content -->
-            <div class="w-full sm:w-3/4 h-full py-5 flex items-center justify-center gap-5 font-Roboto ">
+            <div class="w-full md:w-3/4  h-full py-5 flex flex-col sm:flex-row items-center justify-center gap-5 font-Roboto ">
 
                 <!-- the left content -->
-                <div class="h-full w-1/2 flex flex-col gap-1 justify-center">
+                <div class="h-full w-3/4 sm:w-1/2 flex flex-col gap-1 items-center sm:items-start justify-center">
                     <!-- the main title -->
                     <div class="text-xl md:text-3xl lg:text-clit-4xl font-bold">
                         C5 Online Caffe.
@@ -40,8 +40,8 @@ const handleGoHome=()=>{
                         Ethiopia | Addis Abeba.
                     </div>
                     <!-- the social media links -->
-                    <div class="w-full flex items-center justfy-center">
-                        <ul class="w-full flex items-center gap-3">
+                    <div class="w-full flex items-center justify-center">
+                        <ul class="w-fit  flex items-center gap-3">
                             <li>
                                 <a href="#" class="w-7 h-7 sm:w-10 sm:h-10 md:w-14 md:h-14 flex items-center bg-primary justify-center text-white rounded-full text-lg sm:text-xl md:text-3xl"><i class="fa-brands fa-twitter"></i></a>
                             </li>
@@ -58,11 +58,11 @@ const handleGoHome=()=>{
                     </div>
                 </div>
                 <!-- the vertical line -->
-                <div class="h-full w-2 bg-primary">
+                <div class=" w-full h-2 sm:h-full sm:w-2 bg-primary">
 
                 </div>
                 <!-- the right content -->
-                <div class="h-full w-1/2">
+                <div class="h-full w-3/4 sm:w-1/2">
                     <ul class="w-full h-full flex flex-col justify-center gap-1">
                         <li class="flex items-center gap-2">
                             <!-- the icon -->
@@ -94,24 +94,28 @@ const handleGoHome=()=>{
         <!-- the bottom  -->
         <div class="mt-auto w-full h-1/4 flex items-center justify-center">
             <!-- the right one -->
-            <div class="flex w-2/3 items-center justify-center ml-auto">
+            <div class="flex flex-col sm:flex-row md:w-2/3 items-center justify-center ml-auto">
                 <!-- the left content -->
-                <div class="flex w-1/2 gap-2 py-2 items-center justify-center">
+                <div class="flex w-1/2 h-fit gap-2  py-2 items-center justify-center">
                     <!-- the logo -->
                     <Logo/>
                     <!-- the name with copyright -->
                     <div class="flex flex-col justify-center gap-0">
                         <!-- the name -->
-                        <div class="text-2xl text-gray-200">
+                        <div class="text-lg sm:text-2xl text-gray-200">
                             C5 Online Caffe
                         </div>
-                        <div class="text-gray-300">
+                        <div class="text-gray-300 text-xs sm:text-lg">
                             <span>&copy;</span> 2015 E.C
                         </div>
                     </div>
                 </div>
+                <!-- the horizontal -->
+                <div class="sm:hidden w-3/4 h-[1px] bg-gray-600">
+
+                </div>
                 <!-- the right content -->
-                <div class="w-1/2 py-2 px-4 h-full flex items-center justify-center">
+                <div class="sm:w-1/2 text-center sm:text-left text-gray-300 py-2 px-4 h-full flex items-center justify-center">
                     <p class="text-sm leading-tight">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium vitae facilis perferendis tempora, recusandae odio animi. Eum laboriosam facere aperiam!
                     </p>

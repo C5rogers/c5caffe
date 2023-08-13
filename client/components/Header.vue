@@ -141,7 +141,7 @@ const closeNavBar=()=>{
         </div>
     </header>
     <!-- the small scrine header -->
-    <header class="sm:hidden px-4 py-3 sticky top-0 right-0 left-0 z-10 shadow-sm  items-center justify-center">
+    <header class="sm:hidden px-4 py-3 sticky top-0 right-0 left-0 z-10 bg-white shadow-sm  items-center justify-center">
        
         <!-- the contaent container -->
         <div class="w-full flex items-center justify-between ">
