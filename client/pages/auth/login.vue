@@ -1,6 +1,14 @@
 <script setup>
+import {Ripple,initTE} from 'tw-elements'
+
 const showPassword=ref(false)
 const inProcess=ref(false)
+
+onMounted(()=>{
+    initTE({
+        Ripple
+    })
+})
 
 definePageMeta({
     layout:'auth'
@@ -71,7 +79,7 @@ const changePasswordInputFormat=()=>{
                     <!-- the input holders -->
                     <div class="w-full flex flex-col gap-1 items-center">
                         <!-- the submit button -->
-                        <button @click="handleLogin" class="w-full px-2 py-[5px] text-lg font-bold text-white rounded-md bg-secondary">
+                        <button @click="handleLogin" data-te-ripple-init  data-te-ripple-color="light" class="w-full px-2 py-[5px] text-lg font-bold text-white rounded-md bg-secondary">
                             <span v-if="!inProcess">Log In</span>
                             <span v-else><Loading/></span>
                         </button>
