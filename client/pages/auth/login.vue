@@ -88,7 +88,20 @@ const changePasswordInputFormat=()=>{
                 <!-- the separeter -->
                 <FormSeparetur/>
                 <AuthLoging/>
+                <!-- the goto signup -->
+                <div class="formInputCont">
+                    <!-- the input holders -->
+                    <div class="w-full flex flex-col gap-1 items-center">
+                        <div class="w-full">
+                            Dont have an account? <span><nuxt-link to="/auth/signup" class="text-blue-500">Sign Up</nuxt-link></span>
+                        </div>
+                    </div>
+                </div>
             </form> 
+        </div>
+        <!-- the footer -->
+        <div class="w-full mt-10 flex items-center justify-center text-gray-500 font-Roboto font-light">
+            <span>&copy;</span> C5 Online Caffe 2015 E.C
         </div>
     </div>
 </template>
