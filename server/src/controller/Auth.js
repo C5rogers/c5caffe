@@ -1,5 +1,5 @@
 const validator = require('../utils/validator')
-const { compareHashedPassword, hashedPassword } = require('../utils/password')
+const { compareHashedPassword, hashedPassword, hashedPassword } = require('../utils/password')
 const User = require('../database/schemas/User')
 const { generateToken } = require('../utils/jwt')
 const dotenv = require('dotenv').config('../../.env')
@@ -136,12 +136,29 @@ module.exports.Password_reset_request = async(req, res) => {
     const link = `${dotenv.parsed.CLIENT_URL}passwordReset?token=${resetToken}&id=${user._id}`
     const result = await sendEmail(user.email, "Password Reset Request", { name: user.username, link: link }, "./template/requestResetPassword.handlebars")
     if (result == true) {
-        return res.status(201).json({ "Verify your email to change your password", token: newToken })
+        return res.status(201).json({ message: "Verify your email to change your password", token: newToken })
     } else {
         return res.status(500).json({ message: "Error in sending email to the client" })
     }
 }
 
 module.exports.Update_password = async(req, res) => {
-
+    const { token, user_id, password } = req.body
+    const theToken = await Token.findOne({ user_id })
+    if (!theToken) {
+        return res.status(400).json({ message: "Invalid or expired password reset token!" })
+    }
+    const isValidToken = await bcrypt.compare(token, theToken.token)
+    if (!isValidToken) {
+        return res.status(400).json({ message: "Invalid password reset token" })
+    }
+    const hashedPassword = hashedPassword(password)
+    await User.updateOne({ _id: user_id }, { $set: { password: hashedPassword } }, { new: true })
+    const user = await User.findOne({ _id: user_id })
+    const sentresult = sendEmail(user.email, "Password Reset Successfully", { name: user.username }, './template/resetPassword.handlebars')
+    if (sentresult == true) {
+        return res.status(200).json({ message: "Password updated successfully" })
+    } else {
+        return res.status(200).json({ error: "unable to send email to client", message: "Password reseted successfully" })
+    }
 }
