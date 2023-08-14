@@ -7,7 +7,7 @@ router.push('/')
 
 <template>
   <!-- the whole container -->
-  <div class="w-full h-screen flex">
+  <div class="w-full h-screen  flex">
     <!-- the left -->
     <div class="w-1/2 md:w-1/3 h-full flex items-center justify-center relative">
       <!-- the logo -->
