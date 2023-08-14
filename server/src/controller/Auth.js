@@ -1,5 +1,5 @@
 const validator = require('../utils/validator')
-const { compareHashedPassword, hashedPassword, hashedPassword } = require('../utils/password')
+const { compareHashedPassword, hashedPassword } = require('../utils/password')
 const User = require('../database/schemas/User')
 const { generateToken } = require('../utils/jwt')
 const dotenv = require('dotenv').config('../../.env')
@@ -8,7 +8,7 @@ const { create_cart_from_cookie } = require('../utils/helperMethods')
 const Token = require('../database/schemas/Token')
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
-const sendEmail = requie('../utils/email/sendEmail.js')
+const sendEmail = require('../utils/email/sendEmail.js')
 
 
 module.exports.Signup_post = async(req, res) => {
@@ -125,7 +125,7 @@ module.exports.Password_reset_request = async(req, res) => {
         await token.deleteOne()
     }
 
-    const bcryptSalt = bcrypt.getSalt()
+    const bcryptSalt = bcrypt.genSaltSync()
     const resetToken = crypto.randomBytes(32).toString("hex")
     const hash = await bcrypt.hash(resetToken, Number(bcryptSalt))
     const newToken = await Token.create({
@@ -134,7 +134,7 @@ module.exports.Password_reset_request = async(req, res) => {
         created_at: Date.now()
     })
     const link = `${dotenv.parsed.CLIENT_URL}passwordReset?token=${resetToken}&id=${user._id}`
-    const result = await sendEmail(user.email, "Password Reset Request", { name: user.username, link: link }, "./template/requestResetPassword.handlebars")
+    const result = await sendEmail(user.email, "Password Reset Request", { name: user.username.toString(), link: link.toString() }, "./template/requestResetPassword.handlebars")
     if (result == true) {
         return res.status(201).json({ message: "Verify your email to change your password", token: newToken })
     } else {
