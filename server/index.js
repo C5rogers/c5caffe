@@ -10,6 +10,8 @@ const middleware = require('./src/middlewares/authCheck')
 const orderRouter = require('./src/routes/services/order')
 const cartRouter = require('./src/routes/services/cart')
 const selledOrderRouter = require('./src/routes/services/selledorder')
+const cors = require('cors')
+require('express-async-errors')
 require('dotenv').config()
 require('./src/database/connection')
 require('./src/strategys/google')
@@ -18,13 +20,16 @@ require('./src/strategys/google')
 
 //defining the app
 const app = express()
-
+app.use(cors())
 app.use(cookieParser())
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true
 }))
+app.use((error, req, res, next) => {
+    return res.status(500).json({ error: error.message })
+})
 app.use(bodyParser.json({ limit: "200mb" }))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use((req, res, next) => {

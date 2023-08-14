@@ -162,3 +162,41 @@ module.exports.custome_cart_create_validation = (req, res, next) => {
     }
     next()
 }
+
+module.exports.custome_reset_password_validation = (req, res, next) => {
+    const { email } = req.body
+    const errors = {}
+    let result = validator.isValidEmail(email)
+    if (result == 1) {
+        errors.email = "Email is required to reset your password"
+    } else if (result == 2) {
+        errors.email = "Invalid email address"
+    }
+    if (Object.keys(errors).length > 0) {
+        return res.status(400).json(errors)
+    }
+    next()
+}
+
+module.exports.custome_reset_password_update_validation = (req, res, next) => {
+    const { token, user_id, password } = req.body
+    const errors = {}
+    if (!token) {
+        errors.token = "Token is required to update users password"
+    }
+    if (!user_id) {
+        errors.user_id = "Your id also required to update your password"
+    } else if (!isValidObjectId(user_id)) {
+        errors.user_id = "Invalid user id information"
+    }
+    let result = validator.isValidPassword(password)
+    if (result == 1) {
+        errors.password = "New password is also required"
+    } else if (result == 2) {
+        errors.password = "Invalid password"
+    }
+    if (Object.keys(errors).length > 0) {
+        return res.status(400).json(errors)
+    }
+    next()
+}

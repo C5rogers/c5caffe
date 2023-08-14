@@ -5,6 +5,10 @@ const { generateToken } = require('../utils/jwt')
 const dotenv = require('dotenv').config('../../.env')
 const path = require('path')
 const { create_cart_from_cookie } = require('../utils/helperMethods')
+const Token = require('../database/schemas/Token')
+const crypto = require('crypto')
+const bcrypt = require('bcryptjs')
+const sendEmail = requie('../utils/email/sendEmail.js')
 
 
 module.exports.Signup_post = async(req, res) => {
@@ -107,4 +111,37 @@ module.exports.Google_loged = async(req, res) => {
     const user = req.user
     console.log(req)
     return res.status(200).json({ message: "authenticated successfully" })
+}
+
+
+module.exports.Password_reset_request = async(req, res) => {
+    const { email } = req.body
+    const user = await User.findOne({ email })
+    if (!user) {
+        return res.status(400).json({ message: "There is no user registered with this email address" })
+    }
+    const token = await Token.findOne({ user_id: user._id })
+    if (token) {
+        await token.deleteOne()
+    }
+
+    const bcryptSalt = bcrypt.getSalt()
+    const resetToken = crypto.randomBytes(32).toString("hex")
+    const hash = await bcrypt.hash(resetToken, Number(bcryptSalt))
+    const newToken = await Token.create({
+        user_id: user._id,
+        token: hash,
+        created_at: Date.now()
+    })
+    const link = `${dotenv.parsed.CLIENT_URL}passwordReset?token=${resetToken}&id=${user._id}`
+    const result = await sendEmail(user.email, "Password Reset Request", { name: user.username, link: link }, "./template/requestResetPassword.handlebars")
+    if (result == true) {
+        return res.status(201).json({ "Verify your email to change your password", token: newToken })
+    } else {
+        return res.status(500).json({ message: "Error in sending email to the client" })
+    }
+}
+
+module.exports.Update_password = async(req, res) => {
+
 }
