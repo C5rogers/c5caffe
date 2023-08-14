@@ -17,6 +17,7 @@
         "tailwindcss": "^3.3.3"
     },
     "dependencies": {
-        "tw-elements": "^1.0.0-beta3"
+        "tw-elements": "^1.0.0-beta3",
+        "vee-validate": "^4.11.1"
     }
 }
