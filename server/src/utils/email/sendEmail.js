@@ -9,8 +9,8 @@ const sendEmail = async(email, subject, payload, template) => {
     try {
         //creating mail transporter
         const transporter = nodemailer.createTransport({
-            host: dotenv.parsed,
-            port: 465,
+            host: dotenv.parsed.EMAIL_HOST,
+            port: 2525,
             auth: {
                 user: dotenv.parsed.EMAIL_USERNAME,
                 pass: dotenv.parsed.EMAIL_PASSWORD
@@ -18,26 +18,26 @@ const sendEmail = async(email, subject, payload, template) => {
         })
         const source = fs.readFileSync(path.join(__dirname, template), 'utf-8')
         const compiledTemplate = handlebars.compile(source)
-        const option = () => {
+
+
+        const options = () => {
             return {
-                from: dotenv.parsed.FROM_EMAIL,
-                to: email,
-                subject: subject,
-                html: compiledTemplate(payload)
-            }
-        }
-        const result = transporter.sendMail(option(), (error, info) => {
+                "from": dotenv.parsed.FROM_EMAIL,
+                "to": email,
+                "subject": subject,
+                "html": compiledTemplate(payload),
+            };
+        };
+
+        transporter.sendMail(options(), (error, info) => {
             if (error) {
+                console.log("there is an error:" + error)
                 return error
             } else {
                 return true
             }
         })
-        if (result == true) {
-            return true
-        } else {
-            return false
-        }
+        return true
 
     } catch (error) {
         return error
