@@ -109,6 +109,15 @@ const handleLoginTwo=(values)=>{
                         </div>
                     </div>
                 </div>
+                <!-- forgot password -->
+                <div class="formInputCont">
+                    <!-- the input holders -->
+                    <div class="w-full flex flex-col gap-1 items-center">
+                        <div class="w-full">
+                            <span><nuxt-link to="/auth/forgot_password" class="text-blue-500">Forgot Password?</nuxt-link></span>
+                        </div>
+                    </div>
+                </div>
             </Form> 
         </div>
         <!-- the footer -->
