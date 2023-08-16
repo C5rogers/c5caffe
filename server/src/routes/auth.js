@@ -20,8 +20,8 @@ router.post("/logout", middleware.protect_with_auth, AuthController.Logout_post)
 router.post('/password/reset', middleware.check_authed, validations.custome_reset_password_validation, AuthController.Password_reset_request)
 router.post('/password/reset/update', middleware.check_authed, validations.custome_reset_password_update_validation, )
 
-router.get('/google', passport.authenticate('google', { session: false, scope: ['profile', 'email'] }))
-
+router.get('/google', passport.authenticate('google', { session: true, scope: ['profile', 'email'] }))
 router.get('/google/callback', AuthController.Google_loged)
+    // router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/api/v1/auth/login' }), AuthController.Google_loged)
 
 module.exports = router

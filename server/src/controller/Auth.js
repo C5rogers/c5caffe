@@ -109,7 +109,7 @@ module.exports.Logout_post = async(req, res) => {
 
 module.exports.Google_loged = async(req, res) => {
     const user = req.user
-    console.log(req)
+    console.log(user)
     return res.status(200).json({ message: "authenticated successfully" })
 }
 
