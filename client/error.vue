@@ -14,8 +14,12 @@ const handleGoHome=()=>clearError({redirect:'/'})
     <!-- the container -->
     <div class="mx-auto my-10 container flex flex-col gap-3 items-center justify-center">
         <!-- the image -->
-        <div class="w-80 h-80 flex items-center justify-center ">
+        <div class="w-80 h-80 flex items-center justify-center " v-if="error.statusCode==404">
             <img src="./assets/images/404 page.png" class="w-full h-full object-cover" alt="">
+        </div>
+        <!-- the other image -->
+        <div class="w-80 h-80 flex items-center justify-center" v-else-if="error.statusCode==500">
+            <img src="./assets/images/internal_server_error.gif" alt="">
         </div>
         <!-- the message -->
         <div class="font-Roboto text-lg">
