@@ -13,23 +13,49 @@ const nameregex=/^([^\x00-\x7F]|[\a-zA-Z_\ \.\+\-]){2,20}$/
 const emailregex=/^((?!\.)[\w_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm
 const phoneregex= /^(^\+251|^251|^0)?(9|7)\d{8}$/
 const passswrodregex=/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{8,})\S$/
-const genderregex = /^(?:m|M||f|F)$/gm
 
 const MAX_FILE_SIZE=102400
-const validFileExtensions = { image: ['jpg', 'gif', 'png', 'jpeg', 'svg', 'webp','jpeg'] };
-const isValidIamgeType=(filename,filetype)=>{
-    return filename &&  validFileExtensions[filetype].indexOf(filename.split('.').pop()) > -1;
+
+const getExtension=(filename)=>{
+    const extension=filename.split('.')
+    return extension[1]
 }
-const schema=yup.object({
+
+const schema=yup.object().shape({
     firstname:yup.string().required().matches(nameregex),
     lastname:yup.string().required().matches(nameregex),
     email:yup.string().required().email().matches(emailregex),
     password:yup.string().required().matches(passswrodregex),
-    password_confirmation:yup.string().required().oneOf([yup.ref('password'), null], 'Passwords must match'),
+    password_confirmation:yup.string().required().oneOf([yup.ref('password'), null], 'Confirmation password must match with password'),
     phone:yup.string().required().matches(phoneregex),
-    gender:yup.string().required().matches(genderregex),
+    gender:yup.string().oneOf(['m','f','M','F']).required(),
     location:yup.string().required(),
-    profile:yup.mixed().test('is-valid-file-type','Not a valid image typ',value=>isValidIamgeType(value && value.name.toLowerCase(),"profile")).test('is-valid-file-size','Max allowed size 2MB', value=>value && value.size <= MAX_FILE_SIZE)
+    profile:yup.mixed().test({
+        message:"Please provide supported file type",
+        test:(file,context)=>{
+            let isValid
+            if(file){
+                 isValid=['jpg', 'gif', 'png', 'jpeg', 'svg', 'webp','jpeg'].includes(getExtension(file?.name))
+            }else{
+                isValid=true
+            }
+            if(!isValid){
+                context?.createError()
+            }
+            return isValid
+        }
+    }).test({
+        message:`File is too big, cant exit ${MAX_FILE_SIZE}`,
+        test:(file)=>{
+            let isValid
+            if(file){
+                isValid=file?.size<MAX_FILE_SIZE
+            }else{
+                isValid=true
+            }
+            return isValid
+        }
+    })
 })
 
 const changePasswordInputFormat=()=>{

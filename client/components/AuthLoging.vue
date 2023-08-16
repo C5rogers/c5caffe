@@ -39,22 +39,20 @@ const handleWithGitHub=()=>{
                     Continue With Google
                 </div>
             </button>
-            <button data-te-ripple-init data-te-ripple-color="light" @click="handleWithGitHub" class="w-full px-2 relative py-[5px] text-lg flex items-center justify-center border shadow-md rounded-xl text-white bg-primary">
+            <!-- <button data-te-ripple-init data-te-ripple-color="light" @click="handleWithGitHub" class="w-full px-2 relative py-[5px] text-lg flex items-center justify-center border shadow-md rounded-xl text-white bg-primary">
                 <div v-if="isGithubLoading" class="w-full flex items-center justify-center">
-                     <!-- the image -->
                      <div class="absolute top-[7px] left-2 w-7 text-xl h-7 flex items-center justify-center rounded-full overflow-hidden">
                         <i class="fa-brands fa-github"></i>
                     </div>
                     <loading/>
                 </div>
                 <div v-else class="w-full flex items-center justify-center">
-                    <!-- the image -->
                     <div class="absolute top-1 left-2 w-7 text-xl h-7 flex items-center justify-center rounded-full overflow-hidden">
                         <i class="fa-brands fa-github"></i>
                     </div>
                     Continue With Github
                 </div>
-            </button>
+            </button> -->
         </div>
     </div>
 </template>
