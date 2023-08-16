@@ -15,12 +15,13 @@ onMounted(()=>{
 definePageMeta({
     layout:'auth'
 })
-const passwordRegex= /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{8,})\S$/
 const emailRegex=/^((?!\.)[\w_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm
+const passwordCapitalLetter=/^((?=\S*?[A-Z]).{8,})\S$/
+const passwordNumber=/^((?=\S*?[0-9]).{8,})\S$/
 
 const schema=yup.object({
     email:yup.string().required().email().matches(emailRegex),
-    password:yup.string().required().min(8).matches(passwordRegex)
+    password:yup.string().required().min(8).matches(passwordCapitalLetter,"at least one character must be captital letter").matches(passwordNumber,"at least one character must be digit")
 })
 
 

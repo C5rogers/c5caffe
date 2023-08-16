@@ -12,7 +12,8 @@ definePageMeta({
 const nameregex=/^([^\x00-\x7F]|[\a-zA-Z_\ \.\+\-]){2,20}$/
 const emailregex=/^((?!\.)[\w_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm
 const phoneregex= /^(^\+251|^251|^0)?(9|7)\d{8}$/
-const passswrodregex=/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{8,})\S$/
+const passwordCapitalLetter=/^((?=\S*?[A-Z]).{8,})\S$/
+const passwordNumber=/^((?=\S*?[0-9]).{8,})\S$/
 
 const MAX_FILE_SIZE=102400
 
@@ -25,7 +26,7 @@ const schema=yup.object().shape({
     firstname:yup.string().required().matches(nameregex),
     lastname:yup.string().required().matches(nameregex),
     email:yup.string().required().email().matches(emailregex),
-    password:yup.string().required().matches(passswrodregex),
+    password:yup.string().required().matches(passwordCapitalLetter,"at least one letter must be capital").matches(passwordNumber,"at least one letter must be digit"),
     password_confirmation:yup.string().required().oneOf([yup.ref('password'), null], 'Confirmation password must match with password'),
     phone:yup.string().required().matches(phoneregex),
     gender:yup.string().oneOf(['m','f','M','F']).required(),

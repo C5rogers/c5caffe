@@ -70,7 +70,7 @@ const closeNavBar=()=>{
                         aria-expanded="false"
                         data-te-nav-link-ref
                         @click="handleMenuClic"
-                        >Menu <span><i class="fa fa-angle-right transition duration-150 ease-out" :class="{'rotate-90':changeDirection}"></i></span></button>
+                        >Service <span><i class="fa fa-angle-right transition duration-150 ease-out" :class="{'rotate-90':changeDirection}"></i></span></button>
                         <!-- the absolute menu -->
                         <div class="absolute left-0 pt-3 -right-20 top-full z-[1000] mt-0 hidden w-full border-none bg-white bg-clip-padding text-neutral-600 shadow-md dark:bg-neutral-700 dark:text-neutral-200 [&[data-te-dropdown-show]]:block"
                         aria-labelledby="dropdownMenuButtonX"
@@ -190,7 +190,7 @@ const closeNavBar=()=>{
       </div>
         <ul class="relative m-0 list-none px-[0.2rem] flex flex-col gap-4 font-Roboto" data-te-sidenav-menu-ref>
             <li class="relative">
-                <nuxt-link to="/" data-te-sidenav-link-ref class="flex items-center gap-4 w-full border-b border-b-5 transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm uppercase">
+                <nuxt-link to="/" @click="closeNavBar" data-te-sidenav-link-ref class="flex items-center gap-4 w-full border-b border-b-5 transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm uppercase">
                     <span>
                         <i class="fa fa-home" aria-hidden="true"></i>
                     </span>
@@ -207,7 +207,7 @@ const closeNavBar=()=>{
                         <i class="fa-solid fa-list"></i>
                     </span>
                     <span>
-                        Menu 
+                        Services
                         <span><i class="fa fa-angle-right transition duration-150 ease-out" :class="{'rotate-90':changeSmallDirection}"></i></span>
                     </span>
                 </button>
@@ -219,6 +219,7 @@ const closeNavBar=()=>{
                         <a href="#"
                                 class=" text-sm px-1 border-b text-gray-800 flex gap-3 items-center py-1  hover:text-secondary hover:border-b-secondary"
                                 aria-current="true"
+                                @click="closeNavBar"
                                 >
                                 <span>
                                     <i class="fa-brands fa-paypal"></i>
@@ -230,6 +231,7 @@ const closeNavBar=()=>{
                         <a href="#"
                                 aria-current="true"
                                 class=" text-sm px-1 border-b text-gray-800 flex gap-3 items-center py-1  hover:text-secondary hover:border-b-secondary"
+                                @click="closeNavBar"
                                 >
                                 <span>
                                     <i class="fas fa-shipping-fast"></i>
@@ -241,6 +243,7 @@ const closeNavBar=()=>{
                         <a href="#"
                                 aria-current="true"
                                 class=" text-sm px-1 border-b text-gray-800 flex gap-3 items-center py-1  hover:text-secondary hover:border-b-secondary"
+                                @click="closeNavBar"
                                 >
                                 <span>
                                     <i class="fas fa-user-secret"></i>
@@ -252,6 +255,7 @@ const closeNavBar=()=>{
                         <a href="#"
                                 aria-current="true"
                                 class=" text-sm px-1 border-b text-gray-800 flex gap-3 items-center py-1  hover:text-secondary hover:border-b-secondary"
+                                @click="closeNavBar"
                                 >
                                 <span>
                                     <i class="fas fa-building"></i>
@@ -262,7 +266,7 @@ const closeNavBar=()=>{
                 </ul>
             </li>
             <li class="relative">
-                <nuxt-link to="/product" data-te-sidenav-link-ref class="flex items-center gap-4 w-full border-b border-b-5 transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm uppercase">
+                <nuxt-link to="/product" @click="closeNavBar" data-te-sidenav-link-ref class="flex items-center gap-4 w-full border-b border-b-5 transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm uppercase">
                     <span>
                         <i class="fa-solid fa-tag"></i>
                     </span>
@@ -272,7 +276,7 @@ const closeNavBar=()=>{
                 </nuxt-link>
             </li>
             <li class="relative">
-                <nuxt-link to="/about" data-te-sidenav-link-ref class="flex items-center gap-4 w-full border-b border-b-5 transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm uppercase">
+                <nuxt-link to="/about" @click="closeNavBar" data-te-sidenav-link-ref class="flex items-center gap-4 w-full border-b border-b-5 transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm uppercase">
                     <span>
                         <i class="fa-solid fa-circle-info"></i>
                     </span>
@@ -282,7 +286,7 @@ const closeNavBar=()=>{
                 </nuxt-link>
             </li>
             <li class="relative">
-                <nuxt-link to="/contact" data-te-sidenav-link-ref class="flex items-center gap-4 w-full border-b border-b-5 transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm uppercase">
+                <nuxt-link to="/contact" @click="closeNavBar" data-te-sidenav-link-ref class="flex items-center gap-4 w-full border-b border-b-5 transition duration-150 hover:bg-secondary hover:text-white pl-2 py-1 rounded-sm uppercase">
                     <span>
                         <i class="fa-solid fa-headphones"></i>
                     </span>
