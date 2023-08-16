@@ -5,7 +5,7 @@
 <template>
     <Header/>
     <!-- this is the main content of the list -->
-    <div class="container mx-auto p-4">
+    <div class="container w-full mx-auto">
         <slot/>
     </div>
     <Footer/>

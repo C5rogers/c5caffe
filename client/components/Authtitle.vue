@@ -6,7 +6,7 @@
             <img src="../assets/images/restlogo.png" class="w-full h-full object-cover" alt="">
         </div>
         <div class="w-full md:w-fit flex items-center justify-center">
-            Welcome To <span class="text-secondary">C5</span> Online Caffe.
+            Welcome To  <span class="text-secondary">C5</span>  Online Caffe.
         </div>
     </div>
 </template>

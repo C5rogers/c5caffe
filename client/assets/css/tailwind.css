@@ -27,7 +27,10 @@ html {
     scroll-behavior: smooth;
 }
 
-.router-link-exact-active {
-    color: #f57e16;
-    border-bottom: 5px #f57e16 solid;
+.arrow {
+    transition: all ease-in-out .22s;
+}
+
+.theLink:hover>.arrow {
+    transform: scaleX(10px);
 }

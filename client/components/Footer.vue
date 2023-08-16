@@ -40,7 +40,7 @@ const handleGoHome=()=>{
                         Ethiopia | Addis Abeba.
                     </div>
                     <!-- the social media links -->
-                    <div class="w-full flex items-center justify-center">
+                    <div class="w-full flex items-center justify-center sm:justify-normal">
                         <ul class="w-fit  flex items-center gap-3">
                             <li>
                                 <a href="#" class="w-7 h-7 sm:w-10 sm:h-10 md:w-14 md:h-14 flex items-center bg-primary justify-center text-white rounded-full text-lg sm:text-xl md:text-3xl"><i class="fa-brands fa-twitter"></i></a>
