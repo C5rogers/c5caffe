@@ -88,22 +88,23 @@ const handleSignup=(value)=>{
         </Title>
         <Meta name="description" content="Signup in to new account to get further service." />
     </Head>
-    <div class="w-3/4 flex flex-col gap-5 items-center justify-center">
+    <div class="w-full sm:w-3/4 flex flex-col gap-5 items-center justify-center">
          <!-- the title -->
-         <div class="font-Roboto text-3xl font-bold">
+         <div class="font-Roboto sm:text-xl md:text-3xl font-bold">
             Sign Up
         </div>
         <!-- the form -->
         <div class="w-full items-center">
-            <Form @submit="handleSignup" class="font-Roboto w-full flex mb-2 gap-10 " :validation-schema="schema" v-slot="{errors}">
+            <Form @submit="handleSignup" class="font-Roboto w-full flex flex-col sm:flex-row mb-2 gap-2 sm:gap-10 " :validation-schema="schema" v-slot="{errors}">
                 <!-- the left -->
-                <div class="w-1/2 flex flex-col gap-3 items-center">
+                <div class="sm:w-1/2 flex flex-col gap-3 items-center">
                 <!-- input cont -->
                 <div class="formInputCont">
                     <FormLabel title="first name"/>
                     <!-- the input holder -->
                     <div class="w-full relative">
                         <Field type="text" name="firstname" placeholder="Nejashi" class="formInput focus:bg-gray-200" />
+                        <InputErrorMark v-if="errors.firstname" />
                         <!-- the error message -->
                         <div class="formErrorMessage">
                             {{ errors.firstname }}
@@ -116,6 +117,7 @@ const handleSignup=(value)=>{
                     <!-- the input holder -->
                     <div class="w-full relative">
                         <Field type="text" name="lastname" placeholder="AlHabib" class="formInput focus:bg-gray-200"/>
+                        <InputErrorMark v-if="errors.lastname" />
                         <!-- the error message -->
                         <div class="formErrorMessage">
                             {{ errors.lastname }}
@@ -130,6 +132,7 @@ const handleSignup=(value)=>{
                     <div class="w-full relative">
                         <!-- the input -->
                         <Field type="email" name="email" placeholder="nejashi@gmail.com" class="formInput focus:bg-gray-200"/>
+                        <InputErrorMark v-if="errors.email" />
                         <!-- the error message -->
                         <div class="formErrorMessage">
                             {{ errors.email }}
@@ -143,6 +146,7 @@ const handleSignup=(value)=>{
                     <div class="w-full relative">
                         <!-- the input -->
                         <Field type="tel" name="phone" placeholder="+2519(+2517)/09(07) 22 88 44 55" min="0" class="formInput focus:bg-gray-200"/>
+                        <InputErrorMark v-if="errors.phone" />
                         <!-- the error message -->
                         <div class="formErrorMessage">
                             {{ errors.phone }}
@@ -157,6 +161,7 @@ const handleSignup=(value)=>{
                     <div class="w-full relative">
                         <!-- the input -->
                         <Field type="text" name="location" placeholder="Ethiopia | Addis Abeba | Yeka | wereda 12 | Happy Vialge" class="formInput focus:bg-gray-200"/>
+                        <InputErrorMark v-if="errors.location" />
                         <!-- the error message -->
                         <div class="formErrorMessage">
                             {{ errors.location }}
@@ -166,7 +171,7 @@ const handleSignup=(value)=>{
                 </div>
                 </div>
                 <!-- the right -->
-                <div class="w-1/2 flex flex-col gap-3 items-center">
+                <div class="sm:w-1/2 flex flex-col gap-3 items-center">
                     <!-- the input cont -->
                     <div class="formInputCont">
                     <!-- the form input container -->
@@ -193,6 +198,7 @@ const handleSignup=(value)=>{
                                 value="f" />
                             </div>
                         </div>
+                        <InputErrorMark v-if="errors.gender" />
                         <!-- the error message -->
                         <div class="formErrorMessage">
                             {{ errors.gender }}
@@ -206,6 +212,7 @@ const handleSignup=(value)=>{
                     <!-- the input holder -->
                     <div class="w-full relative">
                         <Field type="password" name="password" placeholder="@Nejashi123" class="formInput focus:bg-gray-200" id="passwordInput"/>
+                        <InputErrorMark v-if="errors.password" />
                         <!-- the absolute button -->
                         <div class="absolute right-2 top-[9px] text-gray-500">
                             <button type="button" @click="changePasswordInputFormat"><span v-if="!showPassword"><i class="fa-solid fa-eye"></i></span><span v-else><i class="fa-solid fa-eye-slash"></i></span></button>
@@ -223,6 +230,7 @@ const handleSignup=(value)=>{
                     <!-- the input holder -->
                     <div class="w-full relative">
                         <Field type="password" name="password_confirmation" placeholder="@Nejashi123" class="formInput focus:bg-gray-200" id="passwordConfInput"/>
+                        <InputErrorMark v-if="errors.password_confirmation" />
                         <!-- the absolute button -->
                         <div class="absolute right-2 top-[9px] text-gray-500">
                             <button type="button" @click="changePasswordConfInputFormat"><span v-if="!showPasswordConf"><i class="fa-solid fa-eye"></i></span><span v-else><i class="fa-solid fa-eye-slash"></i></span></button>
@@ -240,6 +248,7 @@ const handleSignup=(value)=>{
                         <!-- the input holder -->
                         <div class="w-full relative">
                             <Field type="file" name="profile" placeholder="Profile picture path" class="formInput focus:bg-gray-200"/>
+                            <InputErrorMark v-if="errors.profile"/>
                             <!-- the error message -->
                             <div class="formErrorMessage">
                                 {{ errors.profile }}
@@ -260,11 +269,11 @@ const handleSignup=(value)=>{
                 </div>
             </Form>
             <FormSeparetur/>
-            <div class="w-1/2 mx-auto flex items-center flex-col gap-2 mt-2">
+            <div class="sm:w-1/2 mx-auto flex items-center flex-col gap-2 mt-2">
                 <!-- the separeter -->
                 <AuthLoging/>
             </div>
-            <div class="w-full flex items-center">
+            <div class="w-full mt-2 sm:mt-0 flex items-center">
                 Have Account. <span><nuxt-link to="/auth/login" class="text-blue-500">Log In</nuxt-link></span>
             </div>
         </div>

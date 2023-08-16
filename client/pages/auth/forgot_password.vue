@@ -32,9 +32,9 @@ definePageMeta({
         </Title>
         <Meta name="description" content="This is used to change password if the user forget its password by providing its email address." />
     </Head>
-    <div class="w-1/2 flex flex-col gap-5 items-center justify-center">
+    <div class="sm:w-1/2 flex flex-col gap-5 items-center justify-center">
         <!-- the title -->
-        <div class="font-Roboto text-3xl font-bold">
+        <div class="font-Roboto sm:text-xl md:text-3xl font-bold">
             Forgot Password
         </div>
         <!-- the form -->
@@ -47,6 +47,7 @@ definePageMeta({
                     <div class="w-full relative">
                         <!-- the input -->
                         <Field type="email" placeholder="nejashi@gmail.com" class="formInput focus:bg-gray-200" name="email" />
+                        <InputErrorMark v-if="errors.email"/>
                         <!-- the error message -->
                         <div class="formErrorMessage">
                             {{ errors.email }}
@@ -76,6 +77,10 @@ definePageMeta({
                     </div>
                 </div>
             </Form>
+            <!-- the footer -->
+        <div class="w-full mt-10 flex items-center justify-center text-gray-500 font-Roboto font-light">
+            <span>&copy;</span> C5 Online Caffe 2015 E.C
+        </div>
         </div>
     </div>
 

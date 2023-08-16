@@ -31,9 +31,9 @@ const handleWithGitHub=()=>{
                     </div>
                     <loading/>
                 </div>    
-                <div v-else class="w-full flex items-center justify-center">
+                <div v-else class="w-full flex items-center text-sm sm:text-lg justify-center">
                     <!-- the image  -->
-                    <div class="absolute top-1 left-2 w-7 h-7 flex items-center justify-center rounded-full overflow-hidden">
+                    <div class="absolute top-[5px] sm:top-1 left-2 w-5 h-5 sm:w-7 sm:h-7 flex items-center justify-center rounded-full overflow-hidden">
                         <img src="../assets/images/google.png" class="w-full h-full object-cover" alt="">
                     </div>
                     Continue With Google
