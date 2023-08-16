@@ -22,7 +22,7 @@ router.push('/')
       <Logo @click="handleGoHome"/>
     </div>
     <!-- the right -->
-    <div class="p-10 flex items-center justify-center flex-col gap-10 w-full md:w-2/3">
+    <div class="px-10 py-5 flex items-center justify-center flex-col gap-5 w-full md:w-2/3">
       <!-- the title -->
       <Authtitle/>
       <slot/>

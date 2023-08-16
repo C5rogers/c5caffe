@@ -4,7 +4,7 @@ import {Form,Field} from 'vee-validate'
 import * as yup from 'yup'
 
 const showPassword=ref(false)
-const inProcess=ref(false)
+const inLoginProcess=ref(false)
 
 onMounted(()=>{
     initTE({
@@ -36,7 +36,7 @@ const changePasswordInputFormat=()=>{
 }
 
 const handleLoginTwo=(values)=>{
-    inProcess.value=!inProcess.value
+    inLoginProcess.value=!inLoginProcess.value
     console.log(values)
 
 }
@@ -95,7 +95,7 @@ const handleLoginTwo=(values)=>{
                     <div class="w-full flex flex-col gap-1 items-center">
                         <!-- the submit button -->
                         <button data-te-ripple-init  data-te-ripple-color="light" class="w-full px-2 py-[5px] text-lg font-bold text-white rounded-md bg-secondary">
-                            <span v-if="!inProcess">Log In</span>
+                            <span v-if="!inLoginProcess">Log In</span>
                             <span v-else><Loading/></span>
                         </button>
                     </div>
