@@ -5,7 +5,7 @@ export const authStore = defineStore({
     state: () => ({
         user: localStorage.getItem('C5_ONLINE_CAFFE_USER') ? localStorage.getItem('C5_ONLINE_CAFFE_USER') : null,
         isAuthed: localStorage.getItem('C5_ONLINE_CAFFE_TOKEN') ? true : false,
-        isAdmin: (localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') == 'admin') ? true : false,
+        isAdmin: localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') == 'admin' ? true : false,
         roll: localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') ? localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') : 'anonymous',
         protected_pages: ['cart', 'order']
     }),
@@ -24,7 +24,6 @@ export const authStore = defineStore({
         },
         isProtectedPage(page) {
             const thePage = this.protected_pages.find(pagename => pagename == page)
-            console.log(thePage)
             if (thePage) {
                 return true
             } else {

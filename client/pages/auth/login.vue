@@ -13,7 +13,7 @@ onMounted(()=>{
 })
 
 definePageMeta({
-    layout:'auth'
+    layout:'auth',
 })
 const emailRegex=/^((?!\.)[\w_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm
 const passwordCapitalLetter=/^((?=\S*?[A-Z]).{8,})\S$/

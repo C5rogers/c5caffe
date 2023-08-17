@@ -1,8 +1,10 @@
 <script setup>
 
+const router=useRouter()
 const number=ref(0)
 const handleClick=()=>{
     number.value+=1
+    router.push('/cart')
 }
 </script>
 <template>
