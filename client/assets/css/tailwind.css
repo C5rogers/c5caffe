@@ -34,3 +34,8 @@ html {
 .theLink:hover>.arrow {
     transform: scaleX(10px);
 }
+
+.router-link-exact-active {
+    border-bottom: 3px solid #f57e16;
+    color: #f57e16;
+}

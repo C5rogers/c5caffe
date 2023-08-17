@@ -1,5 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  modules:[['@pinia/nuxt',{
+    autoImports:['defineStore','acceptHMRUpdate']
+  }]],
+  imports:{
+    dirs:['store']
+  },
   css: ['~/assets/css/tailwind.css'],
   devtools: { enabled: true },  
   dev:true,
@@ -21,5 +27,4 @@ export default defineNuxtConfig({
       ]
     }
   },
-  // plugins:['~/plugins/pinia.js'],
 })

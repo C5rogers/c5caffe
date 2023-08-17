@@ -1,4 +1,8 @@
 <script setup>
+import {storeToRefs} from 'pinia'
+
+const auth=authStore()
+const {user}=storeToRefs(auth)
 
 import {Ripple,initTE} from 'tw-elements'
 
