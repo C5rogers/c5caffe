@@ -76,7 +76,7 @@ const handleLoginTwo=async (values)=>{
                     <div class="w-full relative">
                         <!-- the input -->
                         <Field type="email" name="email" placeholder="nejashi@gmail.com" class="formInput focus:bg-gray-200" />
-                        <InputErrorMark v-if="errors.email" />
+                        <InputErrorMark v-if="errors.email || attemptErrors.email" />
                         <!-- the error message -->
                         <div class="formErrorMessage" v-if="errors.email">
                             {{ errors.email }}
@@ -94,7 +94,7 @@ const handleLoginTwo=async (values)=>{
                     <!-- the input holder -->
                     <div class="w-full relative">
                         <Field type="password" name="password" placeholder="@Nejashi123" class="formInput focus:bg-gray-200" id="passwordInput"/>
-                        <InputErrorMark v-if="errors.password" />
+                        <InputErrorMark v-if="errors.password || attemptErrors.password" />
                         <!-- the absolute button -->
                         <div class="absolute right-2 top-[9px] text-gray-500">
                             <button type="button" @click="changePasswordInputFormat"><span v-if="!showPassword"><i class="fa-solid fa-eye"></i></span><span v-else><i class="fa-solid fa-eye-slash"></i></span></button>

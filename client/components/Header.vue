@@ -60,7 +60,7 @@ const handleLogOut=async()=>{
 </script>
 <template>
     <!-- the normal header -->
-    <header class=" hidden sm:flex px-4 py-1 sticky top-0 right-0 left-0 z-10 shadow-sm  items-center justify-center bg-white">
+    <header id="theHeader" class=" hidden sm:flex px-4 py-1 sticky top-0 right-0 left-0 z-10  items-center justify-center bg-white">
         <Logo @click="handleRedirect"/>
         <Infobar/>
         <!-- the navigation and the login and signup button -->
@@ -191,7 +191,7 @@ const handleLogOut=async()=>{
         </div>
     </header>
     <!-- the small scrine header -->
-    <header class="sm:hidden px-4 py-3 sticky top-0 right-0 left-0 z-10 bg-white shadow-sm  items-center justify-center">
+    <header id="theSmallHeader" class="sm:hidden px-4 py-3 sticky top-0 right-0 left-0 z-10 bg-white  items-center justify-center">
        
         <!-- the contaent container -->
         <div class="w-full flex items-center justify-between ">

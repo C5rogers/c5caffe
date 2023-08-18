@@ -16,8 +16,12 @@ const scrollFunction = () => {
     document.documentElement.scrollTop > 20
   ) {
     mybutton.classList.remove("hidden");
+    document.getElementById('theSmallHeader').classList.add('shadow-md')
+    document.getElementById("theHeader").classList.add('shadow-md')
   } else {
     mybutton.classList.add("hidden");
+    document.getElementById('theSmallHeader').classList.add('shadow-md')
+    document.getElementById('theHeader').classList.remove('shadow-md')
   }
 }
 const backToTop = () => {
