@@ -18,6 +18,12 @@ export const authStore = defineStore({
         attemptErrors: []
     }),
     actions: {
+        loadUserInformation() {
+            this.user = localStorage.getItem('C5_ONLINE_CAFFE_USER') ? JSON.parse(localStorage.getItem('C5_ONLINE_CAFFE_USER')) : null
+            this.isAuthed = localStorage.getItem('C5_ONLINE_CAFFE_USER') ? true : false
+            this.isAdmin = localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') == 'admin' ? true : false
+            this.roll = localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') ? localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') : 'anonymous'
+        },
         async login(payload) {
             try {
                 const responce = await axiosInstance.post('auth/login', payload)

@@ -7,6 +7,7 @@ const useAuthStore=authStore()
 const {isAuthed,user}=storeToRefs(useAuthStore)
 
 onMounted(()=>{
+    useAuthStore.loadUserInformation()
     initTE({
         Collapse,
         Dropdown,
@@ -65,7 +66,7 @@ const closeNavBar=()=>{
                         <nuxt-link to="/" class="pb-3 px-1 text-xs md:text-lg">Home</nuxt-link>
                     </li>
                     <li class="h-10">
-                        <button class=" mt-1 md:mt-0 md:pb-3 text-xs md:text-lg  px-1 uppercase flex items-center justify-center gap-1"
+                    <button class=" mt-1 md:mt-0 md:pb-3 text-xs md:text-lg  px-1 uppercase flex items-center justify-center gap-1"
                         data-te-ripple-init
                         data-te-ripple-color="light"
                         type="button"
@@ -74,7 +75,8 @@ const closeNavBar=()=>{
                         aria-expanded="false"
                         data-te-nav-link-ref
                         @click="handleMenuClic"
-                        >Service <span><i class="fa fa-angle-right transition duration-150 ease-out" :class="{'rotate-90':changeDirection}"></i></span></button>
+                        >Service <span><i class="fa fa-angle-right transition duration-150 ease-out" :class="{'rotate-90':changeDirection}"></i></span>
+                    </button>
                         <!-- the absolute menu -->
                         <div class="absolute left-0 pt-3 -right-20 top-full z-[1000] mt-0 hidden w-full border-none bg-white bg-clip-padding text-neutral-600 shadow-md dark:bg-neutral-700 dark:text-neutral-200 [&[data-te-dropdown-show]]:block"
                         aria-labelledby="dropdownMenuButtonX"
@@ -135,16 +137,50 @@ const closeNavBar=()=>{
             <!-- the cart icon -->
             <Cart/>
             <!-- the buttons -->
-            <div class="flex items-center justify-center gap-3 my-auto mb-3" v-if="!isAuthed">
+            <div class="flex relative items-center justify-center gap-3 my-auto mb-3" v-if="!isAuthed">
                 <button data-te-ripple-init  data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md transition duration-200 hover:shadow-md hover:bg-gray-100 " @click="handleToLogin">LOGIN</button>
                 <span>
                     <i class="fa fa-angle-right"></i>
                 </span>
                 <button data-te-ripple-init data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md duration-200 hover:shadow-md hover:bg-gray-100 " @click="handleToSignup">SIGNUP</button>
             </div>
-            <!-- the profile information -->
-            <div v-else class="flex items-center justify-center relative my-auto w-10 h-10 rounded-full overflow-hidden">
-                <img :src="'http://localhost:4000'+user.profile" class="w-full h-full object-cover" alt="">
+            <!-- the else holder -->
+            <div v-else-if="isAuthed" class="relative">
+        <!-- the profile information -->
+            <button
+            data-te-ripple-init
+            type="button"
+            id="dropdownMenuButtonY"
+            data-te-ripple-color="light"
+            data-te-dropdown-toggle-ref
+            aria-expanded="false"
+            data-te-nav-link-ref
+             class="flex items-center text-xs text-gray-800 gap-2 capitalize"
+             >
+                <div class="flex items-center justify-center relative my-auto w-10 h-10 rounded-full overflow-hidden">
+                    <img :src="user.profile" class="w-full h-full object-cover" alt="">
+                </div>
+                <span>
+                    {{ user.username }}
+                </span>
+            </button>
+            <!-- the absolute information -->
+            <div 
+            class="absolute left-0 pt-3 right-0 top-full z-[1000] mt-0 hidden w-full border-none bg-white bg-clip-padding text-neutral-600 shadow-md dark:bg-neutral-700 dark:text-neutral-200 [&[data-te-dropdown-show]]:block"
+            aria-labelledby="dropdownMenuButtonX"
+            data-te-dropdown-menu-ref
+            >
+                <!-- the element holder -->
+                <div
+                class="px-3 py-3 flex flex-col font-Roboto text-sm gap-3 w-full capitalize" 
+                >
+                    <a href="#"
+                    aria-current="true"
+                    class="dropLink w-full hover:text-secondary hover:border-b-secondary"
+                    ><span><i class="fa fa-cog" aria-hidden="true"></i></span><span>Profile</span></a>
+                    <button class="flex w-full items-center justify-center gap-1 py-1 rounded-full bg-red-500 text-white"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span><span>Logout</span></button>
+                </div>
+            </div>
             </div>
         </div>
     </header>
@@ -170,13 +206,51 @@ const closeNavBar=()=>{
             <div class="flex items-center gap-4">
                 <!-- the cart icon -->
                 <Cart/>
-                <div>
+                <div  v-if="!isAuthed">
                     <button data-te-ripple-init  data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md transition duration-200 sm:hover:shadow-md hover:bg-gray-100 " @click="handleToLogin">LOGIN</button>
                         <span>
                             <i class="fa fa-angle-right"></i>
                         </span>
                     <button data-te-ripple-init data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md duration-200 sm:hover:shadow-md hover:bg-gray-100 " @click="handleToSignup">SIGNUP</button>
                 </div>
+                <!-- the else holder -->
+            <div v-else-if="isAuthed" class="relative ml-4">
+        <!-- the profile information -->
+            <button
+            data-te-ripple-init
+            type="button"
+            id="dropdownMenuButtonY"
+            data-te-ripple-color="light"
+            data-te-dropdown-toggle-ref
+            aria-expanded="false"
+            data-te-nav-link-ref
+             class="flex items-center text-xs text-gray-800 gap-2 capitalize"
+             >
+                <div class="flex items-center justify-center relative my-auto w-10 h-10 rounded-full overflow-hidden">
+                    <img :src="user.profile" class="w-full h-full object-cover" alt="">
+                </div>
+                <span>
+                    {{ user.username }}
+                </span>
+            </button>
+            <!-- the absolute information -->
+            <div 
+            class="absolute left-0 pt-3 right-0 top-full z-[1000] mt-0 hidden w-full border-none bg-white bg-clip-padding text-neutral-600 shadow-md dark:bg-neutral-700 dark:text-neutral-200 [&[data-te-dropdown-show]]:block"
+            aria-labelledby="dropdownMenuButtonX"
+            data-te-dropdown-menu-ref
+            >
+                <!-- the element holder -->
+                <div
+                class="px-3 py-3 flex flex-col font-Roboto text-sm gap-3 w-full capitalize" 
+                >
+                    <a href="#"
+                    aria-current="true"
+                    class="dropLink hover:text-secondary w-full hover:border-b-secondary"
+                    ><span><i class="fa fa-cog" aria-hidden="true"></i></span><span>Profile</span></a>
+                    <button class="flex items-center w-full justify-center gap-1 py-1 rounded-full bg-red-500 text-white"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span><span>Logout</span></button>
+                </div>
+            </div>
+            </div>
             </div>
         </div>
       <!-- the absolute one -->
