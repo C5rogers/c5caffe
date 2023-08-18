@@ -10,6 +10,7 @@ const middleware = require('./src/middlewares/authCheck')
 const orderRouter = require('./src/routes/services/order')
 const cartRouter = require('./src/routes/services/cart')
 const selledOrderRouter = require('./src/routes/services/selledorder')
+const path = require('path')
 const cors = require('cors')
 require('express-async-errors')
 require('dotenv').config()
@@ -20,6 +21,7 @@ require('./src/strategys/google')
 
 //defining the app
 const app = express()
+app.use(express.static('public'))
 app.use(cors({ origin: process.env.CLIENT_BASE_URL, credentials: true }))
 app.use(cookieParser())
 app.use(session({
@@ -36,7 +38,6 @@ app.use((req, res, next) => {
     console.log(`${req.method}:${req.url}`)
     next()
 })
-app.use(express.static('public'))
 
 
 //defining passport

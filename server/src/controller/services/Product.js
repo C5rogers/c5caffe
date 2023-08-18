@@ -48,7 +48,7 @@ module.exports.Product_create = async(req, res) => {
         const parsedPrice = Number(price)
         const image = req.file
         let filename = image.filename
-        let filepath = path.join(dotenv.parsed.UPLOAD_FILE_PATH, '/public/products/images', filename)
+        let filepath = path.join(dotenv.parsed.SERVER_BASE_URL, '/public/products/images', filename)
         const preExistedCatagory = await Catagory.findOne({ catagory })
         if (preExistedCatagory) {
             const newProduct = await Product.create({ name, price: parsedPrice, description, catagory: preExistedCatagory, image: filepath })

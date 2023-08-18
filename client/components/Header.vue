@@ -1,6 +1,10 @@
 <script setup>
 import {Collapse,Sidenav, Dropdown,Ripple, initTE} from 'tw-elements'
 
+import {storeToRefs} from 'pinia'
+
+const useAuthStore=authStore()
+const {isAuthed,user}=storeToRefs(useAuthStore)
 
 onMounted(()=>{
     initTE({
@@ -131,12 +135,16 @@ const closeNavBar=()=>{
             <!-- the cart icon -->
             <Cart/>
             <!-- the buttons -->
-            <div class="flex items-center justify-center gap-3 my-auto mb-3">
+            <div class="flex items-center justify-center gap-3 my-auto mb-3" v-if="!isAuthed">
                 <button data-te-ripple-init  data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md transition duration-200 hover:shadow-md hover:bg-gray-100 " @click="handleToLogin">LOGIN</button>
                 <span>
                     <i class="fa fa-angle-right"></i>
                 </span>
                 <button data-te-ripple-init data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md duration-200 hover:shadow-md hover:bg-gray-100 " @click="handleToSignup">SIGNUP</button>
+            </div>
+            <!-- the profile information -->
+            <div v-else class="flex items-center justify-center relative my-auto w-10 h-10 rounded-full overflow-hidden">
+                <img :src="'http://localhost:4000'+user.profile" class="w-full h-full object-cover" alt="">
             </div>
         </div>
     </header>

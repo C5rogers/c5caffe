@@ -16,7 +16,7 @@ module.exports.Signup_post = async(req, res) => {
     try {
         if (req.file) {
             let filename = req.file.filename
-            let filepath = path.join(dotenv.parsed.UPLOAD_FILE_PATH, '/public/profile', filename)
+            let filepath = path.join(dotenv.parsed.SERVER_BASE_URL, '/public/profile', filename)
             const hashedUserPassword = hashedPassword(password)
             const newUser = await User.create({ username, gender, email, phone, location, password: hashedUserPassword, profile: filepath, roll: "user" })
             const token = generateToken(newUser._id, newUser.roll)
