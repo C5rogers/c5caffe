@@ -51,6 +51,12 @@ const closeNavBar=()=>{
     sidebar.classList.add('-left-[500px]')
 }
 
+const handleLogOut=async()=>{
+    await useAuthStore.logout()
+    router.push('/')
+}
+
+
 </script>
 <template>
     <!-- the normal header -->
@@ -178,7 +184,7 @@ const closeNavBar=()=>{
                     aria-current="true"
                     class="dropLink w-full hover:text-secondary hover:border-b-secondary"
                     ><span><i class="fa fa-cog" aria-hidden="true"></i></span><span>Profile</span></a>
-                    <button class="flex w-full items-center justify-center gap-1 py-1 rounded-full bg-red-500 text-white"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span><span>Logout</span></button>
+                    <button @click="handleLogOut" class="flex w-full items-center justify-center gap-1 py-1 rounded-full bg-red-500 text-white"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span><span>Logout</span></button>
                 </div>
             </div>
             </div>
@@ -247,7 +253,7 @@ const closeNavBar=()=>{
                     aria-current="true"
                     class="dropLink hover:text-secondary w-full hover:border-b-secondary"
                     ><span><i class="fa fa-cog" aria-hidden="true"></i></span><span>Profile</span></a>
-                    <button class="flex items-center w-full justify-center gap-1 py-1 rounded-full bg-red-500 text-white"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span><span>Logout</span></button>
+                    <button @click="handleLogOut" class="flex items-center w-full justify-center gap-1 py-1 rounded-full bg-red-500 text-white"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span><span>Logout</span></button>
                 </div>
             </div>
             </div>

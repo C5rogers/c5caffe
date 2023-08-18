@@ -42,24 +42,38 @@ export const authStore = defineStore({
                     }
                     return true
                 } else if (responce.status == 400) {
+                    console.log(responce.data)
                     this.errors = responce.data
                     return false
+                } else if (responce.status == 401) {
+                    console.log(responce.data)
+                    this.attemptErrors = responce.data.errors
                 }
                 return false
             } catch (error) {
-                console.log("the error is:" + error)
-                console.log(error.message)
-                if (error && error.status == 400) {
+                if (error && error.response.status == 400) {
                     this.attemptErrors = error.responce.data.errors
-                } else if (error.status == 401) {
-                    this.attemptErrors = "Server error. Please try again!"
+                } else if (error.response.status == 401) {
+                    this.attemptErrors = error.response.data
+                    this.attemptErrors.email ? console.log("email:" + this.attemptErrors.email) : console.log("message:" + this.attemptErrors.message)
                 }
                 return false
             }
 
         },
-        async logout(payload) {
+        async logout() {
+            try {
+                const result = await axiosInstance.post('auth/logout')
+                if (result.status == 200) {
+                    this.resetAuthInformation()
+                    return true
+                }
+                return false
 
+            } catch (error) {
+                console.log(error)
+                return false
+            }
         },
         async signup(payload) {
 
@@ -74,6 +88,18 @@ export const authStore = defineStore({
             } else {
                 return false
             }
+        },
+        resetAuthInformation() {
+            localStorage.removeItem('C5_ONLINE_CAFFE_USER')
+            localStorage.removeItem('C5_ONLINE_CAFFE_USER_ROLL')
+            localStorage.clear()
+            this.user = null
+            this.isAuthed = false
+            this.isAdmin = false
+            this.roll = 'anonymous'
+        },
+        resetAttemptError() {
+            this.attemptErrors = []
         }
     },
     getters: {
