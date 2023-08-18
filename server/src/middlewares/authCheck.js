@@ -31,7 +31,7 @@ module.exports.check_authed = (req, res, next) => {
         try {
             const decoded = verfiyToken(token)
             if (decoded) {
-                return res.status(200).json({ message: "You are already authenticated" })
+                return res.status(400).json({ message: "You are already authenticated" })
             } else {
                 next()
             }

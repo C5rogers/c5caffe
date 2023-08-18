@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "@pinia/nuxt": "^0.4.11",
-        "@vue/composition-api": "^1.7.2",
+        "axios": "^1.4.0",
         "pinia": "^2.1.6",
         "tw-elements": "^1.0.0-beta3",
         "vee-validate": "^4.11.1",

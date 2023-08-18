@@ -16,7 +16,6 @@ const scrollFunction = () => {
     document.documentElement.scrollTop > 20
   ) {
     mybutton.classList.remove("hidden");
-    console.log("we are here now")
   } else {
     mybutton.classList.add("hidden");
   }

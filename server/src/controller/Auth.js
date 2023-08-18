@@ -31,7 +31,7 @@ module.exports.Signup_post = async(req, res) => {
                 await create_cart_from_cookie(carts, newUser._id)
                 res.clearCookie("carts")
             }
-            const theUser = await User.findOne({ _id: newUser._id }).select("_id username gender location profile")
+            const theUser = await User.findOne({ _id: newUser._id }).select("_id username gender location profile roll")
             return res.status(201).json({ message: "authenticated successfully", user: theUser })
         } else {
             let hashedFileName
@@ -55,7 +55,7 @@ module.exports.Signup_post = async(req, res) => {
                 await create_cart_from_cookie(carts, newUser._id)
                 res.clearCookie("carts")
             }
-            const theUser = await User.findOne({ _id: newUser._id }).select("_id username gender location profile")
+            const theUser = await User.findOne({ _id: newUser._id }).select("_id username gender location profile roll")
             return res.status(201).json({ message: "authenticated successfully", user: theUser })
         }
     } catch (error) {
@@ -88,7 +88,7 @@ module.exports.Login_post = async(req, res) => {
                 await create_cart_from_cookie(carts, userDb._id)
                 res.clearCookie("carts")
             }
-            const theUser = await User.findOne({ _id: userDb._id }).select("_id username gender location profile")
+            const theUser = await User.findOne({ _id: userDb._id }).select("_id username gender location profile roll")
             return res.status(200).json({ message: "Authenticated successfully", user: theUser })
         } else {
             errors.message = "Invalid credentials"

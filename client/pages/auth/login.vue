@@ -2,9 +2,15 @@
 import {Ripple,initTE} from 'tw-elements'
 import {Form,Field} from 'vee-validate'
 import * as yup from 'yup'
+import {storeToRefs} from 'pinia'
+
+
+const useAuthStore=authStore()
+const {user,attemptErrors}=storeToRefs(useAuthStore)
 
 const showPassword=ref(false)
 const inLoginProcess=ref(false)
+const router=useRouter()
 
 onMounted(()=>{
     initTE({
@@ -35,10 +41,15 @@ const changePasswordInputFormat=()=>{
     }
 }
 
-const handleLoginTwo=(values)=>{
+const handleLoginTwo=async (values)=>{
     inLoginProcess.value=!inLoginProcess.value
-    console.log(values)
-
+    const result=await useAuthStore.login(values)
+    if(result){
+        inLoginProcess.value=!inLoginProcess.value
+        router.push('/')
+    }else{
+        inLoginProcess.value=!inLoginProcess.value
+    }
 }
 </script>
 <template>
@@ -66,8 +77,12 @@ const handleLoginTwo=(values)=>{
                         <Field type="email" name="email" placeholder="nejashi@gmail.com" class="formInput focus:bg-gray-200" />
                         <InputErrorMark v-if="errors.email" />
                         <!-- the error message -->
-                        <div class="formErrorMessage">
+                        <div class="formErrorMessage" v-if="errors.email">
                             {{ errors.email }}
+                        </div>
+                        <!-- error from server -->
+                        <div class="formErrorMessage" v-if="attemptErrors.email">
+                            {{ attemptErrors.email }}
                         </div>
                     </div>
                 </div>
@@ -84,8 +99,12 @@ const handleLoginTwo=(values)=>{
                             <button type="button" @click="changePasswordInputFormat"><span v-if="!showPassword"><i class="fa-solid fa-eye"></i></span><span v-else><i class="fa-solid fa-eye-slash"></i></span></button>
                         </div>
                         <!-- the error message -->
-                        <div class="formErrorMessage">
+                        <div class="formErrorMessage" v-if="errors.password">
                             {{ errors.password }}
+                        </div>
+                        <!-- the server responce error -->
+                        <div class="formErrorMessage" v-if="attemptErrors.password">
+                            {{ attemptErrors.password }}
                         </div>
                     </div>
                 </div>

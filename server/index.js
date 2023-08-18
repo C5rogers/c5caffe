@@ -20,7 +20,7 @@ require('./src/strategys/google')
 
 //defining the app
 const app = express()
-app.use(cors())
+app.use(cors({ origin: process.env.CLIENT_BASE_URL, credentials: true }))
 app.use(cookieParser())
 app.use(session({
     secret: process.env.SESSION_SECRET,
