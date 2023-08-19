@@ -1,6 +1,13 @@
 <script setup>
 import {Form,Field} from 'vee-validate'
 import * as yup from 'yup'
+import {Ripple,initTE,Modal} from 'tw-elements'
+
+
+onMounted(()=>{
+    initTE({Ripple,Modal})
+})
+
 
 const showPassword=ref(false)
 const showPasswordConf=ref(false)
@@ -80,6 +87,11 @@ const changePasswordConfInputFormat=()=>{
 const handleSignup=(value)=>{
     inProcess.value=!inProcess.value
     console.log(value)
+}
+
+const handleFillLocationField=(result)=>{
+    schema.fields.location=result
+    schema.validate()
 }
 </script>
 <template>
@@ -161,13 +173,18 @@ const handleSignup=(value)=>{
                     <FormLabel title="location"/>
                     <div class="w-full relative">
                         <!-- the input -->
-                        <Field type="text" name="location" placeholder="Ethiopia | Addis Abeba | Yeka | wereda 12 | Happy Vialge" class="formInput focus:bg-gray-200"/>
+                        <Field type="text"
+                        data-te-toggle="modal"
+                        data-te-target="#staticBackdrop"
+                         name="location" placeholder="Ethiopia | Addis Abeba | Yeka | wereda 12 | Happy Vialge" class="formInput focus:bg-gray-200"/>
                         <InputErrorMark v-if="errors.location" />
                         <!-- the error message -->
                         <div class="formErrorMessage">
                             {{ errors.location }}
                         </div>
                     </div>
+                    <!-- the modal -->
+                    <LocationModal @fill_location_field="handleFillLocationField"/>
 
                 </div>
                 </div>
