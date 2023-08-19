@@ -46,24 +46,25 @@ onMounted(() => {
                     <div class="w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center rounded-full bg-orange-300">
                         <!-- the image -->
                         <div class="w-52 h-52 sm:w-64 sm:h-64 flex items-center justify-center overflow-hidden rounded-full bg-orange-400">
-                            <img src="../assets/images/online shoping 2.png" class="w-full h-full object-cover" alt="">
+                            <!-- <img src="../assets/images/online shoping 2.png" class="w-full h-full object-cover" alt=""> -->
+                            <img src="../assets/images/thesalad.jpg" alt="">
                         </div>
                     </div>
                     <!-- the absolute links -->
                     <!-- one -->
-                    <div class="absolute left-6 top-8 bg-white w-10 h-10 sm:w-14 sm:h-14 rounded-full border border-secondary p-2 flex items-center text-sm sm:text-xl justify-center">
+                    <div class="absolute left-6 top-8 bg-white w-10 h-10 sm:w-14 sm:h-14 rounded-full border border-secondary p-2 flex items-center text-sm sm:text-xl justify-center transition duration-200 ease-out transform hover:scale-125 cursor-pointer hover:shadow-xl">
                         <i class="fa-brands fa-paypal"></i>
                     </div>
                     <!-- two -->
-                    <div class="absolute -left-5 top-24 sm:top-32 bg-white w-10 h-10 sm:w-14 sm:h-14 rounded-full border border-secondary text-sm sm:text-xl p-2 flex items-center justify-center">
+                    <div class="absolute -left-5 top-24 sm:top-32 bg-white w-10 h-10 sm:w-14 sm:h-14 rounded-full border border-secondary text-sm sm:text-xl p-2 flex items-center justify-center transition duration-200 ease-out transform hover:scale-125 cursor-pointer hover:shadow-xl">
                         <i class="fas fa-user-secret"></i>
                     </div>
                     <!-- three -->
-                    <div class="absolute -left-3 bottom-16 sm:bottom-24 bg-white w-10 h-10 sm:w-14 sm:h-14 rounded-full border border-secondary text-sm sm:text-xl p-2 flex items-center justify-center">
+                    <div class="absolute -left-3 bottom-16 sm:bottom-24 bg-white w-10 h-10 sm:w-14 sm:h-14 rounded-full border border-secondary text-sm sm:text-xl p-2 flex items-center justify-center transition duration-200 ease-out transform hover:scale-125 cursor-pointer hover:shadow-xl">
                         <i class="fas fa-shipping-fast"></i>
                     </div>
                     <!-- foure -->
-                    <div class="absolute left-10 bottom-0 sm:bottom-6 bg-white w-10 h-10 sm:w-14 sm:h-14 rounded-full border border-secondary text-sm sm:text-xl p-2 flex items-center justify-center">
+                    <div class="absolute left-10 bottom-0 sm:bottom-6 bg-white w-10 h-10 sm:w-14 sm:h-14 rounded-full border border-secondary text-sm sm:text-xl p-2 flex items-center justify-center transition duration-200 ease-out transform hover:scale-125 cursor-pointer hover:shadow-xl">
                         <i class="fa-solid fa-cart-plus"></i>
                     </div>
                 </div>
@@ -382,7 +383,7 @@ onMounted(() => {
             <div  class="w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center rounded-full bg-orange-300">
                 <!-- the image -->
                 <div class="w-52 h-52 sm:w-64 sm:h-64 flex items-center justify-center overflow-hidden rounded-full bg-orange-400">
-                    <img src="../assets/images/thesalad.jpg" alt="">
+                    <img src="../assets/images/chill burger.jpeg" class="w-full h-full object-cover" alt="">
                 </div>
             </div>
         </div>
