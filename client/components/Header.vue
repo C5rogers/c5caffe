@@ -60,14 +60,14 @@ const handleLogOut=async()=>{
 </script>
 <template>
     <!-- the normal header -->
-    <header id="theHeader" class=" hidden sm:flex px-4 py-1 sticky top-0 right-0 left-0 z-10  items-center justify-center bg-white">
+    <header id="theHeader" class=" hidden sm:flex px-4 py-1 pb-0 sticky top-0 right-0 left-0 z-10  items-center justify-center bg-white transition duration-200">
         <Logo @click="handleRedirect"/>
         <Infobar/>
         <!-- the navigation and the login and signup button -->
         <div class="w-fit px-5 ml-auto flex items-center justify-center gap-4 md:gap-10 mt-10">
             <!-- the nav -->
             <nav class="font-Roboto">
-                <ul class="flex items-center justify-center px-2 gap-1 md:gap-4 uppercase relative">
+                <ul class="flex items-center -mb-3 justify-center px-2 gap-1 md:gap-4 uppercase relative">
                     <li class="h-10">
                         <nuxt-link to="/" class="pb-3 px-1 text-xs md:text-lg">Home</nuxt-link>
                     </li>

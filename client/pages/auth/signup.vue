@@ -4,6 +4,7 @@ import * as yup from 'yup'
 import {Ripple,initTE,Modal} from 'tw-elements'
 
 
+const location_result=ref(null)
 onMounted(()=>{
     initTE({Ripple,Modal})
 })
@@ -90,8 +91,9 @@ const handleSignup=(value)=>{
 }
 
 const handleFillLocationField=(result)=>{
-    schema.fields.location=result
-    schema.validate()
+   schema.fields.location=result
+   console.log(schema.fields.location.getValue())
+//    schema.fields.location.getValue()
 }
 </script>
 <template>
@@ -108,7 +110,7 @@ const handleFillLocationField=(result)=>{
         </div>
         <!-- the form -->
         <div class="w-full items-center">
-            <Form @submit="handleSignup" class="font-Roboto w-full flex flex-col sm:flex-row mb-2 gap-2 sm:gap-10 " :validation-schema="schema" v-slot="{errors}">
+            <Form @submit="handleSignup"  class="font-Roboto w-full flex flex-col sm:flex-row mb-2 gap-2 sm:gap-10 " :validation-schema="schema" v-slot="{errors}">
                 <!-- the left -->
                 <div class="sm:w-1/2 flex flex-col gap-3 items-center">
                 <!-- input cont -->
@@ -176,7 +178,7 @@ const handleFillLocationField=(result)=>{
                         <Field type="text"
                         data-te-toggle="modal"
                         data-te-target="#staticBackdrop"
-                         name="location" placeholder="Ethiopia | Addis Abeba | Yeka | wereda 12 | Happy Vialge" class="formInput focus:bg-gray-200"/>
+                         name="location" placeholder="Ethiopia | Addis Abeba | Yeka | wereda 12 | Happy Vialge"  class="formInput focus:bg-gray-200"/>
                         <InputErrorMark v-if="errors.location" />
                         <!-- the error message -->
                         <div class="formErrorMessage">

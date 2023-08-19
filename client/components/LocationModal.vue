@@ -17,34 +17,33 @@ onMounted(() => {
   initTE({Modal,Ripple,Select})  
 })
 
+const location_result=ref('')
+
 const onProcess=ref(false)
 
 const resetSchema=()=>{
+    location_result.value=''
     schema.fields.country=''
-    // schema.fields.country.validate()
     schema.fields.city=''
-    // schema.fields.city.validate()
     schema.fields.regine=''
-    // schema.fields.regine.validate()
     schema.fields.zip_code=''
-    // schema.fields.zip_code.validate()
 }
 
 const handleComposeLocation=(value)=>{
     onProcess.value=!onProcess.value
-
-    console.log(value)
-    //concatinate them
-    //emit the event
-    //reset onProcess
-    //dispose the modal
-    const result=value.country+' | '+value.regine+' | '
-    value.city ? (result+' | '+value.city) : (result+'')
-    value.zip_code ? (result+' | '+value.zip_code) : (result+'')
-    console.log(result)
-    emit('fill_location_field',result)
+    location_result.value=''
+    location_result.value=value.country+' | '+value.regine+' | '
+    if(value.city && value.city.length>0){
+        location_result.value+=value.city+' | '
+    }
+    if(value.zip_code && value.zip_code.length>0){
+        location_result.value+=value.zip_code
+    }
     onProcess.value=!onProcess.value
-    //close the modal
+}
+
+const emitTheFinalResult=()=>{
+    emit('fill_location_field',location_result)
 }
 </script>
 
@@ -252,8 +251,12 @@ const handleComposeLocation=(value)=>{
                         </Form>
                     </div>
                     <!-- the final result -->
-                    <div>
-
+                    <div class="w-full flex flex-col gap-2 justify-center">
+                        <!-- the label -->
+                        <FormLabel title="Final Result" :is-required=false />
+                        <div class="w-full rounded-md flex items-center px-2 bg-gray-100 h-7 text-xs text-gray-700 font-Roboto border-[1px] border-gray-100">
+                           {{ location_result }}
+                        </div>
                     </div>
                 </div>
                 <!-- the modal footer -->
@@ -262,12 +265,23 @@ const handleComposeLocation=(value)=>{
                 >
                     <button
                     type="button"
+                    class="inline-block rounded bg-green-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+                    data-te-modal-dismiss
+                    data-te-ripple-init
+                    data-te-ripple-color="light"
+                    @click="emitTheFinalResult"
+                    v-if="location_result"
+                    >
+                        Save
+                    </button>
+                    <!-- <button
+                    type="button"
                     class="inline-block rounded bg-secondary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
                     data-te-modal-dismiss
                     data-te-ripple-init
                     data-te-ripple-color="light">
                         Exit
-                    </button>
+                    </button> -->
                 </div>
             </div>
         </div>
