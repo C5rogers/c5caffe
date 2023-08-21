@@ -91,6 +91,8 @@ const handleSignup=(value)=>{
     }else{
         inProcess.value=!inProcess.value
         //recreate the object and send it to the back end
+        console.log(value)
+        console.log(location_result.value)
     }
 }
 

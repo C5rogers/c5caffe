@@ -32,7 +32,7 @@ definePageMeta({
         </Title>
         <Meta name="description" content="This is used to change password if the user forget its password by providing its email address." />
     </Head>
-    <div class="sm:w-1/2 flex flex-col gap-5 items-center justify-center">
+    <div class="w-full md:w-1/2 flex flex-col gap-5 items-center justify-center">
         <!-- the title -->
         <div class="font-Roboto sm:text-xl md:text-3xl font-bold">
             Forgot Password

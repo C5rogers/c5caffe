@@ -91,7 +91,6 @@ const handleCountryChange=async(e)=>{
     form.value.zip_code=useCountryStore.$state.selectedCountry[0].cca2+' | '+useCountryStore.$state.selectedCountry[0].cca3+' | '+useCountryStore.$state.selectedCountry[0].ccn3+' | '+useCountryStore.$state.selectedCountry[0].cioc
     form.value.capital_city=useCountryStore.$state.selectedCountry[0].capital[0]
     timezone.value=useCountryStore.$state.selectedCountry[0].timezones[0]
-    console.log(useCountryStore.$state.selectedCountry[0])
 }
 
 </script>

@@ -42,14 +42,14 @@ const changePasswordInputFormat=()=>{
 }
 
 const handleLoginTwo=async (values)=>{
-    inLoginProcess.value=!inLoginProcess.value
+    inLoginProcess.value=true
     const result=await useAuthStore.login(values)
     if(result){
-        inLoginProcess.value=!inLoginProcess.value
+        inLoginProcess.value=false
         useAuthStore.resetAttemptError()
         router.push('/')
     }else{
-        inLoginProcess.value=!inLoginProcess.value
+        inLoginProcess.value=false
     }
 }
 </script>

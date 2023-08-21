@@ -213,11 +213,11 @@ const handleLogOut=async()=>{
                 <!-- the cart icon -->
                 <Cart/>
                 <div  v-if="!isAuthed">
-                    <button data-te-ripple-init  data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md transition duration-200 sm:hover:shadow-md hover:bg-gray-100 " @click="handleToLogin">LOGIN</button>
+                    <button data-te-ripple-init  data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md transition duration-200 sm:hover:shadow-md  " @click="handleToLogin">LOGIN</button>
                         <span>
                             <i class="fa fa-angle-right"></i>
                         </span>
-                    <button data-te-ripple-init data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md duration-200 sm:hover:shadow-md hover:bg-gray-100 " @click="handleToSignup">SIGNUP</button>
+                    <button data-te-ripple-init data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-xl font-light px-2 py-1 rounded-md duration-200 sm:hover:shadow-md" @click="handleToSignup">SIGNUP</button>
                 </div>
                 <!-- the else holder -->
             <div v-else-if="isAuthed" class="relative ml-4">

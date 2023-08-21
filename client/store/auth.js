@@ -28,29 +28,25 @@ export const authStore = defineStore({
             try {
                 const responce = await axiosInstance.post('auth/login', payload)
                 if (responce.status == 200) {
-                    console.log(responce)
                     this.user = responce.data.user
-                    console.log("the responce header" + responce.headers)
                     localStorage.setItem('C5_ONLINE_CAFFE_USER', JSON.stringify(responce.data.user))
                     localStorage.setItem('C5_ONLINE_CAFFE_USER_ROLL', this.user.roll)
                     this.isAuthed = true
                     const jwtCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('jwt='));
                     if (jwtCookie) {
                         const jwtToken = jwtCookie.split('=')[1];
-                        console.log(jwtToken);
                         localStorage.setItem('C5_ONLINE_CAFFE_TOKEN', jwtToken)
                     }
                     return true
                 } else if (responce.status == 400) {
-                    console.log(responce.data)
                     this.errors = responce.data
                     return false
                 } else if (responce.status == 401) {
-                    console.log(responce.data)
                     this.attemptErrors = responce.data.errors
                 }
                 return false
             } catch (error) {
+                console.log(error)
                 if (error && error.response.status == 400) {
                     this.attemptErrors = error.responce.data.errors
                 } else if (error.response.status == 401) {
