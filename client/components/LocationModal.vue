@@ -2,6 +2,12 @@
 import {Ripple,Modal,initTE,Select} from "tw-elements";
 import { Form,Field } from 'vee-validate'
 import * as yup from 'yup'
+import {storeToRefs} from 'pinia'
+
+
+const useCountryStore=countryStore()
+const {loading,countrys,country,citys,city,errors,regine}=storeToRefs(useCountryStore)
+
 
 const schema=yup.object().shape({
     country:yup.string().required(),
@@ -13,8 +19,9 @@ const schema=yup.object().shape({
 const emit=defineEmits(['fill_location_field'])
 
 
-onMounted(() => {
+onMounted(async() => {
   initTE({Modal,Ripple,Select})  
+  await useCountryStore.getCountrys()
 })
 
 const location_result=ref('')
@@ -43,7 +50,7 @@ const handleComposeLocation=(value)=>{
 }
 
 const emitTheFinalResult=()=>{
-    emit('fill_location_field',location_result)
+    emit('fill_location_field',location_result.value)
 }
 </script>
 
@@ -105,6 +112,7 @@ const emitTheFinalResult=()=>{
                 <div
                 data-te-modal-body-ref
                 class="relative p-4 flex flex-col justify-center gap-4"
+                v-if="!loading"
                 >
                     <!-- the image -->
                     <div class="w-10 h-10 overflow-hidden flex items-center justify-center">
@@ -258,6 +266,11 @@ const emitTheFinalResult=()=>{
                            {{ location_result }}
                         </div>
                     </div>
+                </div>
+                <!-- the loadin screen -->
+                <div  data-te-modal-body-ref
+                class="relative p-4 flex items-center justify-center gap-4" v-else>
+                    <Loading/>
                 </div>
                 <!-- the modal footer -->
                 <div 

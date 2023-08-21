@@ -4,7 +4,8 @@ import * as yup from 'yup'
 import {Ripple,initTE,Modal} from 'tw-elements'
 
 
-const location_result=ref(null)
+const location_result=ref('')
+const location_result_error=ref('')
 onMounted(()=>{
     initTE({Ripple,Modal})
 })
@@ -38,7 +39,6 @@ const schema=yup.object().shape({
     password_confirmation:yup.string().required().oneOf([yup.ref('password'), null], 'Confirmation password must match with password'),
     phone:yup.string().required().matches(phoneregex),
     gender:yup.string().oneOf(['m','f','M','F']).required(),
-    location:yup.string().required(),
     profile:yup.mixed().test({
         message:"Please provide supported file type",
         test:(file,context)=>{
@@ -86,14 +86,16 @@ const changePasswordConfInputFormat=()=>{
     }
 }
 const handleSignup=(value)=>{
-    inProcess.value=!inProcess.value
-    console.log(value)
+    if(location_result.value.length==0){
+        location_result_error.value="location is also required"
+    }else{
+        inProcess.value=!inProcess.value
+        //recreate the object and send it to the back end
+    }
 }
 
-const handleFillLocationField=(result)=>{
-   schema.fields.location=result
-   console.log(schema.fields.location.getValue())
-//    schema.fields.location.getValue()
+const handleFillLocationField=async(result)=>{
+    location_result.value=result
 }
 </script>
 <template>
@@ -178,11 +180,11 @@ const handleFillLocationField=(result)=>{
                         <Field type="text"
                         data-te-toggle="modal"
                         data-te-target="#staticBackdrop"
-                         name="location" placeholder="Ethiopia | Addis Abeba | Yeka | wereda 12 | Happy Vialge"  class="formInput focus:bg-gray-200"/>
-                        <InputErrorMark v-if="errors.location" />
+                         name="location_result" as="input" v-model="location_result" placeholder="Ethiopia | Addis Abeba | Yeka | wereda 12 | Happy Vialge"  class="formInput focus:bg-gray-200"/>
+                        <InputErrorMark v-if="location_result_error" />
                         <!-- the error message -->
-                        <div class="formErrorMessage">
-                            {{ errors.location }}
+                        <div class="formErrorMessage" v-if="location_result_error">
+                            {{ location_result_error }}
                         </div>
                     </div>
                     <!-- the modal -->
