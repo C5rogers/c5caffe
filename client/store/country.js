@@ -10,11 +10,8 @@ export const countryStore = defineStore({
         mainLoading: false,
         loading: false,
         countrys: [],
-        citys: [],
         errors: [],
-        regine: '',
         selectedCountry: [],
-        selectedCity: ''
     }),
     actions: {
         async getCountrys() {

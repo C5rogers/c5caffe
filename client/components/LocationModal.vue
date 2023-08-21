@@ -5,16 +5,20 @@ import {storeToRefs} from 'pinia'
 
 
 const flagimage=ref('')
+const googleMap=ref('')
 const flagImageAlt=ref('')
+const timezone=ref('')
 const useCountryStore=countryStore()
-const {loading,countrys,mainLoading,selectedCountry,selectedCity,citys,errors,regine}=storeToRefs(useCountryStore)
+const {loading,countrys,mainLoading,selectedCountry,selectedCity,citys,errors}=storeToRefs(useCountryStore)
 
 const emit=defineEmits(['fill_location_field'])
 
 
 onMounted(async() => {
   initTE({Modal,Ripple,Select})
+  if(useCountryStore.$state.countrys.length==0){
     await useCountryStore.getCountrys()
+  }
 })
 
 const location_result=ref('')
@@ -24,11 +28,11 @@ const onProcess=ref(false)
 const resetSchema=()=>{
     location_result.value=''
     form.value.country=''
-    form.value.state=''
+    form.value.capital_city=''
     form.value.regine=''
     form.value.zip_code=''
     form.value.country_error=''
-    form.value.state_error=''
+    form.value.capital_city_error=''
     form.value.zip_code_error=''
     form.value.regine_error=''
 }
@@ -48,8 +52,8 @@ const validateForm=()=>{
     if(!form.value.country){
         form.value.country_error="Country is required"
     }
-    if(!form.value.state){
-        form.value.state_error="State also required"
+    if(!form.value.capital_city){
+        form.value.capital_city_error="Capital city also required"
     }
 
     if(!form.value.country_error && !form.value.state_error){
@@ -59,19 +63,19 @@ const validateForm=()=>{
     }
 }
 const handleComposeLocation=()=>{
-    onProcess.value=!onProcess.value
+    onProcess.value=true
     if(validateForm()==true){
         location_result.value=''
-    location_result.value=form.value.country+' | '+form.value.regine+' | '
+    location_result.value=form.value.country+' | '+form.value.capital_city+' | '
     if(form.value.regine && form.value.regine.length>0){
         location_result.value+=form.value.regine+' | '
     }
     if(form.value.zip_code && form.value.zip_code.length>0){
         location_result.value+=form.value.zip_code
     }
-    onProcess.value=!onProcess.value
+    onProcess.value=false
     }
-    onProcess.value=!onProcess.value
+    onProcess.value=false
 }
 
 const emitTheFinalResult=()=>{
@@ -82,21 +86,14 @@ const handleCountryChange=async(e)=>{
     await useCountryStore.getCountry(countryname)
     flagimage.value=useCountryStore.$state.selectedCountry[0].flags.png
     flagImageAlt.value=useCountryStore.$state.selectedCountry[0].flags.alt
+    googleMap.value=useCountryStore.$state.selectedCountry[0].maps.googleMaps
+    form.value.regine=useCountryStore.$state.selectedCountry[0].region
+    form.value.zip_code=useCountryStore.$state.selectedCountry[0].cca2+' | '+useCountryStore.$state.selectedCountry[0].cca3+' | '+useCountryStore.$state.selectedCountry[0].ccn3+' | '+useCountryStore.$state.selectedCountry[0].cioc
+    form.value.capital_city=useCountryStore.$state.selectedCountry[0].capital[0]
+    timezone.value=useCountryStore.$state.selectedCountry[0].timezones[0]
     console.log(useCountryStore.$state.selectedCountry[0])
 }
 
-const getFieldDescription=(description,path)=>{
-    const pathSegments = path.split('.');
-    let fieldDescription = description;
-    for (const segment of pathSegments) {
-    fieldDescription = fieldDescription.fields[segment];
-    if (!fieldDescription) {
-      return null;
-    }
-  }
-
-  return fieldDescription;
-}
 </script>
 
 <template>
@@ -159,10 +156,21 @@ const getFieldDescription=(description,path)=>{
                 class="relative p-4 flex flex-col justify-center gap-4"
                 v-if="!mainLoading"
                 >
-                    <!-- the image -->
-                    <div class="w-10 h-7 overflow-hidden flex items-center justify-center" v-if="flagimage">
-                        <img :src="flagimage" class="w-full h-full object-cover" :alt="flagImageAlt">
+                    <!-- the image holder -->
+                    <div class="w-full flex items-center gap-1" v-if="flagimage || googleMap">
+                        <!-- the image -->
+                        <div class="w-10 h-7 overflow-hidden flex items-center justify-center" v-if="flagimage">
+                            <img :src="flagimage" class="w-full h-full object-cover" :alt="flagImageAlt">
+                        </div>
+                        <!-- the map -->
+                        <div class="h-7 overflow-hidden flex flex-col justify-center items-center" v-if="googleMap">
+                            <a :href="googleMap" target="_blank" class="text-blue-500 text-xs font-Roboto">Google Map <span>&rightarrow;</span></a>
+                            <div class="text-gray-500 text-xs font-Roboto">
+                               Time zone: {{ timezone }}
+                            </div>
+                        </div>
                     </div>
+                    
                     <!-- the form -->
                     <div class="w-full flex items-center justify-center">
                         <!-- the form -->
@@ -194,39 +202,14 @@ const getFieldDescription=(description,path)=>{
                             <!-- the other form cont -->
                             <div class="formInputCont">
                                 <!-- the label -->
-                                <FormLabel title="State"/>
+                                <FormLabel title="Capital city"/>
                                 <!-- the input holder -->
                                 <div class="w-full relative">
                                     <!-- now the input -->
-                                    <Field as="select" data-te-select-init v-model="form.state" name="state" id="state">
-                                        <option
-                                        value="One"
-                                        data-te-select-icon="../assets/images/ethiopia.png"
-                                        >
-                                            Addis Abeba
-                                        </option>
-                                        <option
-                                        value="Two"
-                                        data-te-select-icon="../assets/images/ethiopia.png"
-                                        >
-                                            Norway
-                                        </option>
-                                        <option
-                                        value="Three"
-                                        data-te-select-icon="../assets/images/ethiopia.png"
-                                        >
-                                            New York
-                                        </option>
-                                        <option
-                                        value="Four"
-                                        data-te-select-icon="../assets/images/ethiopia.png"
-                                        >
-                                            Bla Bla
-                                        </option>
-                                    </Field>
-                                    <!-- now the error -->
-                                    <div class="formErrorMessage" v-if="form.state_error">
-                                        {{  form.state_error }}
+
+                                    <input type="text" placeholder="Addis Abeba" name="capital_city" v-model="form.capital_city" class="formInput focus:bg-gray-200">
+                                    <div class="formErrorMessage" v-if="form.capital_city_error">
+                                        {{  form.capital_city_error }}
                                     </div>
                                 </div>
                             </div>
