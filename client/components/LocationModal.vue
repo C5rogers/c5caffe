@@ -1,27 +1,20 @@
 <script setup>
 import {Ripple,Modal,initTE,Select} from "tw-elements";
 import { Form,Field } from 'vee-validate'
-import * as yup from 'yup'
 import {storeToRefs} from 'pinia'
 
 
+const flagimage=ref('')
+const flagImageAlt=ref('')
 const useCountryStore=countryStore()
-const {loading,countrys,country,citys,city,errors,regine}=storeToRefs(useCountryStore)
-
-
-const schema=yup.object().shape({
-    country:yup.string().required(),
-    regine:yup.string().required(),
-    city:yup.string(),
-    zip_code:yup.string()
-})
+const {loading,countrys,mainLoading,selectedCountry,selectedCity,citys,errors,regine}=storeToRefs(useCountryStore)
 
 const emit=defineEmits(['fill_location_field'])
 
 
 onMounted(async() => {
-  initTE({Modal,Ripple,Select})  
-  await useCountryStore.getCountrys()
+  initTE({Modal,Ripple,Select})
+    await useCountryStore.getCountrys()
 })
 
 const location_result=ref('')
@@ -30,27 +23,79 @@ const onProcess=ref(false)
 
 const resetSchema=()=>{
     location_result.value=''
-    schema.fields.country=''
-    schema.fields.city=''
-    schema.fields.regine=''
-    schema.fields.zip_code=''
+    form.value.country=''
+    form.value.state=''
+    form.value.regine=''
+    form.value.zip_code=''
+    form.value.country_error=''
+    form.value.state_error=''
+    form.value.zip_code_error=''
+    form.value.regine_error=''
 }
 
-const handleComposeLocation=(value)=>{
-    onProcess.value=!onProcess.value
-    location_result.value=''
-    location_result.value=value.country+' | '+value.regine+' | '
-    if(value.city && value.city.length>0){
-        location_result.value+=value.city+' | '
+const form=ref({
+    country:'',
+    state:'',
+    regine:'',
+    zip_code:'',
+    country_error:'',
+    state_error:'',
+    regine_error:'',
+    zip_code_error:''
+})
+
+const validateForm=()=>{
+    if(!form.value.country){
+        form.value.country_error="Country is required"
     }
-    if(value.zip_code && value.zip_code.length>0){
-        location_result.value+=value.zip_code
+    if(!form.value.state){
+        form.value.state_error="State also required"
+    }
+
+    if(!form.value.country_error && !form.value.state_error){
+        return true
+    }else{
+        return false
+    }
+}
+const handleComposeLocation=()=>{
+    onProcess.value=!onProcess.value
+    if(validateForm()==true){
+        location_result.value=''
+    location_result.value=form.value.country+' | '+form.value.regine+' | '
+    if(form.value.regine && form.value.regine.length>0){
+        location_result.value+=form.value.regine+' | '
+    }
+    if(form.value.zip_code && form.value.zip_code.length>0){
+        location_result.value+=form.value.zip_code
+    }
+    onProcess.value=!onProcess.value
     }
     onProcess.value=!onProcess.value
 }
 
 const emitTheFinalResult=()=>{
     emit('fill_location_field',location_result.value)
+}
+const handleCountryChange=async(e)=>{
+    const countryname=e.target.value
+    await useCountryStore.getCountry(countryname)
+    flagimage.value=useCountryStore.$state.selectedCountry[0].flags.png
+    flagImageAlt.value=useCountryStore.$state.selectedCountry[0].flags.alt
+    console.log(useCountryStore.$state.selectedCountry[0])
+}
+
+const getFieldDescription=(description,path)=>{
+    const pathSegments = path.split('.');
+    let fieldDescription = description;
+    for (const segment of pathSegments) {
+    fieldDescription = fieldDescription.fields[segment];
+    if (!fieldDescription) {
+      return null;
+    }
+  }
+
+  return fieldDescription;
 }
 </script>
 
@@ -112,18 +157,16 @@ const emitTheFinalResult=()=>{
                 <div
                 data-te-modal-body-ref
                 class="relative p-4 flex flex-col justify-center gap-4"
-                v-if="!loading"
+                v-if="!mainLoading"
                 >
                     <!-- the image -->
-                    <div class="w-10 h-10 overflow-hidden flex items-center justify-center">
-                        <img src="../assets/images/ethiopia.png" clas="w-full h-full object-cover" alt="">
+                    <div class="w-10 h-7 overflow-hidden flex items-center justify-center" v-if="flagimage">
+                        <img :src="flagimage" class="w-full h-full object-cover" :alt="flagImageAlt">
                     </div>
                     <!-- the form -->
                     <div class="w-full flex items-center justify-center">
                         <!-- the form -->
-                        <Form @submit="handleComposeLocation"
-                        :validation-schema="schema"
-                        v-slot="{errors}"
+                        <form @submit.prevent="handleComposeLocation"
                         class="w-full flex flex-col justify-center gap-3"
                         >
                             <!-- the form cont -->
@@ -132,31 +175,14 @@ const emitTheFinalResult=()=>{
                                 <FormLabel title="Country"/>
                                 <!-- the input holder -->
                                 <div class="w-full relative">
-                                    <!-- now the input -->
-                                    <Field as="select" data-te-select-init name="country" id="country">
-                                        <option
-                                        value="One"
-                                        data-te-select-icon="../assets/images/ethiopia.png"
-                                        >
-                                            Ethiopia
-                                        </option>
-                                        <option
-                                        value="Two"
-                                        data-te-select-icon="../assets/images/ethiopia.png"
-                                        >
-                                            Kenia
-                                        </option>
-                                        <option
-                                        value="Three"
-                                        data-te-select-icon="../assets/images/ethiopia.png"
-                                        >
-                                            Ruanda
-                                        </option>
-                                        <option
-                                        value="Four"
-                                        data-te-select-icon="../assets/images/ethiopia.png"
-                                        >
-                                            Burundi
+                                    <!-- the country list -->
+                                    <Field as="select" data-te-select-init v-model="form.country" name="country" id="country"
+                                    @change="handleCountryChange"
+                                    class="w-full py-[9px] text-gray-600 border-[1px] border-gray-200 px-2 rounded-md transition duration-200"
+                                    >
+                                        <option value="">Seleect a Country</option>
+                                        <option v-for="individul in countrys" :key="individul.name.common" :value="individul.name.common">
+                                        {{ individul.name.common }}
                                         </option>
                                     </Field>
                                     <!-- now the error -->
@@ -168,11 +194,11 @@ const emitTheFinalResult=()=>{
                             <!-- the other form cont -->
                             <div class="formInputCont">
                                 <!-- the label -->
-                                <FormLabel title="Rigin"/>
+                                <FormLabel title="State"/>
                                 <!-- the input holder -->
                                 <div class="w-full relative">
                                     <!-- now the input -->
-                                    <Field as="select" data-te-select-init name="regine" id="rigin">
+                                    <Field as="select" data-te-select-init v-model="form.state" name="state" id="state">
                                         <option
                                         value="One"
                                         data-te-select-icon="../assets/images/ethiopia.png"
@@ -199,8 +225,8 @@ const emitTheFinalResult=()=>{
                                         </option>
                                     </Field>
                                     <!-- now the error -->
-                                    <div class="formErrorMessage" v-if="errors.regine">
-                                        {{ errors.regine }}
+                                    <div class="formErrorMessage" v-if="form.state_error">
+                                        {{  form.state_error }}
                                     </div>
                                 </div>
                             </div>
@@ -209,10 +235,10 @@ const emitTheFinalResult=()=>{
                                  <!-- the label -->
                                  <FormLabel title="City" :is-required=false />
                                  <div class="w-full relative">
-                                    <Field type="text" name="city" placeholder="Addis Abeba" class="formInput focus:bg-gray-200" />
+                                    <input type="text" v-model="form.regine" name="city" placeholder="Addis Abeba" class="formInput focus:bg-gray-200" >
                                     <!-- the error message -->
-                                    <div class="formErrorMessage" v-if="errors.city">
-                                        {{ errors.city }}
+                                    <div class="formErrorMessage" v-if="form.regine_error">
+                                        {{ form.regine_error }}
                                     </div>
                                  </div>
                             </div>
@@ -221,10 +247,10 @@ const emitTheFinalResult=()=>{
                                 <!-- the label -->
                                 <FormLabel title="Zip Code" :is-required=false />
                                 <div class="w-full relative">
-                                    <Field type="text" name="zip_code" placeholder="HJJ7783" class="formInput focus:bg-gray-200" />
+                                    <input type="text" v-model="form.zip_code" name="zip_code" placeholder="HJJ7783" class="formInput focus:bg-gray-200" >
                                     <!-- the error message -->
-                                    <div class="formErrorMessage" v-if="errors.zip_code">
-                                        {{ errors.zip_code }}
+                                    <div class="formErrorMessage" v-if="form.zip_code_error">
+                                        {{ form.zip_code_error }}
                                     </div>
                                 </div>
                             </div>
@@ -256,7 +282,7 @@ const emitTheFinalResult=()=>{
                                     </button>
                                 </div>
                             </div>
-                        </Form>
+                        </form>
                     </div>
                     <!-- the final result -->
                     <div class="w-full flex flex-col gap-2 justify-center">

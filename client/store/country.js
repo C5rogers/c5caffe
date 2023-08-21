@@ -7,22 +7,22 @@ const axiosInstance = axios.create({ baseURL: REQUEST_ROOT_PATH })
 export const countryStore = defineStore({
     id: 'CountryStore',
     state: () => ({
+        mainLoading: false,
         loading: false,
         countrys: [],
-        country: [],
         citys: [],
-        city: [],
         errors: [],
-        regine: ''
+        regine: '',
+        selectedCountry: [],
+        selectedCity: ''
     }),
     actions: {
         async getCountrys() {
             try {
-                this.loading = true
+                this.mainLoading = true
                 const responce = await axiosInstance.get('independent?status=true')
-                console.log(responce.data)
-                this.countrys = responce.data
-                this.loading = false
+                this.countrys = await responce.data
+                this.mainLoading = false
             } catch (error) {
                 console.log(error)
                 this.errors = error
@@ -32,19 +32,26 @@ export const countryStore = defineStore({
             try {
                 this.loading = true
                 const responce = await axiosInstance.get('name/' + countryName)
-                console.log(responce.data)
-                    //must update the regine here
+                this.selectedCountry = await responce.data
                 this.loading = false
             } catch (error) {
                 console.log(error)
                 this.errors = error
             }
+        },
+    },
+    getters: {
+        getSelectedCountry: (state) => {
+            return state.selectedCountry
+        },
+        getFetchedCountrys: (state) => {
+            return state.countrys
         }
     }
 })
 
 if (
     import.meta.hot) {
-    import.meta.hot.accept(acceptHMRUpdate(authStore,
+    import.meta.hot.accept(acceptHMRUpdate(countryStore,
         import.meta.hot))
 }
