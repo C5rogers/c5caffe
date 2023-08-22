@@ -24,7 +24,7 @@ const phoneregex= /^(^\+251|^251|^0)?(9|7)\d{8}$/
 const passwordCapitalLetter=/^((?=\S*?[A-Z]).{8,})\S$/
 const passwordNumber=/^((?=\S*?[0-9]).{8,})\S$/
 
-const MAX_FILE_SIZE=102400
+const MAX_FILE_SIZE=2097152
 
 const getExtension=(filename)=>{
     const extension=filename.split('.')
@@ -54,7 +54,7 @@ const schema=yup.object().shape({
             return isValid
         }
     }).test({
-        message:`File is too big, cant exit ${MAX_FILE_SIZE}`,
+        message:`File is too big, cant exit 2MB`,
         test:(file)=>{
             let isValid
             if(file){

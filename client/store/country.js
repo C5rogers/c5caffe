@@ -12,6 +12,7 @@ export const countryStore = defineStore({
         countrys: [],
         errors: [],
         selectedCountry: [],
+        network_error: false
     }),
     actions: {
         async getCountrys() {
@@ -23,6 +24,10 @@ export const countryStore = defineStore({
             } catch (error) {
                 console.log(error)
                 this.errors = error
+                this.mainLoading = false
+                if (error.code == 'ERR_NETWORK') {
+                    this.network_error = true
+                }
             }
         },
         async getCountry(countryName) {
@@ -34,8 +39,15 @@ export const countryStore = defineStore({
             } catch (error) {
                 console.log(error)
                 this.errors = error
+                this.loading = false
+                if (error.code == 'ERR_NETWORK') {
+                    this.network_error = true
+                }
             }
         },
+        resetNetworkError() {
+            this.network_error = false
+        }
     },
     getters: {
         getSelectedCountry: (state) => {

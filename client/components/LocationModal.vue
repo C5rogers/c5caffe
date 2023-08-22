@@ -9,7 +9,7 @@ const googleMap=ref('')
 const flagImageAlt=ref('')
 const timezone=ref('')
 const useCountryStore=countryStore()
-const {loading,countrys,mainLoading,selectedCountry,selectedCity,citys,errors}=storeToRefs(useCountryStore)
+const {loading,countrys,network_error,mainLoading,selectedCountry,selectedCity,citys,errors}=storeToRefs(useCountryStore)
 
 const emit=defineEmits(['fill_location_field'])
 
@@ -84,13 +84,20 @@ const emitTheFinalResult=()=>{
 const handleCountryChange=async(e)=>{
     const countryname=e.target.value
     await useCountryStore.getCountry(countryname)
-    flagimage.value=useCountryStore.$state.selectedCountry[0].flags.png
-    flagImageAlt.value=useCountryStore.$state.selectedCountry[0].flags.alt
-    googleMap.value=useCountryStore.$state.selectedCountry[0].maps.googleMaps
-    form.value.regine=useCountryStore.$state.selectedCountry[0].region
-    form.value.zip_code=useCountryStore.$state.selectedCountry[0].cca2+' | '+useCountryStore.$state.selectedCountry[0].cca3+' | '+useCountryStore.$state.selectedCountry[0].ccn3+' | '+useCountryStore.$state.selectedCountry[0].cioc
-    form.value.capital_city=useCountryStore.$state.selectedCountry[0].capital[0]
-    timezone.value=useCountryStore.$state.selectedCountry[0].timezones[0]
+    if(!useCountryStore.$state.network_error){
+        flagimage.value=useCountryStore.$state.selectedCountry[0].flags.png
+        flagImageAlt.value=useCountryStore.$state.selectedCountry[0].flags.alt
+        googleMap.value=useCountryStore.$state.selectedCountry[0].maps.googleMaps
+        form.value.regine=useCountryStore.$state.selectedCountry[0].region
+        form.value.zip_code=useCountryStore.$state.selectedCountry[0].cca2+' | '+useCountryStore.$state.selectedCountry[0].cca3+' | '+useCountryStore.$state.selectedCountry[0].ccn3+' | '+useCountryStore.$state.selectedCountry[0].cioc
+        form.value.capital_city=useCountryStore.$state.selectedCountry[0].capital[0]
+        timezone.value=useCountryStore.$state.selectedCountry[0].timezones[0]
+    }
+}
+
+const handleReload=async()=>{
+    useCountryStore.resetNetworkError()
+    await useCountryStore.getCountrys()
 }
 
 </script>
@@ -153,7 +160,7 @@ const handleCountryChange=async(e)=>{
                 <div
                 data-te-modal-body-ref
                 class="relative p-4 flex flex-col justify-center gap-4"
-                v-if="!mainLoading"
+                v-if="useCountryStore.$state.mainLoading==false && useCountryStore.$state.network_error==false"
                 >
                     <!-- the image holder -->
                     <div class="w-full flex items-center gap-1" v-if="flagimage || googleMap">
@@ -162,7 +169,7 @@ const handleCountryChange=async(e)=>{
                             <img :src="flagimage" class="w-full h-full object-cover" :alt="flagImageAlt">
                         </div>
                         <!-- the map -->
-                        <div class="h-7 overflow-hidden flex flex-col justify-center items-center" v-if="googleMap">
+                        <div class="h-7 overflow-hidden flex flex-col justify-center " v-if="googleMap">
                             <a :href="googleMap" target="_blank" class="text-blue-500 text-xs font-Roboto">Google Map <span>&rightarrow;</span></a>
                             <div class="text-gray-500 text-xs font-Roboto">
                                Time zone: {{ timezone }}
@@ -189,7 +196,7 @@ const handleCountryChange=async(e)=>{
                                     >
                                         <option value="">Seleect a Country</option>
                                         <option v-for="individul in countrys" :key="individul.name.common" :value="individul.name.common">
-                                        {{ individul.name.common }}
+                                        <span>{{ individul.flag }}</span> {{ individul.name.common }}
                                         </option>
                                     </Field>
                                     <!-- now the error -->
@@ -277,8 +284,16 @@ const handleCountryChange=async(e)=>{
                 </div>
                 <!-- the loadin screen -->
                 <div  data-te-modal-body-ref
-                class="relative p-4 flex items-center justify-center gap-4" v-else>
+                class="relative p-4 flex items-center justify-center gap-4" v-else-if="useCountryStore.$state.mainLoading && !useCountryStore.$state.network_error">
                     <Loading/>
+                </div>
+                <!-- the network error modal view -->
+                <div 
+                data-te-modal-body-ref
+                class="relative p-4 flex flex-col items-center justify-center gap-4"
+                v-else-if="useCountryStore.$state.network_error"
+                >
+                   <NetworkError @reload="handleReload" />
                 </div>
                 <!-- the modal footer -->
                 <div 
