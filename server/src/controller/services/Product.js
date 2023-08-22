@@ -10,10 +10,33 @@ const User = require('../../database/schemas/User')
 
 
 module.exports.Products_get = async(req, res) => {
-    //need to handle the request with pagination option
     try {
+        //handling searching options
+        const { q } = req.query
         const { page = 1, limit = 15 } = req.query
-        const products = await Product.find({}).limit(limit * 1).skip((page - 1) * limit).populate("catagory")
+        let products
+        if (q) {
+            const price = Number(q)
+            if (isNaN(price)) {
+                regexQuery = new RegExp(q, 'i')
+                products = await Product.find({
+                    $or: [
+                        { name: regexQuery },
+                        { description: regexQuery },
+                    ]
+                }).limit(limit * 1).skip((page - 1) * limit).populate("catagory")
+            } else {
+                products = await Product.find({
+                    $or: [
+                        { price: price },
+                        { rating: price }
+                    ]
+                }).limit(limit * 1).skip((page - 1) * limit).populate("catagory")
+            }
+
+        } else {
+            products = await Product.find({}).limit(limit * 1).skip((page - 1) * limit).populate("catagory")
+        }
         const product_count = await Product.count()
         const product_ratings = await ProductRating.find({}).populate("user_id", "_id username gender location profile").populate("product_id", "_id name image price rating catagory")
         const selled_order_count = await SelledOrder.find({}).count()
