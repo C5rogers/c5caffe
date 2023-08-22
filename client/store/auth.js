@@ -80,32 +80,31 @@ export const authStore = defineStore({
         async signup(payload) {
             try {
                 const responce = await axiosInstance.post('auth/signup', payload)
-                if (responce.status == 200) {
-                    this.user = responce.data.user
-                    localStorage.setItem('C5_ONLINE_CAFFE_USER', JSON.stringify(responce.data.user))
-                    localStorage.setItem('C5_ONLINE_CAFFE_USER_ROLL', this.user.roll)
-                    this.isAuthed = true
-                    if (this.user.roll == 'admin') {
-                        this.isAdmin = true
-                    }
-                    const jwtCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('jwt='));
-                    if (jwtCookie) {
-                        const jwtToken = jwtCookie.split('=')[1];
-                        localStorage.setItem('C5_ONLINE_CAFFE_TOKEN', jwtToken)
-                    }
-                    return true
-
-                } else if (responce.status == 400) {
-                    this.errors = responce.data
-                    return false
-                } else if (responce.status == 401) {
-                    this.attemptErrors = responce.data.errors
+                this.user = responce.data.user
+                localStorage.setItem('C5_ONLINE_CAFFE_USER', JSON.stringify(responce.data.user))
+                localStorage.setItem('C5_ONLINE_CAFFE_USER_ROLL', this.user.roll)
+                this.isAuthed = true
+                if (this.user.roll == 'admin') {
+                    this.isAdmin = true
                 }
-                return false
+                const jwtCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('jwt='));
+                if (jwtCookie) {
+                    const jwtToken = jwtCookie.split('=')[1];
+                    localStorage.setItem('C5_ONLINE_CAFFE_TOKEN', jwtToken)
+                }
+                return true
+
+                // } else if (responce.status == 400) {
+                //     this.errors = responce.data
+                //     return false
+                // } else if (responce.status == 401) {
+                //     this.attemptErrors = responce.data.errors
+                // }
+                // return false
             } catch (error) {
                 console.log(error)
-                if (error && error.response.status == 400) {
-                    this.attemptErrors = error.responce.data.errors
+                if (error && error.response.response.status == 400) {
+                    this.attemptErrors = error.responce.response.data
                 } else if (error.response.status == 401) {
                     this.attemptErrors = error.response.data
                 }

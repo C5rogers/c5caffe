@@ -105,7 +105,7 @@ const handleSignup=async(value)=>{
         formdata.append('password',value.password)
         formdata.append('profile',value.profile)
        const result= await useAuthStore.signup(formdata)
-       if(result){
+       if(result==true){
         inProcess.value=false
         useAuthStore.resetAttemptError()
         router.push('/')
