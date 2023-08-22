@@ -11,7 +11,7 @@ const handleReload=()=>{
 <template>
     <!-- show the image here -->
     <div class="w-full flex items-center justify-center overflow-hidden">
-        <img src="../assets/images/noInternet.png" class="w-full h-full object-cover" alt="">
+        <img src="../assets/images/noInternet.png" class="w-80 h-80 object-cover" alt="">
     </div>
     <!-- the reload button here -->
     <div class="w-full flex flex-col items-center justify-center gap-2">

@@ -2,7 +2,10 @@
 import {Form,Field} from 'vee-validate'
 import * as yup from 'yup'
 import {Ripple,initTE,Modal} from 'tw-elements'
+import {storeToRefs} from 'pinia'
 
+const useAuthStore=authStore()
+const {attemptErrors}=storeToRefs(useAuthStore)
 
 const location_result=ref('')
 const location_result_error=ref('')
@@ -85,14 +88,30 @@ const changePasswordConfInputFormat=()=>{
         passwordConfInput.type="password"
     }
 }
-const handleSignup=(value)=>{
+
+const router=useRouter()
+const handleSignup=async(value)=>{
     if(location_result.value.length==0){
         location_result_error.value="location is also required"
     }else{
-        inProcess.value=!inProcess.value
-        //recreate the object and send it to the back end
-        console.log(value)
-        console.log(location_result.value)
+        inProcess.value=true
+        const formdata=new FormData()
+        const username=value.firstname+' '+value.lastname
+        formdata.append('username',username)
+        formdata.append('email',value.email)
+        formdata.append('phone',value.phone)
+        formdata.append('location',value.location_result)
+        formdata.append('gender',value.gender)
+        formdata.append('password',value.password)
+        formdata.append('profile',value.profile)
+       const result= await useAuthStore.signup(formdata)
+       if(result){
+        inProcess.value=false
+        useAuthStore.resetAttemptError()
+        router.push('/')
+       }else{
+        inProcess.value=false
+       }
     }
 }
 
@@ -123,10 +142,14 @@ const handleFillLocationField=async(result)=>{
                     <!-- the input holder -->
                     <div class="w-full relative">
                         <Field type="text" name="firstname" placeholder="Nejashi" class="formInput focus:bg-gray-200" />
-                        <InputErrorMark v-if="errors.firstname" />
+                        <InputErrorMark v-if="errors.firstname || attemptErrors.firstname" />
                         <!-- the error message -->
-                        <div class="formErrorMessage">
+                        <div class="formErrorMessage" v-if="errors.firstname">
                             {{ errors.firstname }}
+                        </div>
+                        <!-- the other one -->
+                        <div class="formErrorMessage" v-if="attemptErrors.firstname">
+                            {{ attemptErrors.firstname }}
                         </div>
                     </div>
                 </div>
@@ -136,10 +159,14 @@ const handleFillLocationField=async(result)=>{
                     <!-- the input holder -->
                     <div class="w-full relative">
                         <Field type="text" name="lastname" placeholder="AlHabib" class="formInput focus:bg-gray-200"/>
-                        <InputErrorMark v-if="errors.lastname" />
+                        <InputErrorMark v-if="errors.lastname || attemptErrors.lastname" />
                         <!-- the error message -->
-                        <div class="formErrorMessage">
+                        <div class="formErrorMessage" v-if="errors.lastname">
                             {{ errors.lastname }}
+                        </div>
+                        <!-- the other one -->
+                        <div class="formErrorMessage" v-if="attemptErrors.lastname">
+                            {{ attemptErrors.lastname }}
                         </div>
                     </div>
                 </div>
@@ -151,10 +178,14 @@ const handleFillLocationField=async(result)=>{
                     <div class="w-full relative">
                         <!-- the input -->
                         <Field type="email" name="email" placeholder="nejashi@gmail.com" class="formInput focus:bg-gray-200"/>
-                        <InputErrorMark v-if="errors.email" />
+                        <InputErrorMark v-if="errors.email || attemptErrors.email" />
                         <!-- the error message -->
-                        <div class="formErrorMessage">
+                        <div class="formErrorMessage" v-if="errors.email">
                             {{ errors.email }}
+                        </div>
+                        <!-- the other one -->
+                        <div class="formErrorMessage" v-if="attemptErrors.email">
+                            {{ attemptErrors.email }}
                         </div>
                     </div>
                 </div>
@@ -165,12 +196,15 @@ const handleFillLocationField=async(result)=>{
                     <div class="w-full relative">
                         <!-- the input -->
                         <Field type="tel" name="phone" placeholder="+2519(+2517)/09(07) 22 88 44 55" min="0" class="formInput focus:bg-gray-200"/>
-                        <InputErrorMark v-if="errors.phone" />
+                        <InputErrorMark v-if="errors.phone || attemptErrors.phone" />
                         <!-- the error message -->
-                        <div class="formErrorMessage">
+                        <div class="formErrorMessage" v-if="errors.phone">
                             {{ errors.phone }}
                         </div>
-
+                        <!-- the other one -->
+                        <div class="formErrorMessage" v-if="attemptErrors.phone">
+                            {{attemptErrors.phone}}
+                        </div>
                     </div>
                 </div>
                 <!-- input cont -->
@@ -183,10 +217,14 @@ const handleFillLocationField=async(result)=>{
                         data-te-toggle="modal"
                         data-te-target="#staticBackdrop"
                          name="location_result" as="input" v-model="location_result" placeholder="Ethiopia | Addis Abeba | Yeka | wereda 12 | Happy Vialge"  class="formInput focus:bg-gray-200"/>
-                        <InputErrorMark v-if="location_result_error" />
+                        <InputErrorMark v-if="location_result_error || attemptErrors.location" />
                         <!-- the error message -->
                         <div class="formErrorMessage" v-if="location_result_error">
                             {{ location_result_error }}
+                        </div>
+                        <!-- the other one -->
+                        <div class="formErrorMessage" v-if="attemptErrors.location">
+                            {{ attemptErrors.location }}
                         </div>
                     </div>
                     <!-- the modal -->
@@ -222,10 +260,14 @@ const handleFillLocationField=async(result)=>{
                                 value="f" />
                             </div>
                         </div>
-                        <InputErrorMark v-if="errors.gender" />
+                        <InputErrorMark v-if="errors.gender || attemptErrors.gender" />
                         <!-- the error message -->
-                        <div class="formErrorMessage">
+                        <div class="formErrorMessage" v-if="errors.gender">
                             {{ errors.gender }}
+                        </div>
+                        <!-- the other one -->
+                        <div class="formErrorMessage" v-if="attemptErrors.gender">
+                            {{ attemptErrors.gender }}
                         </div>
                     </div>
                 </div>
@@ -236,14 +278,18 @@ const handleFillLocationField=async(result)=>{
                     <!-- the input holder -->
                     <div class="w-full relative">
                         <Field type="password" name="password" placeholder="@Nejashi123" class="formInput focus:bg-gray-200" id="passwordInput"/>
-                        <InputErrorMark v-if="errors.password" />
+                        <InputErrorMark v-if="errors.password || attemptErrors.password" />
                         <!-- the absolute button -->
                         <div class="absolute right-2 top-[9px] text-gray-500">
                             <button type="button" @click="changePasswordInputFormat"><span v-if="!showPassword"><i class="fa-solid fa-eye"></i></span><span v-else><i class="fa-solid fa-eye-slash"></i></span></button>
                         </div>
                         <!-- the error message -->
-                        <div class="formErrorMessage">
+                        <div class="formErrorMessage" v-if="errors.password">
                             {{ errors.password }}
+                        </div>
+                        <!-- the other one -->
+                        <div class="formErrorMessage" v-if="attemptErrors.password">
+                            {{ attemptErrors.password }}
                         </div>
                     </div>
                 </div>
@@ -272,10 +318,14 @@ const handleFillLocationField=async(result)=>{
                         <!-- the input holder -->
                         <div class="w-full relative">
                             <Field type="file" name="profile" placeholder="Profile picture path" class="formInput focus:bg-gray-200"/>
-                            <InputErrorMark v-if="errors.profile"/>
+                            <InputErrorMark v-if="errors.profile || attemptErrors.profile"/>
                             <!-- the error message -->
-                            <div class="formErrorMessage">
+                            <div class="formErrorMessage" v-if="errors.profile">
                                 {{ errors.profile }}
+                            </div>
+                            <!-- the other error -->
+                            <div class="formErrorMessage" v-if="attemptErrors.profile">
+                                {{ attemptErrors.profile }}
                             </div>
                         </div>
                     </div>
