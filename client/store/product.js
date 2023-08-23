@@ -35,7 +35,7 @@ export const productStore = defineStore({
         async fetchProducts(payload) {
             try {
                 this.isProductsLoading = true
-                const responce = await axiosInstance('product/?page=' + this.current_page + '& limit=' + this.product_limit)
+                const responce = await axiosInstance.get('product/?page=' + this.current_page + '& limit=' + this.product_limit)
                 this.products = await responce.data.products
                 this.productRatings = await responce.data.product_ratings
                 this.totalProductPages = await responce.data.total_pages
@@ -43,6 +43,7 @@ export const productStore = defineStore({
                 this.selled_order_count = await responce.data.selled_order_count
                 this.users_count = await responce.data.users_count
                 this.isProductsLoading = false
+                return true
             } catch (error) {
                 this.isProductsLoading = false
                 console.log(error)
@@ -50,15 +51,17 @@ export const productStore = defineStore({
                 if (error.code == 'ERR_NETWORK') {
                     this.network_error = true
                 }
+                return false
             }
         },
         async fetchProduct(payload) {
             try {
                 this.isProductLoading = true
-                const responce = await axiosInstance('product/' + payload)
+                const responce = await axiosInstance.get('product/' + payload)
                 this.product = await responce.data.product
                 this.singleProductRating = await responce.data.product_rating
                 this.isProductLoading = false
+                return true
             } catch (error) {
                 this.isProductLoading = false
                 console.log(error)
@@ -66,6 +69,7 @@ export const productStore = defineStore({
                 if (error.code == 'ERR_NETWORK') {
                     this.network_error = true
                 }
+                return false
             }
         },
         resetNetworkError() {
@@ -91,6 +95,7 @@ export const productStore = defineStore({
                 this.searchSelledOrderCount = await responce.data.selled_order_count
                 this.searchUsersCount = await responce.data.users_count
                 this.isSearchingProductsLoading = false
+                return true
             } catch (error) {
                 this.isSearchingProductsLoading = false
                 console.log(error)
@@ -98,6 +103,7 @@ export const productStore = defineStore({
                 if (error.code == 'ERR_NETWORK') {
                     this.searchNetworkError = true
                 }
+                return false
             }
         },
         setProductCurrentPage(payload) {
