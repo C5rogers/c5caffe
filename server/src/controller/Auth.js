@@ -16,7 +16,7 @@ module.exports.Signup_post = async(req, res) => {
     try {
         if (req.file) {
             let filename = req.file.filename
-            let filepath = path.join('http://localhost:4000', '/public/profile', filename)
+            let filepath = 'http://localhost:4000' + '/profile/' + filename
             const hashedUserPassword = hashedPassword(password)
             const newUser = await User.create({ username, gender, email, phone, location, password: hashedUserPassword, profile: filepath, roll: "user" })
             const token = generateToken(newUser._id, newUser.roll)
@@ -40,7 +40,7 @@ module.exports.Signup_post = async(req, res) => {
             } else {
                 hashedFileName = 'female.png'
             }
-            const filepath = path.join('http://localhost:4000', '/public/profile', hashedFileName)
+            const filepath = 'http://localhost:4000' + '/profile/' + hashedFileName
             const newUserPassword = hashedPassword(password)
             const newUser = await User.create({ username, gender, email, phone, location, password: newUserPassword, profile: filepath, roll: "user" })
             const token = generateToken(newUser._id)

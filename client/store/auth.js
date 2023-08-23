@@ -80,6 +80,7 @@ export const authStore = defineStore({
         async signup(payload) {
             try {
                 const responce = await axiosInstance.post('auth/signup', payload)
+                console.log(responce.data)
                 this.user = responce.data.user
                 localStorage.setItem('C5_ONLINE_CAFFE_USER', JSON.stringify(responce.data.user))
                 localStorage.setItem('C5_ONLINE_CAFFE_USER_ROLL', this.user.roll)
@@ -103,14 +104,16 @@ export const authStore = defineStore({
                 // return false
             } catch (error) {
                 console.log(error)
-                if (error && error.response.response.status == 400) {
-                    this.attemptErrors = error.responce.response.data
+                if (error && error.response.status == 400) {
+                    this.attemptErrors = error.response.data
                 } else if (error.response.status == 401) {
                     this.attemptErrors = error.response.data
                 }
                 if (error.code == 'ERR_NETWORK') {
                     this.network_error = true
                 }
+                console.log("the error object:")
+                console.log(this.attemptErrors)
                 return false
             }
         },
