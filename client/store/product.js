@@ -28,7 +28,8 @@ export const productStore = defineStore({
         searchSelledOrderCount: 0,
         searchUsersCount: 0,
         searchNetworkError: false,
-        errors: []
+        errors: [],
+        searchErrors: []
     }),
     actions: {
         async fetchProducts(payload) {
@@ -70,6 +71,15 @@ export const productStore = defineStore({
         resetNetworkError() {
             this.network_error = false
         },
+        resetSearchNetworkError() {
+            this.searchNetworkError = false
+        },
+        resetSearchErrors() {
+            this.searchErrors = []
+        },
+        resetProductsErrors() {
+            this.errors = []
+        },
         async searchProduct(payload) {
             try {
                 this.isSearchingProductsLoading = true
@@ -84,7 +94,7 @@ export const productStore = defineStore({
             } catch (error) {
                 this.isSearchingProductsLoading = false
                 console.log(error)
-                this.errors = error.responce.data
+                this.searchErrors = error.responce.data
                 if (error.code == 'ERR_NETWORK') {
                     this.searchNetworkError = true
                 }
@@ -151,6 +161,15 @@ export const productStore = defineStore({
         },
         getSearchUsersCount: (state) => {
             return state.searchUsersCount
+        },
+        getSearchNetworkError: (state) => {
+            return state.searchNetworkError
+        },
+        getProductsError: (state) => {
+            return state.errors
+        },
+        getSearchProductsError: (state) => {
+            return state.searchErrors
         }
     }
 
