@@ -5,7 +5,7 @@ const ProductCatagorySchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.String,
         required: true
     },
-    rating: {
+    average_rating: {
         type: mongoose.SchemaTypes.Number,
         required: true,
         default: 0

@@ -16,10 +16,10 @@ const ProductSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.Number,
         required: true
     },
-    rating: {
+    average_rating: {
         type: mongoose.SchemaTypes.Number,
         required: true,
-        default: 0
+        default: 0,
     },
     catagory: {
         type: mongoose.SchemaTypes.ObjectId,

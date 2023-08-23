@@ -11,6 +11,11 @@ const ProductRatingSchema = new mongoose.Schema({
         required: true,
         ref: 'products'
     },
+    rating_value: {
+        type: mongoose.SchemaTypes.Number,
+        required: true,
+        default: 1
+    },
     created_at: {
         type: mongoose.SchemaTypes.Date,
         required: true,

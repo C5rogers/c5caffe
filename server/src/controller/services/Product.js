@@ -38,7 +38,7 @@ module.exports.Products_get = async(req, res) => {
             products = await Product.find({}).limit(limit * 1).skip((page - 1) * limit).populate("catagory")
         }
         const product_count = await Product.count()
-        const product_ratings = await ProductRating.find({}).populate("user_id", "_id username gender location profile").populate("product_id", "_id name image price rating catagory")
+        const product_ratings = await ProductRating.find({}).populate("user_id", "_id username gender location profile").populate("product_id", "_id name image price average_rating catagory")
         const selled_order_count = await SelledOrder.find({}).count()
         const users_count = await User.find({}).count()
         const total_pages = Math.ceil(product_count / limit)
@@ -53,7 +53,7 @@ module.exports.Product_get = async(req, res) => {
         const product_id = req.params.id
         if (isValidObjectId(product_id)) {
             const product = await Product.findOne({ _id: product_id }).populate("catagory")
-            const product_rating = await ProductRating.findOne({ product_id }).populate("user_id", "_id username gender location profile").populate("product_id", "_id name image price rating catagory")
+            const product_rating = await ProductRating.findOne({ product_id }).populate("user_id", "_id username gender location profile").populate("product_id", "_id name image price average_rating catagory")
             return res.status(200).json({ product, product_rating })
         } else {
             return res.status(400).json({ message: "Invalid parameter" })

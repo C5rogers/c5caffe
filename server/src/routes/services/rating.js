@@ -4,9 +4,8 @@ const middleware = require('../../middlewares/authCheck')
 
 const router = Router()
 
-router.post('/product/:id/like', middleware.protect_with_auth, RatingController.Product_like)
-router.post('/product/:id/dislike', middleware.protect_with_auth, RatingController.Product_dislike)
-router.post('/product_catagory/:id/like', middleware.protect_with_auth, RatingController.Product_catagory_like)
-router.post('/product_catagory/:id/dislike', middleware.protect_with_auth, RatingController.Product_catagory_dislike)
+router.post('/product/:id/rate', middleware.protect_with_auth, RatingController.Product_rate)
+router.post('/product_catagory/:id/rate', middleware.protect_with_auth, RatingController.Product_catagory_rate)
+
 
 module.exports = router
