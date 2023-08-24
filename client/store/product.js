@@ -47,7 +47,7 @@ export const productStore = defineStore({
             } catch (error) {
                 this.isProductsLoading = false
                 console.log(error)
-                this.errors = error.response.data
+                if (error.response) this.errors = error.response.data
                 if (error.code == 'ERR_NETWORK') {
                     this.network_error = true
                 }
@@ -65,7 +65,7 @@ export const productStore = defineStore({
             } catch (error) {
                 this.isProductLoading = false
                 console.log(error)
-                this.errors = error.response.data
+                if (error.response) this.errors = error.response.data
                 if (error.code == 'ERR_NETWORK') {
                     this.network_error = true
                 }

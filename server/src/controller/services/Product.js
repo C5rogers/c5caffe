@@ -23,6 +23,13 @@ module.exports.Products_get = async(req, res) => {
                     $or: [
                         { name: regexQuery },
                         { description: regexQuery },
+                        {
+                            catagory: {
+                                $in: await Catagory.find({
+                                    catagory: regexQuery
+                                }).distinct('_id')
+                            }
+                        }
                     ]
                 }).limit(limit * 1).skip((page - 1) * limit).populate("catagory")
             } else {
@@ -42,7 +49,9 @@ module.exports.Products_get = async(req, res) => {
         const selled_order_count = await SelledOrder.find({}).count()
         const users_count = await User.find({}).count()
         const total_pages = Math.ceil(product_count / limit)
-        return res.status(200).json({ products, product_ratings, total_pages, current_page: page, selled_order_count, users_count })
+        const allCatagorys = await Catagory.find({})
+        const catagoryCount = await Catagory.find({}).count()
+        return res.status(200).json({ products, product_ratings, total_pages, current_page: page, selled_order_count, users_count, product_catagorys: allCatagorys, product_catagorys_count: catagoryCount })
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)
