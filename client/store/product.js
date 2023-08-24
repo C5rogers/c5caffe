@@ -8,6 +8,8 @@ export const productStore = defineStore({
     id: 'ProductStore',
     state: () => ({
         products: [],
+        product_catagorys: [],
+        product_catagory_count: 0,
         productRatings: [],
         singleProductRating: [],
         totalProductPages: 0,
@@ -35,13 +37,15 @@ export const productStore = defineStore({
         async fetchProducts(payload) {
             try {
                 this.isProductsLoading = true
-                const responce = await axiosInstance.get('product/?page=' + this.current_page + '& limit=' + this.product_limit)
+                const responce = await axiosInstance.get('product/?page=' + this.current_page + '& limit=' + this.product_limit + '&q=' + payload)
                 this.products = await responce.data.products
                 this.productRatings = await responce.data.product_ratings
                 this.totalProductPages = await responce.data.total_pages
                 this.current_page = await responce.data.current_page
                 this.selled_order_count = await responce.data.selled_order_count
                 this.users_count = await responce.data.users_count
+                this.product_catagorys = await responce.data.product_catagorys
+                this.product_catagory_count = await responce.data.product_catagorys_count
                 this.isProductsLoading = false
                 return true
             } catch (error) {
