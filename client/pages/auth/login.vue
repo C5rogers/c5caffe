@@ -50,6 +50,11 @@ const handleLoginTwo=async (values)=>{
         router.push('/')
     }else{
         inLoginProcess.value=false
+        setTimeout(() => {
+            if(useAuthStore.$state.network_error==true){
+                useAuthStore.resetNetworkError()
+            }
+        }, 3000);
     }
 }
 </script>
@@ -67,7 +72,7 @@ const handleLoginTwo=async (values)=>{
         </div>
         <!-- the form -->
         <div class="w-full  items-center">
-           <Form @submit="handleLoginTwo" class="font-Roboto w-full flex flex-col gap-3 items-center" :validation-schema="schema" v-slot="{errors}">
+           <Form @submit="handleLoginTwo" class="font-Roboto w-full flex flex-col gap-3 items-center" :validation-schema="schema" v-slot="{errors}" v-if="useAuthStore.$state.network_error==false">
                 <!-- input cont -->
                 <div class="formInputCont">
                     <!-- the form input container -->
@@ -142,6 +147,10 @@ const handleLoginTwo=async (values)=>{
                     </div>
                 </div>
             </Form> 
+            <!-- the network error message -->
+            <div class="" v-if="useAuthStore.$state.network_error">
+                <NetworkError @reload="useAuthStore.resetNetworkError()"/>
+            </div>
         </div>
         <!-- the footer -->
         <div class="w-full mt-10 flex items-center justify-center text-gray-500 font-Roboto font-light">

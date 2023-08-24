@@ -51,9 +51,9 @@ export const authStore = defineStore({
                 return false
             } catch (error) {
                 console.log(error)
-                if (error && error.response.status == 400) {
+                if (error.response && error.response.status == 400) {
                     this.attemptErrors = error.responce.data.errors
-                } else if (error.response.status == 401) {
+                } else if (error.response && error.response.status == 401) {
                     this.attemptErrors = error.response.data
                 }
                 if (error.code == 'ERR_NETWORK') {
@@ -104,9 +104,9 @@ export const authStore = defineStore({
                 // return false
             } catch (error) {
                 console.log(error)
-                if (error && error.response.status == 400) {
+                if (error.response && error.response.status == 400) {
                     this.attemptErrors = error.response.data
-                } else if (error.response.status == 401) {
+                } else if (error.response && error.response.status == 401) {
                     this.attemptErrors = error.response.data
                 }
                 if (error.code == 'ERR_NETWORK') {

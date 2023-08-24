@@ -111,6 +111,11 @@ const handleSignup=async(value)=>{
         router.push('/')
        }else{
         inProcess.value=false
+        setTimeout(() => {
+            if(useAuthStore.$state.network_error==true){
+                useAuthStore.resetNetworkError()
+            }
+        }, 3000);
        }
     }
 }
@@ -132,8 +137,8 @@ const handleFillLocationField=async(result)=>{
             Sign Up
         </div>
         <!-- the form -->
-        <div class="w-full items-center">
-            <Form @submit="handleSignup"  class="font-Roboto w-full flex flex-col sm:flex-row mb-2 gap-2 sm:gap-10 " :validation-schema="schema" v-slot="{errors}">
+        <div class="w-full items-center" v-if="useAuthStore.$state.network_error==false">
+            <Form @submit="handleSignup"  class="font-Roboto w-full flex flex-col sm:flex-row mb-2 gap-2 sm:gap-10 " :validation-schema="schema" v-slot="{errors}" >
                 <!-- the left -->
                 <div class="sm:w-1/2 flex flex-col gap-3 items-center">
                 <!-- input cont -->
@@ -350,6 +355,10 @@ const handleFillLocationField=async(result)=>{
             <div class="w-full mt-2 sm:mt-0 flex items-center">
                 Have Account. <span><nuxt-link to="/auth/login" class="text-blue-500">Log In</nuxt-link></span>
             </div>
+        </div>
+        <!-- the network error -->
+        <div v-else-if="useAuthStore.$state.network_error">
+            <NetworkError @reload="useAuthStore.resetNetworkError()" />
         </div>
          <!-- the footer -->
          <div class="w-full  flex items-center justify-center text-gray-500 font-Roboto font-light">
