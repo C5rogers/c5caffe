@@ -200,3 +200,20 @@ module.exports.custome_reset_password_update_validation = (req, res, next) => {
     }
     next()
 }
+
+
+module.exports.custome_catagory_create_validation = (req, res, next) => {
+    const { catagory } = req.body
+    const errors = {}
+    if (!catagory) {
+        errors.catagory = "Catagory name field is required"
+    }
+    const isNumber = Number(catagory)
+    if (!isNaN(isNumber)) {
+        errors.catagory = "Invalid catagory name"
+    }
+    if (Object.keys(errors).length > 0) {
+        return res.status(400).json(errors)
+    }
+    next()
+}
