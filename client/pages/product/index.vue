@@ -74,8 +74,29 @@ const changeRatingProduct=(product)=>{
         <!-- the right one -->
         <div class="w-3/4 ml-auto flex flex-col gap-2 ">
             <!-- the upper header -->
-            <div>
+            <div class="w-full mt-5 flex flex-col gap-2 justify-center">
+                <!-- the first  -->
+                <div>
+                    <!-- container -->
+                    <div class="ml-auto w-fit h-fit">
+                        <!-- the search input -->
+                        <div>
+                            <input 
+                            class="border bg-gray-200 rounded-full w-24 py-1 px-2 pl-7 relative outline-none focus:bg-gray-300" type="text" placeholder="Search..."
+                            data-te-toggle="modal"
+                            data-te-target="#searchProductFixedBackground"
+                            >
+                        </div>
+                        <!-- the limit input -->
+                        <div>
 
+                        </div>
+                    </div>
+                </div>
+                <!-- the title -->
+                <div class="font-Roboto font-bold text-2xl">
+                    <span class="text-secondary">5000+</span> Products
+                </div>
             </div>
             <!-- the product content -->
             <TransitionGroup tag="div" name="products" class="w-full h-fit grid grid-cols-3 gap-4 overflow-y-scroll py-4 px-2" v-if="useProductStore.$state.products">
@@ -109,6 +130,9 @@ const changeRatingProduct=(product)=>{
         </teleport>
         <teleport to='body'>
                     <product-rating :productInfo="rating_product" />
+        </teleport>
+        <teleport to='body'>
+            <ProductSearch/>
         </teleport>
     </div>
     <!-- <AnimatePlaceHolderArea/> -->
