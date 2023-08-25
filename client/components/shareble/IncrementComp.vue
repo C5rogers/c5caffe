@@ -1,0 +1,51 @@
+<script setup>
+
+import {Ripple,initTE} from "tw-elements";
+
+onMounted(()=>{
+    initTE({Ripple})
+})
+    const emit=defineEmits(['change-calculation'])
+    const props=defineProps({
+        unitPrice:{
+            type:Number,
+            required:true
+        }
+    })
+    const count_controller=ref(1)
+    const handleCalculateChange=()=>{
+        count_controller.value=count_controller.value+1
+        let totalPrice=props.unitPrice*count_controller.value
+        console.log()
+        emit('change-calculation',totalPrice)
+    }
+    const handleCalculateChangeNegative=()=>{
+        count_controller.value=count_controller.value-1
+        if(count_controller.value>1){
+            const totalPrice=props.unitPrice*count_controller.value
+            emit('change-calculation',totalPrice)
+        }else{
+            count_controller.value=1
+        }
+    }
+</script>
+
+<template>
+    <div class=" h-10 w-36 justify-between flex gap-1 bg-white  rounded-md overflow-hidden  items-center border">
+        <!-- the substraction button -->
+        <button @click="handleCalculateChangeNegative" 
+        class="w-10 flex items-center justify-center text-white bg-secondary h-full text-2xl font-bold"
+        data-te-ripple-init
+        data-te-ripple-color="light"
+        >-</button>
+        <div class="font-bold">
+            {{ count_controller }}
+        </div>
+        <!-- the addition button -->
+        <button @click="handleCalculateChange"
+        class="w-10 flex items-center justify-center text-white bg-green-600 h-full text-2xl font-bold"
+        data-te-ripple-init
+        data-te-ripple-color="light"
+        >+</button>
+    </div>
+</template>

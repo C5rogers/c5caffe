@@ -67,7 +67,7 @@ const handleLogOut=async()=>{
         <div class="w-fit px-5 ml-auto flex items-center justify-center gap-4 md:gap-10 mt-10">
             <!-- the nav -->
             <nav class="font-Roboto">
-                <ul class="flex items-center -mb-3 justify-center px-2 gap-1 md:gap-4 uppercase relative">
+                <ul class="flex items-center -mb-1 justify-center px-2 gap-1 md:gap-4 uppercase relative">
                     <li class="h-10">
                         <nuxt-link to="/" class="pb-3 px-1 text-xs md:text-lg">Home</nuxt-link>
                     </li>
@@ -84,7 +84,7 @@ const handleLogOut=async()=>{
                         >Service <span><i class="fa fa-angle-right transition duration-150 ease-out" :class="{'rotate-90':changeDirection}"></i></span>
                     </button>
                         <!-- the absolute menu -->
-                        <div class="absolute left-0 pt-3 -right-20 top-full z-[1000] mt-0 hidden w-full border-none bg-white bg-clip-padding text-neutral-600 shadow-md dark:bg-neutral-700 dark:text-neutral-200 [&[data-te-dropdown-show]]:block"
+                        <div class="absolute left-0 pt-3 right-20 top-full z-[1000] mt-0 hidden  border-none bg-white bg-clip-padding text-neutral-600 shadow-md dark:bg-neutral-700 dark:text-neutral-200 [&[data-te-dropdown-show]]:block"
                         aria-labelledby="dropdownMenuButtonX"
                         data-te-dropdown-menu-ref
                         >

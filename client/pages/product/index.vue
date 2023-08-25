@@ -1,6 +1,8 @@
 <script setup>
 import {storeToRefs} from 'pinia'
 
+const product_controller=ref({})
+const rating_product=ref({})
 const useProductStore=productStore()
 const {products}=storeToRefs(useProductStore)
 
@@ -28,6 +30,13 @@ const parseToNumber=(number)=>{
     }
     return 0
 }
+
+const changeTheAddToProduct=(product)=>{
+    product_controller.value=product
+}
+const changeRatingProduct=(product)=>{
+    rating_product.value=product
+}
 </script>
 
 <template>
@@ -39,7 +48,7 @@ const parseToNumber=(number)=>{
                 Catagorys:
             </div>
             <!-- the catagory lists container-->
-            <div class="w-3/4 flex flex-col gap-2 mt-4 items-center " v-if="useProductStore.$state.product_catagorys">
+            <div class="w-3/4 flex h-64 overflow-y-scroll flex-col gap-2 mt-4 items-center " v-if="useProductStore.$state.product_catagorys">
                 <button
                 class="w-full border-l-4 pl-5 flex items-center text-left border-gray-200 hover:text-secondary transition duration-200 hover:border-secondary"
                 @click="filterByCatagory('')"
@@ -73,7 +82,7 @@ const parseToNumber=(number)=>{
                 <div v-for="product in useProductStore.$state.products" :key="product._id" 
                 class="w-full h-72 relative rounded-md shadow-md overflow-hidden transition transform duration-300 hover:scale-105"
                 >
-                    <product-card :product="product"/>
+                    <product-card :product="product" @add-to-cart="changeTheAddToProduct" @rate-product="changeRatingProduct"/>
                 </div>
             </TransitionGroup>
             <!-- the pagination holder -->
@@ -95,6 +104,12 @@ const parseToNumber=(number)=>{
             <shareble-empty/>
             </Transition>  
         </div>
+        <teleport to='body'>
+            <product-add-to-cart :productInfo="product_controller"/>
+        </teleport>
+        <teleport to='body'>
+                    <product-rating :productInfo="rating_product" />
+        </teleport>
     </div>
     <!-- <AnimatePlaceHolderArea/> -->
 </template>

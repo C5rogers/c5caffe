@@ -4,16 +4,16 @@ const props=defineProps({
         type:Object
     }
 })
+
 const useAuthStore=authStore()
 const useProductStore=productStore()
 
-const handleAddToCart=()=>{
-    console.log("now we are here")
-}
+
+const emit=defineEmits(['add-to-cart','rate-product'])
 
 const checkRated=(product_id)=>{
     let result=false
-    if(useAuthStore.$state.user_id){
+    if(useAuthStore.$state.user._id){
         const user_id=useAuthStore.$state.user._id
         useProductStore.$state.productRatings.forEach(element => {
         if(element.user_id._id==user_id && element.product_id._id==product_id){
@@ -25,6 +25,21 @@ const checkRated=(product_id)=>{
     return result
 }
 
+const handleDescriptionShorting=(description)=>{
+    if(description.length<60){
+        return description+'...'
+    }else{
+        return description.substring(0,60)+'...'
+    }
+}
+
+const handle_show_add_to_cart=()=>{
+    emit('add-to-cart',props.product)
+}
+
+const handleRateProduct=()=>{
+    emit('rate-product',props.product)
+}
 </script>
 
 <template>
@@ -39,12 +54,18 @@ const checkRated=(product_id)=>{
         >       
             <!-- the like button -->
             <button
+            data-te-toggle="modal"
+            data-te-target="#productRatingStaticBackdrop"
             class="absolute right-6 p-1 flex items-center justify-center -top-5 shadow-md w-10 h-10 bg-white rounded-full"
+            @click="handleRateProduct"
             >
             <i class="fas fa-thumbs-up"
             :class="{'text-secondary':checkRated(product._id)}"
             ></i>
             </button>
+                <teleport to='body'>
+                    <product-rating :productInfo="product" />
+                </teleport>
             <!-- wrapper -->
             <div class="w-full h-full relative opacity-100 z-auto flex flex-col gap-1 items-center">
                 <!-- the product name -->
@@ -53,7 +74,7 @@ const checkRated=(product_id)=>{
                 </div>
                 <!-- the product description -->
                 <div>
-                    <p class="text-xs text-gray-200 pl-4 pr-1 leading-tight">{{ product.description }}... <nuxt-link :to="`product/${product._id}`" class="text-blue-500">See more.</nuxt-link></p>
+                    <p class="text-xs text-gray-200 pl-4 pr-1 leading-tight">{{ handleDescriptionShorting(product.description) }} <nuxt-link :to="`product/${product._id}`" class="text-blue-500">See more.</nuxt-link></p>
                     <shareble-five-start-rating :ratingValue="product.average_rating" class="pl-4" />
                 </div>
                 <!-- the product price and add to cart button -->
@@ -66,7 +87,9 @@ const checkRated=(product_id)=>{
                     <div>
                         <button 
                         class="w-28 py-1 px-1 flex items-center justify-center gap-[1px] bg-secondary text-white text-sm font-bold rounded-md"
-                        @click="handleAddToCart"
+                        data-te-toggle="modal"
+                        data-te-target="#addToCartFixedBackground"
+                        @click="handle_show_add_to_cart"
                         >
                             <i class="fa-solid fa-cart-plus text-lg"></i>
                             <span>Add To Cart</span>
@@ -76,7 +99,5 @@ const checkRated=(product_id)=>{
             </div>
         </div>
     </div>
-
-{{ product }}
     
 </template>
