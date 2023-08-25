@@ -6,7 +6,9 @@ const {products}=storeToRefs(useProductStore)
 
 const catagory_controller=ref('')
 onMounted(async() => {
-    if(useProductStore.products.length==0)useProductStore.fetchProducts()
+    if(useProductStore.$state.products.length==0){
+        useProductStore.fetchProducts('')
+    }
 })
 
 
@@ -14,6 +16,17 @@ onMounted(async() => {
 const filterByCatagory=async(catagory)=>{
     catagory_controller.value=catagory
     await useProductStore.fetchProducts(catagory)
+}
+const handleChangePage=async(pagenumber)=>{
+    useProductStore.setProductCurrentPage(pagenumber)
+    await useProductStore.fetchProducts(catagory_controller.value)
+}
+const parseToNumber=(number)=>{
+    const parsed=Number(number)
+    if(!isNaN(parsed)) {
+        return parsed
+    }
+    return 0
 }
 </script>
 
@@ -30,7 +43,7 @@ const filterByCatagory=async(catagory)=>{
                 <button
                 class="w-full border-l-4 pl-5 flex items-center text-left border-gray-200 hover:text-secondary transition duration-200 hover:border-secondary"
                 @click="filterByCatagory('')"
-                :class="{'border_secondary text-secondary':catagory_controller==''}"
+                :class="{'border_secondary text-secondary border-secondary':catagory_controller==''}"
                 >
                     All
                 </button>
@@ -62,6 +75,16 @@ const filterByCatagory=async(catagory)=>{
                 >
                     <product-card :product="product"/>
                 </div>
+            </div>
+            <!-- the pagination holder -->
+            <div 
+            class="w-full h-fit flex items-center justify-center mt-3 mb-2 "
+            v-if="useProductStore.$state.products.length>0">
+                <shareble-pagination 
+                    :initial-page="parseToNumber(useProductStore.$state.current_page)"
+                    :total-pages="parseToNumber(useProductStore.$state.totalProductPages)"
+                    @change_page="handleChangePage"
+                />
             </div>
         </div>
     </div>
