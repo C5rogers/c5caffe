@@ -75,3 +75,41 @@ html {
 .theUpAndDownAnimation:not(:hover) {
     animation: upanddown infinite 2s;
 }
+
+.products-enter-from,
+.products-leave-to {
+    opacity: 0;
+    transition: all ease-out .30s;
+    transform: scale(50%);
+}
+
+.products-enter-to,
+.products-leave-from {
+    opacity: 1;
+    transition: all ease-in-out .30s;
+    transform: scale(100%);
+}
+
+.products-enter-active,
+.products-leave-active {
+    transition: all ease-out .30s;
+}
+
+.empty-enter-from,
+.empty-leave-to {
+    opacity: 0;
+    transition: all ease-out .30s;
+    transform: scale(0);
+}
+
+.empty-enter-to,
+.empty-leave-from {
+    opacity: 1;
+    transition: all ease-in-out .30s;
+    transform: scale(100%);
+}
+
+.empty-enter-active,
+.empty-leave-active {
+    transition: all ease-out .30s;
+}

@@ -69,13 +69,13 @@ const parseToNumber=(number)=>{
 
             </div>
             <!-- the product content -->
-            <div class="w-full h-fit grid grid-cols-3 gap-4 overflow-y-scroll py-4 px-2" v-if="useProductStore.$state.products">
+            <TransitionGroup tag="div" name="products" class="w-full h-fit grid grid-cols-3 gap-4 overflow-y-scroll py-4 px-2" v-if="useProductStore.$state.products">
                 <div v-for="product in useProductStore.$state.products" :key="product._id" 
                 class="w-full h-72 relative rounded-md shadow-md overflow-hidden transition transform duration-300 hover:scale-105"
                 >
                     <product-card :product="product"/>
                 </div>
-            </div>
+            </TransitionGroup>
             <!-- the pagination holder -->
             <div 
             class="w-full h-fit flex items-center justify-center mt-3 mb-2 "
@@ -87,12 +87,13 @@ const parseToNumber=(number)=>{
                 />
             </div>
             <!-- the empty one -->
-            <div 
+            <Transition tag="div" 
+            name="empty"
             class="w-full h-fit flex items-center justify-center" 
             v-if="useProductStore.$state.products.length==0 && useProductStore.$state.network_error==false && useProductStore.$state.isProductsLoading==false"
             >
             <shareble-empty/>
-            </div>  
+            </Transition>  
         </div>
     </div>
     <!-- <AnimatePlaceHolderArea/> -->

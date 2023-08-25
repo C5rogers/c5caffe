@@ -9,7 +9,6 @@ const props=defineProps({
 </script>
 
 <template>
-
         <!-- the container -->
         <div class="container w-full h-fit flex flex-col gap-1 items-center justify-center font-Roboto text-xl capitalize text-gray-700">
             <!-- the image holder -->
