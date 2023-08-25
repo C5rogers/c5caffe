@@ -55,6 +55,7 @@ const handlePageClicked=(pagenumber)=>{
         <button 
         type="button" 
         data-te-ripple-init
+        data-te-ripple-color="light"
         :disabled="current_page==1"
         @click="handlePageClicked(current_page-1)"
         class="py-1 w-24 flex items-center justify-center gap-1 px-1 border-[1px] rounded-md transition transform duration-200 hover:scale-105 hover:shadow-sm"
@@ -65,6 +66,7 @@ const handlePageClicked=(pagenumber)=>{
         </button>
         <button 
         data-te-ripple-init
+        data-te-ripple-color="light"
         type="button"
         v-for="page in desplayed_pages"
         :key="page"
@@ -77,6 +79,7 @@ const handlePageClicked=(pagenumber)=>{
         <button 
         type="button"
         data-te-ripple-init
+        data-te-ripple-color="light"
         :disabled="current_page==totalPages"
         class="py-1 w-24 flex items-center justify-center gap-1 px-1 border-[1px] rounded-md transition transform duration-200 hover:scale-105 hover:shadow-sm"
         @click="handlePageClicked(current_page+1)"

@@ -86,6 +86,13 @@ const parseToNumber=(number)=>{
                     @change_page="handleChangePage"
                 />
             </div>
+            <!-- the empty one -->
+            <div 
+            class="w-full h-fit flex items-center justify-center" 
+            v-if="useProductStore.$state.products.length==0 && useProductStore.$state.network_error==false && useProductStore.$state.isProductsLoading==false"
+            >
+            <shareble-empty/>
+            </div>  
         </div>
     </div>
     <!-- <AnimatePlaceHolderArea/> -->
