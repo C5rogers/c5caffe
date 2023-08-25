@@ -26,6 +26,7 @@ const props=defineProps({
                 <!-- the product description -->
                 <div>
                     <p class="text-xs text-gray-200 pl-4 pr-1 leading-tight">{{ product.description }}... <nuxt-link :to="`product/${product._id}`" class="text-blue-500">See more.</nuxt-link></p>
+                    <shareble-five-start-rating :ratingValue="product.average_rating" class="pl-4" />
                 </div>
                 <!-- the product price and add to cart button -->
                 <div>
