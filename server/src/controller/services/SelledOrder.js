@@ -4,7 +4,14 @@ const { getIdFromToken } = require('../../utils/jwt')
 
 module.exports.Selled_orders_get = async(req, res) => {
     try {
-        const { page = 1, limit = 15 } = req.query
+        let page = req.query.page
+        let limit = req.query.limit
+        if (!page) {
+            page = 1
+        }
+        if (!limit) {
+            limit = 15
+        }
         const selled_orders = await SelledOrder.find({}).limit(limit * 1).skip((page - 1) * limit).populate("user", "_id username gender location profile").populate("carts")
         const selled_order_counts = await SelledOrder.find({}).count()
         const total_pages = Math.ceil(selled_order_counts / limit)

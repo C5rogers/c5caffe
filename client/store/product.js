@@ -37,7 +37,7 @@ export const productStore = defineStore({
         async fetchProducts(payload) {
             try {
                 this.isProductsLoading = true
-                const responce = await axiosInstance.get('product/?page=' + this.current_page + '& limit=' + this.product_limit + '&q=' + payload)
+                const responce = await axiosInstance.get('product/?page=' + this.current_page + '&limit=' + this.product_limit + '&q=' + payload)
                 this.products = await responce.data.products
                 this.productRatings = await responce.data.product_ratings
                 this.totalProductPages = await responce.data.total_pages

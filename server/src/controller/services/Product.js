@@ -11,9 +11,15 @@ const User = require('../../database/schemas/User')
 
 module.exports.Products_get = async(req, res) => {
     try {
-        //handling searching options
         const { q } = req.query
-        const { page = 1, limit = 15 } = req.query
+        let page = req.query.page
+        let limit = req.query.limit
+        if (!page) {
+            page = 1
+        }
+        if (!limit) {
+            limit = 15
+        }
         let products
         if (q) {
             const price = Number(q)

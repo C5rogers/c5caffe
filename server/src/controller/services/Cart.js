@@ -6,7 +6,14 @@ const Product = require('../../database/schemas/Product')
 
 module.exports.Carts_get = async(req, res) => {
     try {
-        const { page = 1, limit = 15 } = req.query
+        let page = req.query.page
+        let limit = req.query.limit
+        if (!page) {
+            page = 1
+        }
+        if (!limit) {
+            limit = 15
+        }
         const token = req.cookies.jwt
         const user_id = getIdFromToken(token)
         const { q } = req.query
