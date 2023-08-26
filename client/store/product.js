@@ -103,7 +103,7 @@ export const productStore = defineStore({
             } catch (error) {
                 this.isSearchingProductsLoading = false
                 console.log(error)
-                this.searchErrors = error.responce.data
+                if (error.response) this.searchErrors = error.response.data
                 if (error.code == 'ERR_NETWORK') {
                     this.searchNetworkError = true
                 }

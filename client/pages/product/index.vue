@@ -42,13 +42,13 @@ const changeRatingProduct=(product)=>{
 <template>
     <div class="h-screen relative w-full flex mt-1">
         <!-- the left one -->
-        <div class="w-1/4 fixed left-2 top-20 bottom-1 overflow-y-scroll py-5 flex flex-col items-center gap-2 px-1 border-r ">
+        <div class="w-1/4 fixed left-2 top-20 bottom-1 overflow-y-scroll py-5 flex flex-col items-center gap-2 pl-1 border-r ">
             <!-- the title one -->
             <div class="text-2xl w-full font-Roboto font-bold text-secondary">
                 Catagorys:
             </div>
             <!-- the catagory lists container-->
-            <div class="w-3/4 flex h-64 overflow-y-scroll flex-col gap-2 mt-4 items-center " v-if="useProductStore.$state.product_catagorys">
+            <div class="w-3/4 flex h-64 overflow-y-scroll pr-0 flex-col gap-2 mt-4 items-center " v-if="useProductStore.$state.product_catagorys">
                 <button
                 class="w-full border-l-4 pl-5 flex items-center text-left border-gray-200 hover:text-secondary transition duration-200 hover:border-secondary"
                 @click="filterByCatagory('')"
@@ -80,12 +80,15 @@ const changeRatingProduct=(product)=>{
                     <!-- container -->
                     <div class="ml-auto w-fit h-fit">
                         <!-- the search input -->
-                        <div>
+                        <div class="relative w-fit h-fit">
                             <input 
                             class="border bg-gray-200 rounded-full w-24 py-1 px-2 pl-7 relative outline-none focus:bg-gray-300" type="text" placeholder="Search..."
                             data-te-toggle="modal"
                             data-te-target="#searchProductFixedBackground"
                             >
+                            <div class="absolute left-[7px] top-2 text-gray-500 text-sm">
+                                <i class="fa-solid fa-search"></i>
+                            </div>
                         </div>
                         <!-- the limit input -->
                         <div>

@@ -15,14 +15,24 @@ onMounted(async()=>{
 const search_value=ref('')
 
 const searchProduct=async()=>{
-    console.log(search_value.value)
     await useProductStore.searchProduct(search_value.value)
 }
 
-const handleReload=()=>{
-
+const handleReload=async()=>{
+    await useProductStore.searchProduct(search_value.value)
 }
 
+const resetSearch=async()=>{
+    search_value.value=''
+    await useProductStore.searchProduct(search_value.value)
+}
+
+const router=useRouter()
+
+const handleNavigation=(product_id)=>{
+    search_value.value=''
+    router.push(`/product/:${product_id}`)
+}
 </script>
 <template>
     <div
@@ -88,11 +98,33 @@ const handleReload=()=>{
                     <!-- the input -->
                     <div class="w-full relative">
                         <input type="text"
-                        class="w-full border px-3 py-2 text-xl font-light outline-none bg-gray-50 pl-10 rounded-md focus:bg-gray-100 transition duration-200"
+                        class="w-full border py-2 text-xl font-light outline-none bg-gray-50 px-10 rounded-md focus:bg-gray-100 transition duration-200"
                         placeholder="Search Product..."
                         v-model="search_value"
                         @input="searchProduct"
                         >
+                        <div class="absolute left-3 top-3 text-gray-500 text-sm">
+                                <i class="fa-solid fa-search"></i>
+                        </div>
+                        <!-- the cliear button -->
+                        <button
+                        class="absolute right-3 top-3 text-gray-500 text-sm"
+                        @click="resetSearch"
+                        v-show="search_value.length>0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="h-6 w-6 text-gray-500">
+                                <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
                     <!-- result container -->
                     <div v-if="useProductStore.$state.searchedProducts.length>0 && useProductStore.$state.isSearchingProductsLoading==false && useProductStore.$state.searchNetworkError==false"
@@ -102,7 +134,9 @@ const handleReload=()=>{
                             <li v-if="useProductStore.$state.searchedProducts.length>0"
                                 v-for="product in useProductStore.$state.searchedProducts"
                                 :key="product._id"
+                                @click="handleNavigation(product._id)"
                                 class="w-full h-fit rounded-md flex gap-3 bg-gray-50 py-1 px-2 cursor-pointer transition duration-200 hover:bg-gray-100 items-center "
+                                data-te-modal-dismiss
                             >
                                 <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
                                     <img :src="product.image" class="w-full h-full object-cover" :alt="product.name"/>
