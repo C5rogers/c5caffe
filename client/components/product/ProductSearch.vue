@@ -12,6 +12,14 @@ onMounted(async()=>{
     await useProductStore.searchProduct(search_value.value)
 })
 
+const handleDescription=(description)=>{
+    if(description.length<50){
+        return description+'...'
+    }else{
+        return description.substring(0,50)+'...'
+    }
+}
+
 const search_value=ref('')
 
 const searchProduct=async()=>{
@@ -98,7 +106,7 @@ const handleNavigation=(product_id)=>{
                     <!-- the input -->
                     <div class="w-full relative">
                         <input type="text"
-                        class="w-full border py-2 text-xl font-light outline-none bg-gray-50 px-10 rounded-md focus:bg-gray-100 transition duration-200"
+                        class="w-full border py-2 text-xl font-light outline-none bg-gray-50 px-10 rounded-md focus:bg-gray-200 transition duration-200"
                         placeholder="Search Product..."
                         v-model="search_value"
                         @input="searchProduct"
@@ -135,11 +143,24 @@ const handleNavigation=(product_id)=>{
                                 v-for="product in useProductStore.$state.searchedProducts"
                                 :key="product._id"
                                 @click="handleNavigation(product._id)"
-                                class="w-full h-fit rounded-md flex gap-3 bg-gray-50 py-1 px-2 cursor-pointer transition duration-200 hover:bg-gray-100 items-center "
+                                class="w-full h-fit rounded-md flex gap-3 bg-gray-100 py-1 px-2 cursor-pointer transition duration-200 hover:bg-gray-200 items-center "
                                 data-te-modal-dismiss
                             >
                                 <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
                                     <img :src="product.image" class="w-full h-full object-cover" :alt="product.name"/>
+                                </div>
+                                <!-- the other one -->
+                                <div
+                                class="w-full h-full m-1 flex flex-col gap-[2px] justify-center"
+                                >
+                                    <!-- the name -->
+                                    <div class="text-gray-600 capitalize font-light text-xl">
+                                        {{ product.name }}
+                                    </div>
+                                    <!-- some description -->
+                                    <div class="text-xs text-gray-500 font-light">
+                                        {{ handleDescription(product.description) }}
+                                    </div>
                                 </div>
                             </li>
                         </ul>

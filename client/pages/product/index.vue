@@ -1,5 +1,6 @@
 <script setup>
 import {storeToRefs} from 'pinia'
+import {Ripple,initTE,Select} from "tw-elements";
 
 const product_controller=ref({})
 const rating_product=ref({})
@@ -11,6 +12,10 @@ onMounted(async() => {
     if(useProductStore.$state.products.length==0){
         useProductStore.fetchProducts('')
     }
+    initTE({
+        Select,
+        Ripple
+    })
 })
 
 
@@ -36,6 +41,14 @@ const changeTheAddToProduct=(product)=>{
 }
 const changeRatingProduct=(product)=>{
     rating_product.value=product
+}
+
+const handleChange=async(e)=>{
+    const number=Number(e.target.value)
+    if(!isNaN(number)){
+        useProductStore.setProeductPageLimit(number)
+        await useProductStore.fetchProducts(catagory_controller.value)
+    }
 }
 </script>
 
@@ -78,11 +91,11 @@ const changeRatingProduct=(product)=>{
                 <!-- the first  -->
                 <div>
                     <!-- container -->
-                    <div class="ml-auto w-fit h-fit">
+                    <div class="ml-auto w-fit flex gap-2 items-center h-fit">
                         <!-- the search input -->
                         <div class="relative w-fit h-fit">
                             <input 
-                            class="border bg-gray-200 rounded-full w-24 py-1 px-2 pl-7 relative outline-none focus:bg-gray-300" type="text" placeholder="Search..."
+                            class="border bg-gray-100 rounded-full w-24 py-1 px-2 pl-7 relative outline-none focus:bg-gray-200" type="text" placeholder="Search..."
                             data-te-toggle="modal"
                             data-te-target="#searchProductFixedBackground"
                             >
@@ -91,14 +104,29 @@ const changeRatingProduct=(product)=>{
                             </div>
                         </div>
                         <!-- the limit input -->
-                        <div>
-
+                        <div class="flex items-center justify-center">
+                            <select
+                            name="pageLimit" id="pageLilmit"
+                            class="w-28 py-[9px] text-gray-600 border-[1px] bg-gray-100 cursor-pointer border-gray-50 px-2 rounded-md text-center transition duration-200"
+                            @change="handleChange"
+                            >
+                                <option value="1">1</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <!-- the title -->
-                <div class="font-Roboto font-bold text-2xl">
+                <div class="font-Roboto font-bold text-2xl" v-if="catagory_controller.length==0">
                     <span class="text-secondary">5000+</span> Products
+                </div>
+                <!-- the other one -->
+                <div class="font-Roboto font-bold text-2xl" v-else>
+                    <span class="text-secondary">{{ catagory_controller }}</span> Result
                 </div>
             </div>
             <!-- the product content -->
