@@ -262,14 +262,9 @@ const handleChange=async()=>{
                     @change_page="handleChangePage"
                 />
             </div>
-            <!-- the empty one -->
-            <Transition tag="div" 
-            name="empty"
-            class="w-full h-fit flex items-center justify-center" 
-            v-if="useProductStore.$state.products.length==0 && useProductStore.$state.network_error==false && useProductStore.$state.isProductsLoading==false"
-            >
-            <shareble-empty/>
-            </Transition>  
+            <div class="w-full mt-3 mb-2 flex items-center justify-center py-1 px-3 text-gray-700 font-Roboto capitalize ">
+                2015 E.C | C5 Online Caffe.
+            </div>
         </div>
         <div class="hidden w-full h-fit relative mt-10 px-5 md:px-0 md:w-3/4 ml-auto md:flex flex-col gap-2 " v-else-if="useProductStore.$state.isProductsLoading==true">
             <!-- show the animation here -->

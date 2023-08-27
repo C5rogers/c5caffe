@@ -180,8 +180,10 @@ const handleChangePage=async(pagenumber)=>{
 
                     </div>
                     <!-- when the search is loading -->
-                    <div v-if="useProductStore.$state.isSearchingProductsLoading==true">
-
+                    <div 
+                    class="w-full max-h-[38em] overflow-y-scroll"
+                    v-if="useProductStore.$state.isSearchingProductsLoading==true">
+                        <AnimationsProductSearch/>
                     </div>
                     <!-- when no search product -->
                     <div v-if="useProductStore.$state.searchedProducts.length==0">
