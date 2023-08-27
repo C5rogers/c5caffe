@@ -40,6 +40,11 @@ const handle_show_add_to_cart=()=>{
 const handleRateProduct=()=>{
     emit('rate-product',props.product)
 }
+const router=useRouter()
+
+const goToTheProduct=(product_id)=>{
+    router.push(`/product/:${product_id}`)
+}
 </script>
 
 <template>
@@ -47,7 +52,7 @@ const handleRateProduct=()=>{
     <div 
     class="absolute w-full h-full flex items-center justify-center z-0"
     >
-        <img :src="product.image" class="w-full h-full object-cover" alt="">
+        <img :src="product.image" class="w-full h-full object-cover cursor-pointer" @click.self="goToTheProduct(product._id)" alt="">
         <!-- the mask -->
         <div
         class="absolute w-full h-36 bottom-0 bg-black opacity-80 font-Roboto"

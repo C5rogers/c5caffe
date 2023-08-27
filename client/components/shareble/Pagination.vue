@@ -58,7 +58,7 @@ const handlePageClicked=(pagenumber)=>{
         data-te-ripple-color="light"
         :disabled="current_page==1"
         @click="handlePageClicked(current_page-1)"
-        class="py-1 w-24 flex items-center justify-center gap-1 px-1 border-[1px] rounded-md transition transform duration-200 hover:scale-105 hover:shadow-sm"
+        class="py-1 w-16 sm:w-20 text-xs sm:text-sm flex items-center justify-center gap-1 px-1 border-[1px] rounded-md transition transform duration-200 hover:scale-105 hover:shadow-sm"
         :class="{'text-white bg-secondary border-none':current_page==1}"
         >
             <i class="fa fa-angle-left text-gray-600 " :class="{'text-white':current_page==1}"></i>
@@ -81,7 +81,7 @@ const handlePageClicked=(pagenumber)=>{
         data-te-ripple-init
         data-te-ripple-color="light"
         :disabled="current_page==totalPages"
-        class="py-1 w-24 flex items-center justify-center gap-1 px-1 border-[1px] rounded-md transition transform duration-200 hover:scale-105 hover:shadow-sm"
+        class="py-1 w-16 sm:w-20 flex text-xs sm:text-sm items-center justify-center gap-1 px-1 border-[1px] rounded-md transition transform duration-200 hover:scale-105 hover:shadow-sm"
         @click="handlePageClicked(current_page+1)"
         :class="{'text-white bg-secondary border-none':current_page==totalPages}"
         >

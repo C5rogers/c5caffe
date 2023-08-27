@@ -41,6 +41,19 @@ const handleNavigation=(product_id)=>{
     search_value.value=''
     router.push(`/product/:${product_id}`)
 }
+
+const parseToNumber=(number)=>{
+    const parsed=Number(number)
+    if(!isNaN(parsed)) {
+        return parsed
+    }
+    return 0
+}
+
+const handleChangePage=async(pagenumber)=>{
+    useProductStore.setSearchingProductCurrentPage(pagenumber)
+    await useProductStore.searchProduct(search_value.value)
+}
 </script>
 <template>
     <div
@@ -178,6 +191,18 @@ const handleNavigation=(product_id)=>{
                     <div v-if="useProductStore.$state.searchNetworkError==true">
                         <NetworkError @reload="handleReload" />
                     </div>
+                </div>
+                <!-- the pagination footer -->
+                <div
+                class="flex flex-shrink-0 flex-wrap items-center justify-center rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50"
+                >   
+                    <ShareblePagination
+                    :initial-page="parseToNumber(useProductStore.$state.searchCurrentPage)"
+                    :total-pages="parseToNumber(useProductStore.$state.searchTotalProductPages)"
+                    @change_page="handleChangePage"
+                    v-if="useProductStore.$state.searchedProducts.length>0"
+                    />
+
                 </div>
 
             </div>

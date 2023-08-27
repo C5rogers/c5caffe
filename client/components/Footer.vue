@@ -4,11 +4,20 @@ const router=useRouter()
 const handleGoHome=()=>{
     router.push('/')
 }
+const route=useRoute()
+const route_controller=ref(route.name)
+
+watch(()=>route.name,(newName)=>{
+    route_controller.value=newName
+})
+
 </script>
 
 <template>
 
-    <footer class=" w-full h-fit sm:h-80 bg-primary text-white mt-auto relative shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] border-t">
+    <footer class=" w-full h-fit sm:h-80 bg-primary text-white mt-auto relative shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] border-t"
+    :class="{'hidden md:block':route_controller=='product'}"
+    >
         <!-- the right box -->
         <div class="w-full md:w-3/4 h-fit sm:h-56 bg-gray-100 sm:bg-white text-primary ml-auto md:rounded-tl-xl flex justify-between items-center px-3 gap-5 relative">
             <!-- the left -->
