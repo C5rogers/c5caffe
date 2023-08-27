@@ -53,11 +53,6 @@ const handleChange=async()=>{
         await useProductStore.fetchProducts(catagory_controller.value)
     }
 }
-const getNumberOfShowablecomponents=(number)=>{
-
-    const result=Math.round(number/4)
-    return result+1
-}
 </script>
 
 <template>
@@ -85,12 +80,13 @@ const getNumberOfShowablecomponents=(number)=>{
                     {{ catagory.catagory }}
                 </button>
            </div>
-           <div class="w-3/4 flex flex-col gap-1 mt-4 items-center justify-center" v-else>
-                <!-- show the empty catagory lists -->
+           <div class="w-3/4 flex flex-wrap gap-1 mt-4 items-center justify-center" v-else>
+               <!-- show the animation here -->
+               <AnimationsCatagorys/>
             </div>
         </div>
         <!-- the mobile product container -->
-        <div class="flex flex-col px-3 py-1 w-full items-center justify-center md:hidden">
+        <div class="flex flex-col px-3 py-1 w-full items-center justify-center md:hidden" v-if="useProductStore.$state.products.length>0 && useProductStore.$state.isProductsLoading==false">
             <!-- the upper header -->
             <div class="w-full mt-1 flex flex-col gap-2 justify-center">
                 <!-- the first  -->
@@ -166,6 +162,11 @@ const getNumberOfShowablecomponents=(number)=>{
                 2015 E.C | C5 Online Caffe.
             </div>
         </div>
+        <div 
+        class="flex md:hidden flex-col gap-1 px-5 py-1"
+        v-else-if="useProductStore.$state.isProductsLoading==true">
+            <AnimationsProducts/>
+        </div>
         <!-- the left one -->
         <div class="hidden w-1/4 fixed left-2 top-20 bottom-1 overflow-y-scroll py-5 md:flex flex-col items-center gap-2 pl-1 border-r ">
             <!-- the title one -->
@@ -173,7 +174,7 @@ const getNumberOfShowablecomponents=(number)=>{
                 Catagorys:
             </div>
             <!-- the catagory lists container-->
-            <div class="w-3/4 flex h-64 overflow-y-scroll pr-0 flex-col gap-2 mt-4 items-center " v-if="useProductStore.$state.product_catagorys">
+            <div class="w-3/4 flex h-64 overflow-y-scroll pr-0 flex-col gap-2 mt-4 items-center " v-if="useProductStore.$state.product_catagorys.length>0">
                 <button
                 class="w-full border-l-4 pl-5 flex items-center text-left border-gray-200 hover:text-secondary transition duration-200 hover:border-secondary"
                 @click="filterByCatagory('')"
@@ -194,10 +195,11 @@ const getNumberOfShowablecomponents=(number)=>{
             <!-- else -->
             <div class="w-3/4 flex flex-col gap-1 mt-4 items-center justify-center" v-else>
                 <!-- show the empty catagory lists -->
+                <AnimationsCatagorys/>
             </div>
         </div>
         <!-- the right one -->
-        <div class="hidden w-full h-fit relative mt-10 px-5 md:px-0 md:w-3/4 ml-auto md:flex flex-col gap-2 ">
+        <div class="hidden w-full h-fit relative mt-10 px-5 md:px-0 md:w-3/4 ml-auto md:flex flex-col gap-2 " v-if="useProductStore.$state.products.length>0&&useProductStore.$state.isProductsLoading==false">
             <!-- the upper header -->
             <div class="w-full mt-5 flex flex-col gap-2 justify-center">
                 <!-- the first  -->
@@ -269,6 +271,18 @@ const getNumberOfShowablecomponents=(number)=>{
             <shareble-empty/>
             </Transition>  
         </div>
+        <div class="hidden w-full h-fit relative mt-10 px-5 md:px-0 md:w-3/4 ml-auto md:flex flex-col gap-2 " v-else-if="useProductStore.$state.isProductsLoading==true">
+            <!-- show the animation here -->
+            <AnimationsProducts/>
+        </div>
+        <!-- the empty one -->
+        <Transition tag="div" 
+            name="empty"
+            class="w-full min-h-[30em] flex items-center justify-center" 
+            v-if="useProductStore.$state.products.length==0 && useProductStore.$state.network_error==false && useProductStore.$state.isProductsLoading==false"
+            >
+            <shareble-empty/>
+        </Transition>  
         <teleport to='body'>
             <product-add-to-cart :productInfo="product_controller"/>
         </teleport>
