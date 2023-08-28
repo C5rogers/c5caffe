@@ -29,7 +29,7 @@ const handleIncrement=async()=>{
     //update the cart now
 }
 const handleDecrement=async()=>{
-    if(count_controller.value<=1){
+    if(count_controller.value>1){
         count_controller.value=count_controller.value-1
         total_price.value=count_controller.value*props.productInfo.product.price
         //update the cart now
@@ -39,18 +39,19 @@ const handleDecrement=async()=>{
 </script>
 
 <template>
-    <div class=" h-10 w-24 md:w-36 justify-between flex gap-1 bg-white  rounded-md overflow-hidden  items-center border">
+    <div class=" h-7 w-20 md:w-36 justify-between flex gap-1 bg-white  rounded-md overflow-hidden  items-center border">
         <!-- the substraction button -->
-        <button @click="handleIncrement" 
+        <button @click="handleDecrement" 
         class="w-7 md:w-10 flex items-center justify-center text-white bg-secondary h-full text-2xl font-bold"
         data-te-ripple-init
         data-te-ripple-color="light"
+        :disable="count_controller==1"
         >-</button>
-        <div class="font-bold text-xs md:text-lg">
+        <div class="font-bold text-xs md:text-sm">
             {{ count_controller }}
         </div>
         <!-- the addition button -->
-        <button @click="handleDecrement"
+        <button @click="handleIncrement"
         class="w-7 md:w-10 flex items-center justify-center text-white bg-green-600 h-full text-2xl font-bold"
         data-te-ripple-init
         data-te-ripple-color="light"

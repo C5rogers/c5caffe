@@ -1,5 +1,7 @@
+
 <script setup>
 import {Ripple,initTE} from 'tw-elements'
+
 
 
 onMounted(()=>{
@@ -27,14 +29,14 @@ const handleDescription=(description)=>{
 </script>
 
 <template>
-    <div class="w-full h-full flex flex-col justify-center">
+    <div class="w-full relative h-full flex flex-col justify-center">
         <!-- the upper one -->
         <div class="w-full h-full flex gap-1 py-2 items-center px-1 justify-between">
             <!-- the left one -->
             <div class="w-fit h-full flex gap-2 items-center justify-center ">
                 <!-- the image container -->
                 <div
-                class="w-[7em] h-[4em] flex justify-center items-center rounded-md overflow-hidden"
+                class="w-[7em] h-[5em] flex justify-center items-center rounded-md overflow-hidden"
                 >
                     <img :src="cart.product.image" class="w-full h-full object-cover my-auto" :alt="cart.product.description">
                 </div>
@@ -45,7 +47,7 @@ const handleDescription=(description)=>{
                         <!-- name -->
                         <div class="text-xl m-0 font-bold capitalize">{{ cart.product.name }}</div>
                         <!-- the price -->
-                        <div class="text-xs m-0 font-bold capitalize"><span class="text-secondary">{{ cart.product.price }}/</span>USD</div>
+                        <div class="text-xs m-0 font-bold capitalize underline"><span class="text-secondary">{{ cart.product.price }}/</span>USD</div>
                     </div>
                     <!-- the description -->
                     <div class="text-xs font-light first-letter:capitalize">
@@ -61,8 +63,20 @@ const handleDescription=(description)=>{
             <div class="w-fit h-full px-2 flex justify-center items-center">
                 <cartIncrementButton :productInfo="cart" />
             </div>
-            
+            <!-- the last one -->
+            <div class="flex gap-1 mr-1 justify-center items-center font-light text-xl capitalize">
+                <span class="font-bold">Total: </span>
+                {{ cart.overall_price }}$
+            </div>
         </div>
-        
+        <div class="absolute right-3 bottom-[3px]">
+            <button type="button"
+            data-te-ripple-init
+            data-te-ripple-color="light"
+            class=" py-1 w-[7em] px-4 bg-secondary text-xs text-white rounded-md"
+            >
+                Cancel
+            </button>
+        </div>
     </div>
 </template>

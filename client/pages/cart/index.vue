@@ -24,13 +24,11 @@ onMounted(async()=>{
                 <div class="w-full flex flex-col gap-1 justify-center px-3">
                     <!-- the cart container -->
                     <div v-if="useCartStore.$state.carts.length>0 && useCartStore.$state.cart_is_loading==false && useCartStore.$state.cart_network_error==false"
-                        class="font-Roboto w-full flex flex-col gap-1 justify-center "
+                        class="font-Roboto w-full flex gap-1 justify-center "
                         >
                         <!-- the product holder -->
-                        <TransitionGroup
-                        tag="div"
-                        name="product"
-                        class="w-full h-[20em] mt-2 overflow-y-scroll px-1 flex flex-col gap-1 justify-center"
+                        <div
+                        class="w-full h-[23em] mt-2 overflow-y-auto pt-11 pb-1 flex flex-col gap-1 justify-center"
                         >
                             <div
                             v-for="cart in useCartStore.carts"
@@ -39,7 +37,7 @@ onMounted(async()=>{
                             >
                                 <CartCard :cart="cart"/>
                             </div>
-                        </TransitionGroup>
+                        </div>
                     </div>
                     <!-- the animation -->
                     <div v-else-if="useCartStore.$state.cart_is_loading==true">
