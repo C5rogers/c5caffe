@@ -63,6 +63,7 @@ const goToTheProduct=(product_id)=>{
             data-te-target="#productRatingStaticBackdrop"
             class="absolute right-6 p-1 flex items-center justify-center -top-5 shadow-md w-10 h-10 bg-white rounded-full"
             @click="handleRateProduct"
+            v-if="useAuthStore.$state.isAuthed==true"
             >
             <i class="fas fa-thumbs-up"
             :class="{'text-secondary':checkRated(product._id)}"

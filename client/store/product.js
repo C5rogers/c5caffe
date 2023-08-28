@@ -121,6 +121,22 @@ export const productStore = defineStore({
         },
         setSearchProductPageLimit(payload) {
             this.serchProductLimit = payload
+        },
+        async rateProduct(payload) {
+            try {
+                this.isProductLoading = true
+                const responce = await axiosInstance.post('rating/product/' + payload.product_id + '/rate', { rating_value: payload.rating_value })
+                this.isProductLoading = false
+                return true
+            } catch (error) {
+                this.isProductLoading = false
+                console.log(error)
+                if (error.response) this.errors = error.response.data
+                if (error.code == 'ERR_NETWORK') {
+                    this.network_error = true
+                }
+                return false
+            }
         }
     },
     getters: {
