@@ -6,7 +6,6 @@ const axiosInstance = axios.create({ baseURL: REQUEST_ROOT_PATH, withCredentials
 export const cartStore = defineStore({
     id: "CartStore",
     state: () => ({
-        cart_item_count: 0,
         carts: [],
         carts_current_page: 1,
         carts_total_pages: 0,
@@ -17,14 +16,60 @@ export const cartStore = defineStore({
         single_cart_is_loading: false,
         cart_network_error: false,
         single_cart_network_error: false,
-        total_users_cart_count: 0,
+        total_users_cart_count: document.cookie.split(';').find(c => c.trim().startsWith(`carts=`)) ? JSON.parse(decodeURIComponent(document.cookie.split(';').find(c => c.trim().startsWith(`carts=`)).split('=')[1])).length : 0,
     }),
     actions: {
         async addToCart() {
             this.cart_item_count++
         },
-        addToCookieCart() {
-
+        addToCookieCart(payload) {
+            try {
+                this.cart_is_loading = true
+                const name = 'carts'
+                const expires = new Date()
+                const duration = 1 * 24 * 60 * 60 * 1000
+                expires.setTime(expires.getTime() * duration)
+                const cookie = this.isThereCartInCookie()
+                if (cookie) {
+                    this.carts = [...cookie, payload]
+                } else {
+                    this.carts.push(payload)
+                }
+                if (location.protocol !== 'https:') {
+                    document.cookie = `${name}=${encodeURIComponent(JSON.stringify(this.carts))};expires=${expires.toUTCString()};path=/;SameSite=None`
+                } else {
+                    document.cookie = `${name}=${encodeURIComponent(JSON.stringify(this.carts))};expires=${expires.toUTCString()};path=/;SameSite=None;Secure`
+                }
+                this.cart_is_loading = false
+                this.total_users_cart_count = this.total_users_cart_count + 1
+                return true
+            } catch (error) {
+                console.log(error)
+                this.cart_is_loading = false
+            }
+        },
+        removeCookieCarts() {
+            if (location.protocol !== 'https:') {
+                document.cookie = 'carts=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=None';
+            } else {
+                document.cookie = 'carts=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=None;Secure';
+            }
+        },
+        resetUsersCartCount() {
+            if (document.cookie.split(';').find(c => c.trim().startsWith(`carts=`))) {
+                this.total_users_cart_count = document.cookie.split(';').find(c => c.trim().startsWith(`carts=`)).split('=')[0].length
+            } else {
+                this.total_users_cart_count = 0
+            }
+        },
+        isThereCartInCookie() {
+            const name = 'carts'
+            const cookie = document.cookie.split(';').find(c => c.trim().startsWith(`${name}=`))
+            if (cookie) {
+                return JSON.parse(decodeURIComponent(cookie.split('=')[1]))
+            } else {
+                return null
+            }
         },
         resetCartItemCount() {
             this.cart_item_count = 0
@@ -89,7 +134,7 @@ export const cartStore = defineStore({
     },
     getters: {
         getCartItemCount: (state) => {
-            return state.cart_item_count
+            return state.total_users_cart_count + state.carts.length
         },
         getCarts: (state) => {
             return state.carts

@@ -6,6 +6,7 @@ import {storeToRefs} from 'pinia'
 
 
 const useAuthStore=authStore()
+const useCartStore=cartStore()
 const {attemptErrors}=storeToRefs(useAuthStore)
 
 const showPassword=ref(false)
@@ -47,6 +48,7 @@ const handleLoginTwo=async (values)=>{
     if(result){
         inLoginProcess.value=false
         useAuthStore.resetAttemptError()
+        useCartStore.resetUsersCartCount()
         router.push('/')
     }else{
         inLoginProcess.value=false

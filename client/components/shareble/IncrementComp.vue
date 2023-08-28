@@ -5,7 +5,7 @@ import {Ripple,initTE} from "tw-elements";
 
 onMounted(()=>{
     initTE({Ripple})
-    emit('change-calculation',props.unitPrice)
+    emit('change-calculation',{totalPrice:props.unitPrice,ammount:count_controller.value})
 })
     const emit=defineEmits(['change-calculation'])
     const props=defineProps({
@@ -31,15 +31,16 @@ onMounted(()=>{
         count_controller.value=count_controller.value+1
         let totalPrice=props.unitPrice*count_controller.value
         console.log()
-        emit('change-calculation',totalPrice)
+        emit('change-calculation',{totalPrice,ammount:count_controller.value})
     }
     const handleCalculateChangeNegative=()=>{
         count_controller.value=count_controller.value-1
         if(count_controller.value>1){
             const totalPrice=props.unitPrice*count_controller.value
-            emit('change-calculation',totalPrice)
+            emit('change-calculation',{totalPrice,ammount:count_controller.value})
         }else{
             count_controller.value=1
+            emit('change-calculation',{totalPrice:props.unitPrice,ammount:count_controller.value})
         }
     }
 </script>

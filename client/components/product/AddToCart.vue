@@ -9,19 +9,29 @@ const props=defineProps({
 })
 
 
+const useCartStore=cartStore()
+const useAuthStore=authStore()
 const reset_controller=ref(false)
 const total_price_controller=ref(0)
+const ammount_controller=ref(1)
+const dismiss_controller=ref(false)
 onMounted(()=>{
     initTE({
         Ripple,
         Modal,
         Select
     })
-
+    dismiss_controller.value=false
     if(props.productInfo && props.productInfo.price){
         total_price_controller.value=props.productInfo.price
     }
     
+})
+
+watch(()=>props.productInfo,(newValue)=>{
+    if(newValue){
+        dismiss_controller.value=false
+    }
 })
 
 const handleDescriptionShorting=(description)=>{
@@ -43,12 +53,26 @@ const parseToNumber=(price)=>{
     }
 }
 
-const handleChangeCalculation=(totalPrice)=>{
-    total_price_controller.value=totalPrice
+const handleChangeCalculation=(payload)=>{
+    total_price_controller.value=payload.totalPrice
+    ammount_controller.value=payload.ammount
 }
 
 const handleAddToCart=()=>{
-    console.log("handlign the add cart")
+    const payload={
+        product_id:props.productInfo._id,
+        ammount:ammount_controller.value
+    }
+    if(useAuthStore.$state.isAuthed==true){
+
+    }else{
+        const result=useCartStore.addToCookieCart(payload)
+        if(result==true){
+            setTimeout(() => {
+                dismiss_controller.value=true
+            }, 3000);
+        }
+    }
     resetTotal_price()
 }
 const resetTotal_price=()=>{
@@ -196,6 +220,7 @@ const resetTotal_price=()=>{
                                 <div class="w-full mt-3 flex items-center justify-center">
                                     <button
                                     data-te-ripple-init
+                                    :data-te-modal-dismiss="dismiss_controller==true"
                                     data-te-ripple-color="light"
                                     class="w-full bg-primary flex items-center gap-1 justify-center text-white rounded-md py-1 px-2 font-bold text-sm capitalize"
                                     @click="handleAddToCart"

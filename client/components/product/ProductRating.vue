@@ -3,6 +3,7 @@ import {Ripple,Modal, Rating,initTE,Select} from "tw-elements";
 
 
 const useProductStore=productStore()
+const dismiss_controller=ref(false)
 const rating_value=ref(0)
 const total_rated_count=ref(0)
 const progress_animation_controller=ref(false)
@@ -38,6 +39,7 @@ onMounted(()=>{
 
 watch(()=>props.productInfo,(newValue)=>{
     if(newValue){
+        dismiss_controller.value=false
         rating_value.value=newValue.average_rating
         total_rated_count.value=count_how_many_times_rated()
         progress_animation_controller.value=true
@@ -76,6 +78,9 @@ const handleRatingProduct=async()=>{
    const result= await useProductStore.rateProduct(payload)
    if(result==true){
     await useProductStore.fetchProducts('')
+    setTimeout(() => {
+        dismiss_controller.value=true
+    }, 1000);
    }
 
 }
@@ -234,6 +239,7 @@ const handleRatingProduct=async()=>{
                     <!-- the button holder -->
                     <div class="w-full flex justify-center items-center py-1 px-4">
                         <button
+                        :data-te-modal-dismiss="dismiss_controller=true"
                         data-te-ripple-init
                         data-te-ripple-color="light"
                         @click="handleRatingProduct()"

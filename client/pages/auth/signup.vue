@@ -5,6 +5,7 @@ import {Ripple,initTE,Modal} from 'tw-elements'
 import {storeToRefs} from 'pinia'
 
 const useAuthStore=authStore()
+const useCartStore=cartStore()
 const {attemptErrors}=storeToRefs(useAuthStore)
 
 const location_result=ref('')
@@ -108,6 +109,7 @@ const handleSignup=async(value)=>{
        if(result==true){
         inProcess.value=false
         useAuthStore.resetAttemptError()
+        useCartStore.resetUsersCartCount()
         router.push('/')
        }else{
         inProcess.value=false

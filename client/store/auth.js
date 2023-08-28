@@ -1,5 +1,6 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
 import axios from "axios";
+import { cartStore } from "./cart";
 
 
 
@@ -40,6 +41,13 @@ export const authStore = defineStore({
                     if (jwtCookie) {
                         const jwtToken = jwtCookie.split('=')[1];
                         localStorage.setItem('C5_ONLINE_CAFFE_TOKEN', jwtToken)
+                    }
+                    if (document.cookie.split(';').find(c => c.trim().startsWith(`carts=`))) {
+                        if (location.protocol !== 'https:') {
+                            document.cookie = 'carts=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=None';
+                        } else {
+                            document.cookie = 'carts=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=None;Secure';
+                        }
                     }
                     return true
                 } else if (responce.status == 400) {
@@ -93,15 +101,14 @@ export const authStore = defineStore({
                     const jwtToken = jwtCookie.split('=')[1];
                     localStorage.setItem('C5_ONLINE_CAFFE_TOKEN', jwtToken)
                 }
+                if (document.cookie.split(';').find(c => c.trim().startsWith(`carts=`))) {
+                    if (location.protocol !== 'https:') {
+                        document.cookie = 'carts=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=None';
+                    } else {
+                        document.cookie = 'carts=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=None;Secure';
+                    }
+                }
                 return true
-
-                // } else if (responce.status == 400) {
-                //     this.errors = responce.data
-                //     return false
-                // } else if (responce.status == 401) {
-                //     this.attemptErrors = responce.data.errors
-                // }
-                // return false
             } catch (error) {
                 console.log(error)
                 if (error.response && error.response.status == 400) {
