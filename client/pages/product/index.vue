@@ -271,13 +271,12 @@ const handleChange=async()=>{
             <AnimationsProducts/>
         </div>
         <!-- the empty one -->
-        <Transition tag="div" 
-            name="empty"
-            class="w-full min-h-[30em] flex items-center justify-center" 
+        <div
+            class="w-3/4 min-h-[30em] flex items-center ml-auto justify-center" 
             v-if="useProductStore.$state.products.length==0 && useProductStore.$state.network_error==false && useProductStore.$state.isProductsLoading==false"
             >
             <shareble-empty/>
-        </Transition>  
+        </div>  
         <teleport to='body'>
             <product-add-to-cart :productInfo="product_controller"/>
         </teleport>
