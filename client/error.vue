@@ -1,5 +1,5 @@
 <script setup>
-defineProps(['error'])
+const props=defineProps(['error'])
 
 const isLoading=ref(false)
 
@@ -7,6 +7,12 @@ definePageMeta({
     layout:'404'
 })
 const handleGoHome=()=>clearError({redirect:'/'})
+
+onMounted(()=>{
+    if(props.error.message=='document is not defined' && props.error.statusCode==500){
+        handleGoHome()
+    }
+})
 
 </script>
 

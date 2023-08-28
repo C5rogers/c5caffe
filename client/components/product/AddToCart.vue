@@ -9,7 +9,7 @@ const props=defineProps({
 })
 
 
-
+const reset_controller=ref(false)
 const total_price_controller=ref(0)
 onMounted(()=>{
     initTE({
@@ -53,6 +53,10 @@ const handleAddToCart=()=>{
 }
 const resetTotal_price=()=>{
     total_price_controller.value=props.productInfo.price
+    reset_controller.value=true
+    setTimeout(() => {
+        reset_controller.value=false
+    }, 1000);
 }
 </script>
 
@@ -136,10 +140,10 @@ const resetTotal_price=()=>{
                             </div>
                             <!-- the name and other one-->
                             <div class="w-full pl-2 mt-2 flex flex-col gap-1 justify-center">
-                                <div class="text-3xl font-bold text-gray-700 capitalize">
+                                <div class="text-lg sm:text-xl md:text-3xl font-bold text-gray-700 capitalize">
                                     {{ productInfo.name }}
                                 </div>
-                                <div class="-mt-1 text-gray-700 font-light">
+                                <div class="-mt-1 text-gray-700 text-xs sm:text-sm md:text-lg font-light">
                                     Note: NoSize
                                 </div>
                             </div>
@@ -148,11 +152,11 @@ const resetTotal_price=()=>{
                         <div class="w-1/2 h-full flex flex-col gap-1">
                             <!-- the main name -->
                             <div class="w-full flex flex-col justify-center">
-                                <div class="font-bold text-4xl capitalize m-0">
+                                <div class="font-bold text-lg sm:text-2xl md:text-4xl capitalize m-0">
                                     {{ productInfo.name }}
                                 </div>
                                 <!-- the price -->
-                                <div class="font-bold ml-2">
+                                <div class="font-bold text-xs sm:text-sm md:text-lg md:ml-2">
                                     <span class="text-secondary">{{ productInfo.price }}$/</span>USD
                                 </div>
                             </div>
@@ -160,15 +164,15 @@ const resetTotal_price=()=>{
                             <div class="w-full flex items-center justify-center">
                                 <div class="w-56 flex flex-col gap-2 justify-center">
                                     <!-- note -->
-                                    <div class="-ml-2 text-gray-700 font-light">
+                                    <div class="md:-ml-2 text-gray-700 text-xs sm:text-sm  md:text-lg font-light">
                                         Note: NoSize
                                     </div>
                                     <!-- title -->
-                                    <div class="font-bold text-secondary capitalize">
+                                    <div class="font-bold text-secondary text-xs sm:text-sm md:text-lg capitalize">
                                         Buy More & Save?
                                     </div>
                                     <!-- body -->
-                                    <div class="text-gray-700">
+                                    <div class="text-gray-700 text-xs sm:text-sm">
                                         {{ handleDescriptionShorting(productInfo.description) }}
                                     </div>
                                     <!-- rating -->
@@ -182,9 +186,9 @@ const resetTotal_price=()=>{
                             <div class="w-full px-3 py-1 bg-gray-100 min-h-[5em] mt-2">
                                 <!-- the first one -->
                                 <div class="w-full flex gap-2 items-center">
-                                    <SharebleIncrementComp :unit-price="parseToNumber(productInfo.price)" @change-calculation="handleChangeCalculation" />
+                                    <SharebleIncrementComp :reset="reset_controller" :unit-price="parseToNumber(productInfo.price)" @change-calculation="handleChangeCalculation" />
                                     <div class="flex gap-2 items-center">
-                                        <span class="font-bold">Total:</span>
+                                        <span class="font-bold text-sm md:text-lg">Total:</span>
                                         <span class="font-light">{{ total_price_controller }}$</span>
                                     </div>
                                 </div>
