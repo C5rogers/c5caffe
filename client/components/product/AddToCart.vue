@@ -15,6 +15,7 @@ const reset_controller=ref(false)
 const total_price_controller=ref(0)
 const ammount_controller=ref(1)
 const dismiss_controller=ref(false)
+const unit_price_controller=ref(0)
 onMounted(()=>{
     initTE({
         Ripple,
@@ -31,6 +32,8 @@ onMounted(()=>{
 watch(()=>props.productInfo,(newValue)=>{
     if(newValue){
         dismiss_controller.value=false
+        unit_price_controller.value=newValue.price
+        total_price_controller.value=newValue.price
     }
 })
 
@@ -58,13 +61,18 @@ const handleChangeCalculation=(payload)=>{
     ammount_controller.value=payload.ammount
 }
 
-const handleAddToCart=()=>{
+const handleAddToCart=async()=>{
     const payload={
         product_id:props.productInfo._id,
         ammount:ammount_controller.value
     }
     if(useAuthStore.$state.isAuthed==true){
-
+        const result=await useCartStore.addToCartOnline(payload)
+        if(result==true){
+            setTimeout(() => {
+                dismiss_controller.value=true
+            }, 3000);
+        }
     }else{
         const result=useCartStore.addToCookieCart(payload)
         if(result==true){
@@ -210,7 +218,7 @@ const resetTotal_price=()=>{
                             <div class="w-full px-3 py-1 bg-gray-100 min-h-[5em] mt-2">
                                 <!-- the first one -->
                                 <div class="w-full flex gap-2 items-center">
-                                    <SharebleIncrementComp :reset="reset_controller" :unit-price="parseToNumber(productInfo.price)" @change-calculation="handleChangeCalculation" />
+                                    <SharebleIncrementComp :reset="reset_controller" :unit-price="parseToNumber(unit_price_controller)" @change-calculation="handleChangeCalculation" />
                                     <div class="flex gap-2 items-center">
                                         <span class="font-bold text-sm md:text-lg">Total:</span>
                                         <span class="font-light">{{ total_price_controller }}$</span>

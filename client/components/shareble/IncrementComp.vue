@@ -22,6 +22,7 @@ onMounted(()=>{
     watch(()=>props.reset,(newValue)=>{
         if(newValue==true){
             count_controller.value=1
+            emit('change-calculation',{totalPrice:props.unitPrice,ammount:count_controller.value})
         }
     })
 
@@ -30,7 +31,6 @@ onMounted(()=>{
     const handleCalculateChange=()=>{
         count_controller.value=count_controller.value+1
         let totalPrice=props.unitPrice*count_controller.value
-        console.log()
         emit('change-calculation',{totalPrice,ammount:count_controller.value})
     }
     const handleCalculateChangeNegative=()=>{

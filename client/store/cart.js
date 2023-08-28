@@ -17,11 +17,9 @@ export const cartStore = defineStore({
         cart_network_error: false,
         single_cart_network_error: false,
         total_users_cart_count: document.cookie.split(';').find(c => c.trim().startsWith(`carts=`)) ? JSON.parse(decodeURIComponent(document.cookie.split(';').find(c => c.trim().startsWith(`carts=`)).split('=')[1])).length : 0,
+        loged_users_cart_count: 0,
     }),
     actions: {
-        async addToCart() {
-            this.cart_item_count++
-        },
         addToCookieCart(payload) {
             try {
                 this.cart_is_loading = true
@@ -48,6 +46,26 @@ export const cartStore = defineStore({
                 this.cart_is_loading = false
             }
         },
+        async addToCartOnline(payload) {
+            try {
+                this.cart_is_loading = true
+                const responce = await axiosInstance.post('cart/create/', payload)
+                if (responce.status == 200 || responce.status == 201) {
+                    this.cart_is_loading = false
+                    this.loged_users_cart_count = this.loged_users_cart_count + 1
+                    return false
+                }
+            } catch (error) {
+                console.log(error)
+                this.cart_is_loading = false
+                if (error.response && (error.response == 400 || error.response == 401)) {
+                    this.errors = error.response.data
+                }
+                if (error.code == 'ERR_NETWORK') {
+                    this.cart_network_error = true
+                }
+            }
+        },
         removeCookieCarts() {
             if (location.protocol !== 'https:') {
                 document.cookie = 'carts=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=None';
@@ -70,9 +88,6 @@ export const cartStore = defineStore({
             } else {
                 return null
             }
-        },
-        resetCartItemCount() {
-            this.cart_item_count = 0
         },
         async fetchAllCarts(payload) {
             try {
@@ -130,6 +145,9 @@ export const cartStore = defineStore({
         },
         resetSingleCartNetworkError() {
             this.single_cart_network_error = false
+        },
+        resetLogedUsersCartCount() {
+            this.loged_users_cart_count = 0
         }
     },
     getters: {

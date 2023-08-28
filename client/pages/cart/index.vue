@@ -1,6 +1,12 @@
 <script setup>
 
 
+const useCartStore=cartStore()
+
+onMounted(()=>{
+    useCartStore.resetLogedUsersCartCount()
+})
+
 </script>
 
 <template>
