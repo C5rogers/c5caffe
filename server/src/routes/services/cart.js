@@ -8,7 +8,7 @@ const router = Router()
 router.get('/', CartController.Carts_get)
 router.get('/:id', CartController.Cart_get)
 router.post('/create', validation.custome_cart_create_validation, CartController.Cart_create)
-router.put('/update', CartController.Cart_update)
-router.delete('/delete', CartController.Cart_delete)
+router.put('/:id/update', CartController.Cart_update)
+router.delete('/:id/delete', CartController.Cart_delete)
 
 module.exports = router

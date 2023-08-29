@@ -26,13 +26,27 @@ onMounted(()=>{
 const handleIncrement=async()=>{
     count_controller.value=count_controller.value+1
     total_price.value=count_controller.value*props.productInfo.product.price
-    //update the cart now
+    const payload={
+        cart_id:props.productInfo._id,
+        ammount:count_controller.value
+    }
+   const result= await useCartStore.updateUsersCartAmmount(payload)
+   if(result==true){
+    //show toast button
+   }
 }
 const handleDecrement=async()=>{
     if(count_controller.value>1){
         count_controller.value=count_controller.value-1
         total_price.value=count_controller.value*props.productInfo.product.price
-        //update the cart now
+        const payload={
+            cart_id:props.productInfo._id,
+            ammount:count_controller.value
+        }
+        const result=await useCartStore.updateUsersCartAmmount(payload)
+        if(result==true){
+            //show toast message
+        }
     }
 }
 

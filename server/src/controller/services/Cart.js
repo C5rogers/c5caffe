@@ -53,7 +53,7 @@ module.exports.Cart_get = async(req, res) => {
         const user_id = getIdFromToken(token)
         const cart_id = req.params.id
         if (isValidObjectId(cart_id)) {
-            const cart = await Cart.find({ $and: [{ _id: cart_id }, { user: user_id }, { status: "unordered" }] }).populate("usre", "_id username gender location profile").populate("product")
+            const cart = await Cart.find({ $and: [{ _id: cart_id }, { user: user_id }, { status: "unordered" }] }).populate("user", "_id username gender location profile").populate("product")
             return res.status(200).json(cart)
         } else {
             return res.status(400).json({ message: "Invalid cart reference" })
@@ -88,13 +88,13 @@ module.exports.Cart_update = async(req, res) => {
     try {
         const { ammount } = req.body
         const parsed_ammount = Number(ammount)
-        if (!isNan(parsed_ammount)) {
+        if (!isNaN(parsed_ammount)) {
             const cart_id = req.params.id
             if (isValidObjectId(cart_id)) {
                 const cart = await Cart.findOne({ _id: cart_id })
                 const product = await Product.findOne({ _id: cart.product })
                 await cart.updateOne({ ammount: parsed_ammount, overall_price: product.price * parsed_ammount })
-                const updatedCart = await Cart.findOne({ _id: cart._id })
+                const updatedCart = await Cart.findOne({ _id: cart._id }).populate("user", "_id username gender location profile").populate("product")
                 return res.status(200).json({ cart: updatedCart })
             } else {
                 return res.status(400).json({ message: "Invalid product reference" })

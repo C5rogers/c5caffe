@@ -128,6 +128,60 @@ export const cartStore = defineStore({
                 return false
             }
         },
+        async updateUsersCartAmmount(payload) {
+            try {
+                this.single_cart_is_loading = true
+                const responce = await axiosInstance.put(`cart/${payload.cart_id}/update`, { ammount: payload.ammount })
+                if (responce.status == 200 || responce.status == 201) {
+                    this.filterCartsArray(await responce.data.cart)
+                    this.single_cart_is_loading = false
+                    return true
+                } else {
+                    this.single_cart_is_loading = false
+                    return false
+                }
+            } catch (error) {
+                console.log(error)
+                this.single_cart_is_loading = false
+                if (error.response) {
+                    this.errors = error.response.data
+                }
+                if (error.code == 'ERR_NETWORK') {
+                    this.single_cart_network_error = true
+                }
+                return false
+            }
+        },
+        async removeCartItemFromCart(payload) {
+            try {
+                this.single_cart_is_loading = true
+                const responce = await axiosInstance.delete(`/cart/${payload}/delete`)
+                if (responce.status == 200 || responce.status == 201) {
+                    this.removeCartItemFromTheArray(payload)
+                    this.single_cart_is_loading = false
+                    return true
+                } else {
+                    this.single_cart_is_loading = false
+                    return false
+                }
+            } catch (error) {
+                console.log(error)
+                this.single_cart_is_loading = false
+                if (error.response) {
+                    this.errors = error.response.data
+                }
+                if (error.code == 'ERR_NETWORK') {
+                    this.single_cart_network_error = true
+                }
+                return false
+            }
+        },
+        filterCartsArray(payload) {
+            this.carts = this.carts.map((cart) => cart._id == payload._id ? payload : cart)
+        },
+        removeCartItemFromTheArray(payload) {
+            this.carts = this.carts.filter((cart) => cart._id != payload)
+        },
         setCartsCurrentPage(payload) {
             this.carts_current_page = payload
         },

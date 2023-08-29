@@ -2,6 +2,7 @@
 
 
 const useCartStore=cartStore()
+const empty_cart_message_controller=ref("Oops Your cart is empty")
 
 onMounted(async()=>{
     useCartStore.resetLogedUsersCartCount()
@@ -44,8 +45,10 @@ onMounted(async()=>{
 
                     </div>
                     <!-- the empty one -->
-                    <div v-else-if="useCartStore.$state.carts.length==0 && useCartStore.$state.cart_is_loading==false&& useCartStore.$state.cart_network_error==false">
-
+                    <div
+                    class="w-full h-fit flex items-center justify-center"
+                    v-else-if="useCartStore.$state.carts.length==0 && useCartStore.$state.cart_is_loading==false&& useCartStore.$state.cart_network_error==false">
+                        <SharebleEmpty :message="empty_cart_message_controller" :cart-mode="true" />
                     </div>
                     <!-- the network error -->
                     <div v-else-if="useCartStore.$state.cart_network_error==true">

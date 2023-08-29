@@ -1,8 +1,15 @@
 <script setup>
+import {Ripple,initTE} from 'tw-elements'
 const props=defineProps({
     product:{
         type:Object
     }
+})
+
+onMounted(() => {
+initTE({
+    Ripple
+})  
 })
 
 const useAuthStore=authStore()
@@ -45,6 +52,10 @@ const router=useRouter()
 const goToTheProduct=(product_id)=>{
     router.push(`/product/:${product_id}`)
 }
+
+const handleGoToLogin=()=>{
+    router.push('/auth/login')
+}
 </script>
 
 <template>
@@ -69,6 +80,14 @@ const goToTheProduct=(product_id)=>{
             :class="{'text-secondary':checkRated(product._id)}"
             ></i>
             </button>
+            <!-- the login rate button -->
+            <button
+            v-else
+            class="absolute right-6 p-1 flex items-center justify-center -top-5 shadow-md w-10 h-10 bg-white rounded-full"
+            @click="handleGoToLogin"
+            >
+            <i class="fas fa-thumbs-up"></i>
+            </button>
                 <teleport to='body'>
                     <product-rating :productInfo="product" />
                 </teleport>
@@ -92,6 +111,8 @@ const goToTheProduct=(product_id)=>{
                     <!-- the button -->
                     <div>
                         <button 
+                        data-te-ripple-init
+                        data-te-ripple-color="light"
                         class="w-28 py-1 px-1 flex items-center justify-center gap-[1px] bg-secondary text-white text-sm font-bold rounded-md"
                         data-te-toggle="modal"
                         data-te-target="#addToCartFixedBackground"

@@ -4,6 +4,8 @@ import {Ripple,initTE} from 'tw-elements'
 
 
 
+
+const useCartStore=cartStore()
 onMounted(()=>{
     initTE({
         Ripple
@@ -19,12 +21,23 @@ const props=defineProps({
 })
 
 
+const handleDeleteCartItem=async()=>{
+    const result=await useCartStore.removeCartItemFromCart(props.cart._id)
+    if(result==true){
+        console.log("now we are cool")
+    }
+}
+
 const handleDescription=(description)=>{
     if(description.length>50){
         return description.substring(0,50)+'...'
     }else{
         return description+'...'
     }
+}
+const router=useRouter()
+const handleGoToProduct=()=>{
+    router.push(`product/:${props.cart.product._id}`)
 }
 </script>
 
@@ -38,19 +51,19 @@ const handleDescription=(description)=>{
                 <div
                 class="w-[7em] h-[5em] flex justify-center items-center rounded-md overflow-hidden"
                 >
-                    <img :src="cart.product.image" class="w-full h-full object-cover my-auto" :alt="cart.product.description">
+                    <img :src="cart.product.image" class="w-full h-full cursor-pointer object-cover my-auto" @click.self="handleGoToProduct" :alt="cart.product.description">
                 </div>
                 <!-- the description container -->
                 <div class="flex flex-col gap-[2px] justify-center font-Roboto">
                     <!-- the title -->
                     <div class="flex flex-col gap-0">
                         <!-- name -->
-                        <div class="text-xl m-0 font-bold capitalize">{{ cart.product.name }}</div>
+                        <div class="text-xl w-fit transition duration-200 hover:underline m-0 font-bold capitalize cursor-pointer" @click.self="handleGoToProduct()">{{ cart.product.name }}</div>
                         <!-- the price -->
                         <div class="text-xs m-0 font-bold capitalize underline"><span class="text-secondary">{{ cart.product.price }}/</span>USD</div>
                     </div>
                     <!-- the description -->
-                    <div class="text-xs font-light first-letter:capitalize">
+                    <div class="text-xs w-fit transition duration-200 cursor-pointer hover:underline font-light first-letter:capitalize" @click.self="handleGoToProduct()">
                         {{ handleDescription(cart.product.description) }}
                     </div>
                     <!-- the rating -->
@@ -64,18 +77,17 @@ const handleDescription=(description)=>{
                 <cartIncrementButton :productInfo="cart" />
             </div>
             <!-- the last one -->
-            <div class="flex gap-1 mr-1 justify-center items-center font-light text-xl capitalize">
+            <div class="flex w-32 gap-1 mr-1 justify-center items-center font-light text-xl capitalize">
                 <span class="font-bold">Total: </span>
                 {{ cart.overall_price }}$
             </div>
         </div>
         <div class="absolute right-3 bottom-[3px]">
             <button type="button"
-            data-te-ripple-init
-            data-te-ripple-color="light"
-            class=" py-1 w-[7em] px-4 bg-secondary text-xs text-white rounded-md"
+            @click="handleDeleteCartItem"
+            class=" py-1 w-[7em] px-4 items-center hover:text-secondary text-xs hover:underline font-light rounded-md"
             >
-                Cancel
+                Remove
             </button>
         </div>
     </div>
