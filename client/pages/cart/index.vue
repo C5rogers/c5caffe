@@ -41,8 +41,10 @@ onMounted(async()=>{
                         </div>
                     </div>
                     <!-- the animation -->
-                    <div v-else-if="useCartStore.$state.cart_is_loading==true">
-
+                    <div
+                    class="w-full h-[23em] mt-2 overflow-y-auto flex flex-col gap-1 justify-center"
+                    v-else-if="useCartStore.$state.cart_is_loading==true">
+                        <AnimationsUsercarts/>
                     </div>
                     <!-- the empty one -->
                     <div
