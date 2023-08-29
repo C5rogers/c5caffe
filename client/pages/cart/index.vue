@@ -1,13 +1,22 @@
 <script setup>
-
+import{Ripple,initTE} from 'tw-elements'
 
 const useCartStore=cartStore()
 const empty_cart_message_controller=ref("Oops Your cart is empty")
+const checkout_controller=ref(false)
 
 onMounted(async()=>{
     useCartStore.resetLogedUsersCartCount()
+    initTE({
+        Ripple
+    })
     await useCartStore.fetchAllCarts('')
 })
+
+
+const handleCheckOut=()=>{
+    checkout_controller.value=!checkout_controller.value
+}
 
 </script>
 
@@ -77,8 +86,57 @@ onMounted(async()=>{
                 Summery
             </div>
             <!-- the body -->
-            <div>
+            <div class="w-full h-full flex flex-col gap-2 items-center justify-center">
+                <!-- the check out container -->
+                <div class="w-full h-fit flex flex-col gap-4">
+                    <!-- the final result -->
+                    <div class="w-full flex gap-2 items-center font-Roboto">
+                        <span class="font-bold">Total<sub>(excluding deliver)</sub>:</span><span>{{ useCartStore.computed_total_cart_price }}$USD</span>
+                    </div>
+                    <!-- the check out button -->
+                    <div class="w-full flex items-center justify-center">
+                        <button
+                        data-te-ripple-init
+                        data-te-ripple-color="light"
+                        class="w-full py-1 px-3 bg-primary rounded-md text-white font-bold text-sm font-Roboto "
+                        @click="handleCheckOut"
+                        :disabled="useCartStore.computed_total_cart_price==0"
+                        >
+                            <div class="w-full flex justify-center items-center capitalize gap-1" v-if="!checkout_controller">
+                                <span><i></i></span><span>Check out</span>
+                            </div>
+                            <div class="w-full flex justify-center items-center" v-if="checkout_controller">
+                                <Loading/>
+                            </div>
+                        </button>
+                    </div>
+                    <!-- the bank cards -->
+                    <div class="w-full h-12 grid grid-cols-4 items-center">
+                        <div class="w-full h-full rounded-md overflow-hidden cursor-pointer">
+                            <img src="../../assets/images/chapa2.jpeg" class="w-full h-full object-cover" alt="">
+                        </div>
+                        <div class="w-full h-full rounded-md overflow-hidden cursor-pointer">
+                            <img src="../../assets/images/teleber.svg" class="w-full h-full object-cover" alt="">
+                        </div>
+                        <div class="w-full h-full rounded-md overflow-hidden cursor-pointer">
+                            <img src="../../assets/images/addis bank.jpeg" class="w-full h-full object-cover" alt="">
+                        </div>
+                        <div class="w-full h-full rounded-md overflow-hidden cursor-pointer">
+                            <img src="../../assets/images/awash bank.png" class="w-full h-full object-cover" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!-- the related results -->
+                <div class="w-full h-3/4 flex flex-col gap-1 mt-2">
+                    <!-- the title -->
+                    <div class="w-full py-1 px-2 border-b border-gray-300 font-Roboto font-bold text-xl text-gray-700 capitalize">
+                        related products:
+                    </div>
+                    <!-- the body -->
+                    <div>
 
+                    </div>
+                </div>
             </div>
         </div>
     </div>

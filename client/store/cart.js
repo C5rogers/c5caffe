@@ -18,6 +18,7 @@ export const cartStore = defineStore({
         single_cart_network_error: false,
         total_users_cart_count: document.cookie.split(';').find(c => c.trim().startsWith(`carts=`)) ? JSON.parse(decodeURIComponent(document.cookie.split(';').find(c => c.trim().startsWith(`carts=`)).split('=')[1])).length : 0,
         loged_users_cart_count: 0,
+        computed_total_cart_price: 0,
     }),
     actions: {
         addToCookieCart(payload) {
@@ -53,6 +54,7 @@ export const cartStore = defineStore({
                 if (responce.status == 200 || responce.status == 201) {
                     this.cart_is_loading = false
                     this.loged_users_cart_count = this.loged_users_cart_count + 1
+                    this.computeAndAssignTotalCartPrice()
                     return false
                 }
             } catch (error) {
@@ -98,6 +100,7 @@ export const cartStore = defineStore({
                 this.total_users_cart_count = await responce.data.cart_counts
                 this.carts_total_pages = await responce.data.total_pages
                 this.carts_current_page = await responce.data.current_page
+                this.computeAndAssignTotalCartPrice()
                 this.cart_is_loading = false
                 return true
             } catch (error) {
@@ -117,6 +120,7 @@ export const cartStore = defineStore({
                 const responce = await axiosInstance.get('cart/' + payload)
                 this.cart = await responce.data.cart
                 this.single_cart_is_loading = false
+                this.computeAndAssignTotalCartPrice()
                 return true
             } catch (error) {
                 this.single_cart_is_loading = false
@@ -135,6 +139,7 @@ export const cartStore = defineStore({
                 if (responce.status == 200 || responce.status == 201) {
                     this.filterCartsArray(await responce.data.cart)
                     this.single_cart_is_loading = false
+                    this.computeAndAssignTotalCartPrice()
                     return true
                 } else {
                     this.single_cart_is_loading = false
@@ -159,6 +164,7 @@ export const cartStore = defineStore({
                 if (responce.status == 200 || responce.status == 201) {
                     this.removeCartItemFromTheArray(payload)
                     this.single_cart_is_loading = false
+                    this.computeAndAssignTotalCartPrice()
                     return true
                 } else {
                     this.single_cart_is_loading = false
@@ -202,6 +208,16 @@ export const cartStore = defineStore({
         },
         resetLogedUsersCartCount() {
             this.loged_users_cart_count = 0
+        },
+        computeAndAssignTotalCartPrice() {
+            let sum = 0
+            this.carts.forEach(cart => {
+                sum = sum + cart.overall_price
+            });
+            this.computed_total_cart_price = sum
+        },
+        resetComputedTotalCartPrice() {
+            this.computed_total_cart_price = 0
         }
     },
     getters: {
