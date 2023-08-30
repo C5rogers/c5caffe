@@ -10,5 +10,7 @@ router.get('/:id', CartController.Cart_get)
 router.post('/create', validation.custome_cart_create_validation, CartController.Cart_create)
 router.put('/:id/update', CartController.Cart_update)
 router.delete('/:id/delete', CartController.Cart_delete)
+router.get('/favorite/product', CartController.Cart_favorite_products)
+
 
 module.exports = router

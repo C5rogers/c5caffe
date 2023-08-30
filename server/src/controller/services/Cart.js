@@ -3,6 +3,7 @@ const { getIdFromToken } = require('../../utils/jwt')
 const { isValidObjectId } = require('mongoose')
 const User = require('../../database/schemas/User')
 const Product = require('../../database/schemas/Product')
+const productRating = require('../../database/schemas/ProductRating')
 
 module.exports.Carts_get = async(req, res) => {
     try {
@@ -117,6 +118,26 @@ module.exports.Cart_delete = async(req, res) => {
         } else {
             return res.status(400).json({ message: "Invalid cart reference" })
         }
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(error)
+    }
+}
+
+module.exports.Cart_favorite_products = async(req, res) => {
+    try {
+        const token = req.cookies.jwt
+        const user_id = getIdFromToken(token)
+        const favorite_products = await productRating.find({
+            user_id
+        }).populate({
+            path: 'product_id',
+            populate: {
+                path: 'catagory',
+                model: 'product_catagorys'
+            }
+        })
+        return res.status(200).json(favorite_products)
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)

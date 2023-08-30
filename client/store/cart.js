@@ -121,7 +121,9 @@ export const cartStore = defineStore({
             } catch (error) {
                 this.cart_is_loading = false
                 console.log(error)
-                this.errors = error.response.data
+                if (error.response) {
+                    this.errors = error.response.data
+                }
                 if (error.code == 'ERR_NETWORK') {
                     this.cart_network_error = true
                 }

@@ -19,6 +19,11 @@ const handleCheckOut=()=>{
 }
 
 
+const handleReload=async()=>{
+        useCartStore.resetCartsNetworkError()
+       await useCartStore.fetchAllCarts('')
+}
+
 const handleCartChangePage=async(pagenumber)=>{
     useCartStore.setCartsCurrentPage(pagenumber)
     await useCartStore.fetchAllCarts('')
@@ -86,7 +91,7 @@ const parseToNumber=(number)=>{
                     </div>
                     <!-- the network error -->
                     <div v-else-if="useCartStore.$state.cart_network_error==true">
-
+                        <NetworkError @reload="handleReload" />
                     </div>
                 </div>
             </div>  
@@ -153,7 +158,7 @@ const parseToNumber=(number)=>{
                 <div class="w-full h-3/4 flex flex-col gap-1 mt-2">
                     <!-- the title -->
                     <div class="w-full py-1 px-2 border-b border-gray-300 font-Roboto font-bold text-xl text-gray-700 capitalize">
-                        related products:
+                        favorite products:
                     </div>
                     <!-- the body -->
                     <div>
