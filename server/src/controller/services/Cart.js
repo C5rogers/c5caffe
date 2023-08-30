@@ -137,7 +137,7 @@ module.exports.Cart_favorite_products = async(req, res) => {
                 model: 'product_catagorys'
             }
         })
-        return res.status(200).json(favorite_products)
+        return res.status(200).json({ favorite_products })
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)

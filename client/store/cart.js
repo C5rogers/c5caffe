@@ -7,6 +7,9 @@ export const cartStore = defineStore({
     id: "CartStore",
     state: () => ({
         carts: [],
+        favorite_products: [],
+        is_favorite_product_loading: false,
+        favorite_product_network_error: false,
         carts_current_page: 1,
         carts_total_pages: 0,
         carts_page_limit: 4,
@@ -61,6 +64,39 @@ export const cartStore = defineStore({
             this.loged_users_cart_count = 0
             this.computed_total_cart_price = 0
             this.total_users_cart_count = document.cookie.split(';').find(c => c.trim().startsWith(`carts=`)) ? JSON.parse(decodeURIComponent(document.cookie.split(';').find(c => c.trim().startsWith(`carts=`)).split('=')[1])).length : 0
+            this.favorite_products = []
+            this.is_favorite_product_loading = false
+            this.favorite_product_network_error = false
+        },
+        resetFavoriteProducts() {
+            this.favorite_products = []
+        },
+        resetFavoriteProductsNetworkError() {
+            this.favorite_product_network_error = false
+        },
+        resetFavoriteProductIsLoading() {
+            this.is_favorite_product_loading = false
+        },
+        async fetchFavoriteProducts() {
+            try {
+                this.is_favorite_product_loading = true
+                const responce = await axiosInstance.get('/cart/favorite/product')
+                if (responce.status == 200 || responce.status == 201) {
+                    this.favorite_products = await responce.data.favorite_products
+                    this.is_favorite_product_loading = false
+                    return true
+                }
+            } catch (error) {
+                console.log(error)
+                this.is_favorite_product_loading = false
+                if (error.response) {
+                    this.errors = error.response.data
+                }
+                if (error.code == 'ERR_NETWORK') {
+                    this.favorite_product_network_error = true
+                }
+                return false
+            }
         },
         async addToCartOnline(payload) {
             try {

@@ -11,6 +11,7 @@ onMounted(async()=>{
         Ripple
     })
     await useCartStore.fetchAllCarts('')
+    await useCartStore.fetchFavoriteProducts()
 })
 
 
@@ -22,6 +23,10 @@ const handleCheckOut=()=>{
 const handleReload=async()=>{
         useCartStore.resetCartsNetworkError()
        await useCartStore.fetchAllCarts('')
+}
+const handleFavoriteProductReload=async()=>{
+    useCartStore.resetFavoriteProductsNetworkError()
+    await useCartStore.fetchFavoriteProducts()
 }
 
 const handleCartChangePage=async(pagenumber)=>{
@@ -161,8 +166,10 @@ const parseToNumber=(number)=>{
                         favorite products:
                     </div>
                     <!-- the body -->
-                    <div>
-
+                    <div 
+                    class="w-full h-full flex flex-col gap-1 items-center justify-center" 
+                    v-if="useCartStore.$state.favorite_products.length>0 && useCartStore.$state.is_favorite_product_loading==false && useCartStore.$state.favorite_product_network_error==false">
+                        
                     </div>
                 </div>
             </div>
