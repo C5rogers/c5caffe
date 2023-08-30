@@ -24,7 +24,10 @@ const props=defineProps({
 const handleDeleteCartItem=async()=>{
     const result=await useCartStore.removeCartItemFromCart(props.cart._id)
     if(result==true){
-        console.log("now we are cool")
+        if(useCartStore.$state.carts_current_page!=1 && !(useCartStore.$state.carts_current_page<1)){
+            useCartStore.setCartsCurrentPage(useCartStore.$state.carts_current_page-1)
+            await useCartStore.fetchAllCarts('')
+        }
     }
 }
 

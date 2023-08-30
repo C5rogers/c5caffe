@@ -48,6 +48,7 @@ const handleLoginTwo=async (values)=>{
     if(result){
         inLoginProcess.value=false
         useAuthStore.resetAttemptError()
+        useCartStore.resetUserCart()
         useCartStore.resetUsersCartCount()
         router.push('/')
     }else{

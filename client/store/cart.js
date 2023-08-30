@@ -9,7 +9,7 @@ export const cartStore = defineStore({
         carts: [],
         carts_current_page: 1,
         carts_total_pages: 0,
-        carts_page_limit: 5,
+        carts_page_limit: 4,
         cart: [],
         errors: [],
         cart_is_loading: false,
@@ -46,6 +46,21 @@ export const cartStore = defineStore({
                 console.log(error)
                 this.cart_is_loading = false
             }
+        },
+        resetUserCart() {
+            this.carts = []
+            this.cart = []
+            this.carts_current_page = 1
+            this.carts_page_limit = 4
+            this.carts_total_pages = 0
+            this.errors = []
+            this.cart_is_loading = false
+            this.single_cart_is_loading = false
+            this.cart_network_error = false
+            this.single_cart_network_error = false
+            this.loged_users_cart_count = 0
+            this.computed_total_cart_price = 0
+            this.total_users_cart_count = document.cookie.split(';').find(c => c.trim().startsWith(`carts=`)) ? JSON.parse(decodeURIComponent(document.cookie.split(';').find(c => c.trim().startsWith(`carts=`)).split('=')[1])).length : 0
         },
         async addToCartOnline(payload) {
             try {

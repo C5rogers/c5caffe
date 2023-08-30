@@ -18,6 +18,19 @@ const handleCheckOut=()=>{
     checkout_controller.value=!checkout_controller.value
 }
 
+
+const handleCartChangePage=async(pagenumber)=>{
+    useCartStore.setCartsCurrentPage(pagenumber)
+    await useCartStore.fetchAllCarts('')
+}
+
+const parseToNumber=(number)=>{
+    const parsed=Number(number)
+    if(!isNaN(parsed)) {
+        return parsed
+    }
+    return 0
+}
 </script>
 
 <template>
@@ -34,7 +47,7 @@ const handleCheckOut=()=>{
                 <div class="w-full flex flex-col gap-1 justify-center px-3">
                     <!-- the cart container -->
                     <div v-if="useCartStore.$state.carts.length>0 && useCartStore.$state.cart_is_loading==false && useCartStore.$state.cart_network_error==false"
-                        class="font-Roboto w-full flex gap-1 justify-center "
+                        class="font-Roboto w-full flex-col flex gap-1 justify-center "
                         >
                         <!-- the product holder -->
                         <div
@@ -47,6 +60,16 @@ const handleCheckOut=()=>{
                             >
                                 <CartCard :cart="cart"/>
                             </div>
+                        </div>
+                        <!-- the pagination links -->
+                        <div class="w-full h-fit flex justify-center items-center">
+                            <ShareblePagination
+                            :initial-page="parseToNumber(useCartStore.$state.carts_current_page)"
+                            :total-pages="parseToNumber(useCartStore.$state.carts_total_pages)"
+                            :page-limit="3"
+                            :small-mode="true"
+                            @change_page="handleCartChangePage"
+                            />
                         </div>
                     </div>
                     <!-- the animation -->

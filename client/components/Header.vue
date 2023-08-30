@@ -51,8 +51,11 @@ const closeNavBar=()=>{
     sidebar.classList.add('-left-[500px]')
 }
 
+const useCartStore=cartStore()
+
 const handleLogOut=async()=>{
     await useAuthStore.logout()
+    useCartStore.resetUserCart()
     router.push('/')
 }
 

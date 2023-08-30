@@ -109,6 +109,7 @@ const handleSignup=async(value)=>{
        if(result==true){
         inProcess.value=false
         useAuthStore.resetAttemptError()
+        useCartStore.resetUserCart()
         useCartStore.resetUsersCartCount()
         router.push('/')
        }else{
