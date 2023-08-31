@@ -1,6 +1,8 @@
 <script setup>
 import {Ripple,Modal,initTE,Select} from "tw-elements";
+import {useToast} from 'vue-toastification'
 
+const toast=useToast()
 const props=defineProps({
     productInfo:{
         type:Object,
@@ -72,6 +74,9 @@ const handleAddToCart=async()=>{
             setTimeout(() => {
                 dismiss_controller.value=true
             }, 3000);
+            toast.success(`You added ${props.productInfo.name} to your cart successfully!`)
+        }else{
+            toast.error(`You are faild to add ${props.productInfo.name} to your cart!`)
         }
     }else{
         const result=useCartStore.addToCookieCart(payload)
@@ -79,6 +84,9 @@ const handleAddToCart=async()=>{
             setTimeout(() => {
                 dismiss_controller.value=true
             }, 3000);
+            toast.success(`You added ${props.productInfo.name} to your cart successfully!`)
+        }else{
+            toast.error(`You are faild to add ${props.productInfo.name} to your cart!`)
         }
     }
     resetTotal_price()

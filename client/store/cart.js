@@ -106,8 +106,9 @@ export const cartStore = defineStore({
                     this.cart_is_loading = false
                     this.loged_users_cart_count = this.loged_users_cart_count + 1
                     this.computeAndAssignTotalCartPrice()
+                    return true
+                } else
                     return false
-                }
             } catch (error) {
                 console.log(error)
                 this.cart_is_loading = false

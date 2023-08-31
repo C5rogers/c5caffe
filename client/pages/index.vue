@@ -1,10 +1,13 @@
 <script setup>
 import {storeToRefs} from 'pinia'
+import {Ripple,initTE,Carousel} from 'tw-elements'
+import {useToast} from 'vue-toastification'
 
+
+const toast=useToast()
 const auth=authStore()
 const {user}=storeToRefs(auth)
 
-import {Ripple,initTE,Carousel} from 'tw-elements'
 
 onMounted(() => {
   initTE({Ripple,Carousel})  
