@@ -42,6 +42,22 @@ const parseToNumber=(number)=>{
     }
     return 0
 }
+
+const forCartDeleteConfirmation=ref({
+    identifyer:{},
+    title:"",
+    message:""
+})
+
+const handleConfirmationDeletingCart=(cart)=>{
+    forCartDeleteConfirmation.value.identifyer=cart
+    forCartDeleteConfirmation.value=`Deleting ${cart.product.name} from cart`
+    forCartDeleteConfirmation.value= `Are you shure to delete ${cart.product.name} from you cart?.`
+}
+
+const handleDeleteCartItemConfirmationResult=(result)=>{
+
+}
 </script>
 
 <template>
@@ -69,7 +85,7 @@ const parseToNumber=(number)=>{
                             :key="cart._id"
                             class="w-full h-fit rounded-lg bg-gray-50"
                             >
-                                <CartCard :cart="cart"/>
+                                <CartCard :cart="cart" @confirm_deleting_cart_item="handleConfirmationDeletingCart"/>
                             </div>
                         </div>
                         <!-- the pagination links -->
@@ -251,4 +267,12 @@ const parseToNumber=(number)=>{
             </div>
         </div>
     </div>
+    <Teleport to="body">
+        <SharebleConfirmationModal
+        :identifier="forCartDeleteConfirmation.identifyer"
+        :title="forCartDeleteConfirmation.title"
+        :message="forCartDeleteConfirmation.message"
+        @confirmation-result="handleDeleteCartItemConfirmationResult"
+        />
+    </Teleport>
 </template>

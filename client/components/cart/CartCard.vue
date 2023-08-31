@@ -3,7 +3,7 @@
 import {Ripple,initTE} from 'tw-elements'
 
 
-
+const emit=defineEmits(['confirm_deleting_cart_item'])
 
 const useCartStore=cartStore()
 onMounted(()=>{
@@ -11,6 +11,7 @@ onMounted(()=>{
         Ripple
     })
 })
+
 
 
 
@@ -22,13 +23,14 @@ const props=defineProps({
 
 
 const handleDeleteCartItem=async()=>{
-    const result=await useCartStore.removeCartItemFromCart(props.cart._id)
-    if(result==true){
-        if(useCartStore.$state.carts_current_page!=1 && !(useCartStore.$state.carts_current_page<1)){
-            useCartStore.setCartsCurrentPage(useCartStore.$state.carts_current_page-1)
-            await useCartStore.fetchAllCarts('')
-        }
-    }
+    // const result=await useCartStore.removeCartItemFromCart(props.cart._id)
+    // if(result==true){
+    //     if(useCartStore.$state.carts_current_page!=1 && !(useCartStore.$state.carts_current_page<1)){
+    //         useCartStore.setCartsCurrentPage(useCartStore.$state.carts_current_page-1)
+    //         await useCartStore.fetchAllCarts('')
+    //     }
+    // }
+        emit('confirm_deleting_cart_item',props.cart)
 }
 
 const handleDescription=(description)=>{
@@ -42,6 +44,7 @@ const router=useRouter()
 const handleGoToProduct=()=>{
     router.push(`product/:${props.cart.product._id}`)
 }
+
 </script>
 
 <template>
@@ -88,6 +91,10 @@ const handleGoToProduct=()=>{
         <div class="absolute right-3 bottom-[3px]">
             <button type="button"
             @click="handleDeleteCartItem"
+            data-te-toggle="modal"
+            data-te-target="#leftTopModal"
+            data-te-ripple-init
+            data-te-ripple-color="light"
             class=" py-1 w-[7em] px-4 items-center hover:text-secondary text-xs hover:underline font-light rounded-md"
             >
                 Remove
