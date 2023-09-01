@@ -56,6 +56,12 @@ const handleChange=async()=>{
 </script>
 
 <template>
+    <Head>
+        <Title>
+            C5 Online Caffe | Products
+        </Title>
+        <Meta name="description" content="This is where all the products are avelable to be sold by the C5 online caffe which the user can select and add to its own cart then letter purchase it" />
+    </Head>
     <div class="h-screen relative w-full flex flex-col gap-1 md:flex-row mt-1">
         <!-- the top one -->
         <div

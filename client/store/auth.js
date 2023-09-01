@@ -88,7 +88,6 @@ export const authStore = defineStore({
         async signup(payload) {
             try {
                 const responce = await axiosInstance.post('auth/signup', payload)
-                console.log(responce.data)
                 this.user = responce.data.user
                 localStorage.setItem('C5_ONLINE_CAFFE_USER', JSON.stringify(responce.data.user))
                 localStorage.setItem('C5_ONLINE_CAFFE_USER_ROLL', this.user.roll)

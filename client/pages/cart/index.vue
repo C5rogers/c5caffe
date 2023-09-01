@@ -71,8 +71,8 @@ const handleDeleteCartItemConfirmationResult=async(result)=>{
     if(result.confirmation_result==true){
         const response=await useCartStore.removeCartItemFromCart(result.identifier._id)
         if(response==true){
-            if(useCartStore.$state.carts_current_page!=1 && !(useCartStore.$state.carts_current_page<1)){
-            useCartStore.setCartsCurrentPage(useCartStore.$state.carts_current_page-1)
+            if(useCartStore.$state.carts_total_pages!=1 && !(useCartStore.$state.carts_total_pages<1)){
+            useCartStore.setCartsCurrentPage(useCartStore.$state.carts_total_pages-1)
             await useCartStore.fetchAllCarts('')
             }
             const successMessage=`You remove ${result.identifier.product.name} from your cart successfully!`
@@ -96,6 +96,12 @@ const handleGoToProduct=(id)=>{
 </script>
 
 <template>
+    <Head>
+        <Title>
+            C5 Online Caffe | User | Cart
+        </Title>
+        <Meta name="description" content="This is for Loged user who can access its account carts and can purchase them as he likes based on the c5 caffe preference and rules" />
+    </Head>
     <div class="w-full h-screen py-5 px-2 flex gap-3 items-center">
         <!-- the left one -->
         <div class="w-2/3 h-full flex flex-col gap-3">
@@ -153,14 +159,68 @@ const handleGoToProduct=(id)=>{
                 </div>
             </div>  
             <!-- the lower one -->
-            <div class="w-full h-1/3 border p-2 border-gray-300 rounded-xl">
+            <div class="w-full h-1/3 border p-2 border-gray-300 font-Roboto rounded-xl">
                 <!-- the title -->
                 <div class="w-full py-1 px-2 border-b border-gray-300 font-Roboto font-bold text-xl text-gray-700 capitalize">
                     Service and delivery options
                 </div>
                 <!-- the body -->
-                <div>
-                    
+                <div class="w-full flex flex-col gap-1 justify-center">
+                    <!-- card one -->
+                    <div class="w-full flex items-center justify-between py-3 px-3">
+                        <!-- the left -->
+                        <div class="flex items-center gap-1">
+                            <!-- the icon -->
+                            <div class="text-3xl text-gray-700">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <!-- the description -->
+                            <div class="text-gray-800 first-letter:capitalize first-letter:2xl font-light">
+                                Click and collect.
+                            </div>
+                        </div>
+                        <!-- the right -->
+                        <div class="text-gray-800 uppercase font-light text-xl">
+                            FREE
+                        </div>
+                    </div>
+                    <!-- card two -->
+                    <div class="w-full flex items-center justify-between py-3 px-3">
+                        <!-- the left -->
+                        <div class="flex items-center gap-1">
+                            <!-- the icon -->
+                            <div class="text-3xl text-gray-700">
+                                <i class="fa-solid fa-truck"></i>
+                            </div>
+                            <!-- the description -->
+                            <div class="text-gray-800 first-letter:capitalize first-letter:2xl font-light">
+                                Standard delivery withn a day and extra delivery fee 53$
+                            </div>
+                        </div>
+                        <!-- the right -->
+                        <div class="text-gray-800 uppercase font-light text-xl">
+                            25$
+                        </div>
+                    </div>
+
+                    <!-- the last card -->
+                    <div class="w-full flex items-center justify-between py-3 px-3">
+                        <!-- the left -->
+                        <div class="flex items-center gap-1">
+                            <!-- the icon -->
+                            <div class="text-3xl text-gray-700">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                            <!-- the description -->
+                            <div class="text-gray-800 first-letter:capitalize first-letter:2xl font-light">
+                                Standard and quick(instant) delivery withen a houer and extra delivery fee 100$
+                            </div>
+                        </div>
+                        <!-- the right -->
+                        <div class="text-gray-800 uppercase font-light text-xl">
+                            50$
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

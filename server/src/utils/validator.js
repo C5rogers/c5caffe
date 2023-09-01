@@ -13,46 +13,46 @@ const passswrodregex = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{8,})\S$/
 const genderregex = /^(?:m|M||f|F)$/gm
 
 
-const isValidEmail = (email) => {
+const isValidEmail = async(email) => {
     if (!email) {
         return 1
-    } else if (!emailregex.test(email)) {
+    } else if (!await emailregex.test(email)) {
         return 2
     }
     return 0
 }
 
-const isValidName = (name) => {
+const isValidName = async(name) => {
     if (!name) {
         return 1
-    } else if (!nameregex.test(name)) {
+    } else if (!await nameregex.test(name)) {
         return 2
     }
     return 0
 }
 
-const isValidPhonenumber = (phone) => {
+const isValidPhonenumber = async(phone) => {
     if (!phone) {
         return 1
-    } else if (!phoneregex.test(phone)) {
+    } else if (!await phoneregex.test(phone)) {
         return 2
     }
     return 0
 }
 
-const isValidPassword = (password) => {
+const isValidPassword = async(password) => {
     if (!password) {
         return 1
-    } else if (!passswrodregex.test(password)) {
+    } else if (!await passswrodregex.test(password)) {
         return 2
     }
     return 0
 }
 
-const isValidGender = (gender) => {
+const isValidGender = async(gender) => {
     if (!gender) {
         return 1
-    } else if (!genderregex.test(gender)) {
+    } else if (!await genderregex.test(gender)) {
         return 2
     }
     return 0
