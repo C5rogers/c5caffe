@@ -102,11 +102,11 @@ const handleGoToProduct=(id)=>{
         </Title>
         <Meta name="description" content="This is for Loged user who can access its account carts and can purchase them as he likes based on the c5 caffe preference and rules" />
     </Head>
-    <div class="w-full h-screen py-5 px-2 flex gap-3 items-center">
+    <div class="w-full md:h-fit lg:h-screen py-5 px-2 flex flex-col lg:flex-row gap-3 lg:items-center">
         <!-- the left one -->
-        <div class="w-2/3 h-full flex flex-col gap-3">
+        <div class="w-full lg:w-2/3 h-full flex flex-col md:flex-row lg:flex-col gap-3">
             <!-- the upper one -->
-            <div class="w-full h-2/3 p-2 border border-gray-300 rounded-xl">
+            <div class=" md:w-2/3 lg:w-full h-2/3 p-2 border border-gray-300 rounded-xl">
                 <!-- the title -->
                 <div class="w-full py-1 px-2 border-b border-gray-300 font-Roboto font-bold text-xl text-gray-700 capitalize">
                     Cart Items
@@ -119,12 +119,12 @@ const handleGoToProduct=(id)=>{
                         >
                         <!-- the product holder -->
                         <div
-                        class="w-full h-[23em] mt-2 overflow-y-auto pt-11 pb-1 flex flex-col gap-1 justify-center"
+                        class="w-full md:h-fit lg:h-[23em] mt-2 overflow-y-auto pt-11 pb-1 flex flex-col gap-1 justify-center"
                         >
                             <div
-                            v-for="cart in useCartStore.carts"
+                            v-for="cart in useCartStore.$state.carts"
                             :key="cart._id"
-                            class="w-full h-fit rounded-lg bg-gray-50"
+                            class="w-fit lg:w-full h-fit rounded-lg bg-gray-50"
                             >
                                 <CartCard :cart="cart" @confirm_deleting_cart_item="handleConfirmationDeletingCart"/>
                             </div>
@@ -225,7 +225,7 @@ const handleGoToProduct=(id)=>{
             </div>
         </div>
         <!-- the right one -->
-        <div class="w-1/3 h-full border p-2 border-gray-300 rounded-xl">
+        <div class="w-full md:w-fit lg:w-1/3 h-full border p-2 border-gray-300 rounded-xl">
             <!-- the title  -->
             <div class="w-full py-1 px-2 border-b border-gray-300 font-Roboto font-bold text-xl text-gray-700 capitalize">
                 Summery

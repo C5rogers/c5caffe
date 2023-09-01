@@ -278,7 +278,7 @@ const handleChange=async()=>{
         </div>
         <!-- the empty one -->
         <div
-            class="w-3/4 min-h-[30em] flex items-center ml-auto justify-center" 
+            class="w-full lg:w-3/4 min-h-[30em] flex items-center ml-auto justify-center" 
             v-if="useProductStore.$state.products.length==0 && useProductStore.$state.network_error==false && useProductStore.$state.isProductsLoading==false"
             >
             <shareble-empty/>
