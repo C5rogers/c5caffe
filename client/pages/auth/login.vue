@@ -3,8 +3,9 @@ import {Ripple,initTE} from 'tw-elements'
 import {Form,Field} from 'vee-validate'
 import * as yup from 'yup'
 import {storeToRefs} from 'pinia'
+import {useToast} from 'vue-toastification'
 
-
+const toast=useToast()
 const useAuthStore=authStore()
 const useCartStore=cartStore()
 const {attemptErrors}=storeToRefs(useAuthStore)
@@ -50,6 +51,9 @@ const handleLoginTwo=async (values)=>{
         useAuthStore.resetAttemptError()
         useCartStore.resetUserCart()
         useCartStore.resetUsersCartCount()
+        toast.success("Welcome back sir!",{
+            position:'top-left'
+        })
         router.push('/')
     }else{
         inLoginProcess.value=false
@@ -58,6 +62,9 @@ const handleLoginTwo=async (values)=>{
                 useAuthStore.resetNetworkError()
             }
         }, 3000);
+        toast.error("There is some error",{
+            position:"bottom-left"
+        })
     }
 }
 </script>

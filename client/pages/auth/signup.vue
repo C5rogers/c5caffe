@@ -3,6 +3,9 @@ import {Form,Field} from 'vee-validate'
 import * as yup from 'yup'
 import {Ripple,initTE,Modal} from 'tw-elements'
 import {storeToRefs} from 'pinia'
+import {useToast} from 'vue-toastification'
+
+const toast=useToast()
 
 const useAuthStore=authStore()
 const useCartStore=cartStore()
@@ -111,6 +114,9 @@ const handleSignup=async(value)=>{
         useAuthStore.resetAttemptError()
         useCartStore.resetUserCart()
         useCartStore.resetUsersCartCount()
+        toast.success("Welcome sir to C5 Online caffe",{
+            position:'top-left'
+        })
         router.push('/')
        }else{
         inProcess.value=false
@@ -119,6 +125,9 @@ const handleSignup=async(value)=>{
                 useAuthStore.resetNetworkError()
             }
         }, 3000);
+        toast.error("There is some thing wrong",{
+            position:'bottom-left'
+        })
        }
     }
 }

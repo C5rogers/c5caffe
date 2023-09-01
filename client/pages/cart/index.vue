@@ -376,6 +376,23 @@ const handleGoToProduct=(id)=>{
 
                         </div>
                     </div>
+                    <!-- the loading -->
+                    <div
+                    v-if="useCartStore.$state.is_favorite_product_loading==true && useCartStore.$state.favorite_product_network_error==false"
+                    >
+                        <AnimationsFavoriteItem/>
+                    </div>
+                    <!-- the empty -->
+                    <div class="w-full flex items-center justify-center" v-if="useCartStore.$state.is_favorite_product_loading==false && useCartStore.$state.favorite_products.length==0 && useCartStore.$state.favorite_product_network_error==false">
+                        <SharebleEmpty message="Oops there is no rated product by you yet!"/>
+                    </div>
+                    <!-- the network error -->
+                    <div
+                    class="w-full flex flex-col items-center justify-center"
+                    v-if="useCartStore.$state.favorite_product_network_error==true"
+                    >
+                        <NetworkError @reload="handleFavoriteProductReload" />
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 <script setup>
 import {Collapse,Sidenav, Dropdown,Ripple, initTE} from 'tw-elements'
-
+import {useToast} from 'vue-toastification'
+const toast=useToast()
 import {storeToRefs} from 'pinia'
 
 const useAuthStore=authStore()
@@ -56,6 +57,9 @@ const useCartStore=cartStore()
 const handleLogOut=async()=>{
     await useAuthStore.logout()
     useCartStore.resetUserCart()
+    toast.info("You loged out successfully!",{
+        position:'bottom-left'
+    })
     router.push('/')
 }
 

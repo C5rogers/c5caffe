@@ -403,7 +403,7 @@ onMounted(() => {
         </div>
         <!-- the links -->
         <div class="w-full flex items-center gap-5">
-            <div>
+            <div v-if="auth.isAuthed==false">
                 <router-link to="/auth/signup" data-te-ripple-init class="px-5 py-2 border border-secondary rounded-full theLink"><span>Register</span><span class="arrow">&rightarrow;</span></router-link>
             </div>
         </div>

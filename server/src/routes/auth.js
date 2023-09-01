@@ -13,7 +13,7 @@ const router = Router()
 
 //the custome auth
 router.post("/login", middleware.check_authed, validations.custome_login_validations, AuthController.Login_post)
-router.post("/signup", middleware.check_authed, upload.single('profile'), validations.custome_signup_validations, AuthController.Signup_post)
+router.post("/signup", middleware.check_authed, upload.single('profile'), AuthController.Signup_post) //there is something error in custome_signup_validation
 router.post("/logout", middleware.protect_with_auth, AuthController.Logout_post)
 
 //to reset password

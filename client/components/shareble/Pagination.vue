@@ -114,7 +114,7 @@ const handlePageClicked=(pagenumber)=>{
         type="button"
         v-for="page in desplayed_pages"
         :key="page"
-        class="p-1 flex  text-xs  items-center justify-center rounded-full transition transform ease-out duration-200 hover:scale-105 hover:shadow-sm "
+        class="p-1 flex w-5 border h-5 text-xs   items-center justify-center rounded-full transition transform ease-out duration-200 hover:scale-105 hover:shadow-sm "
         :class="{'text-white font-bold shadow-md bg-secondary border-none':page==current_page}"
         @click="handlePageClicked(page)"
         >
