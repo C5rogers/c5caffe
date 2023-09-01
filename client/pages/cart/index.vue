@@ -1,5 +1,9 @@
 <script setup>
 import{Ripple,initTE,Carousel} from 'tw-elements'
+import {useToast} from 'vue-toastification'
+
+
+const toast=useToast()
 
 const useCartStore=cartStore()
 const empty_cart_message_controller=ref("Oops Your cart is empty")
@@ -51,12 +55,29 @@ const forCartDeleteConfirmation=ref({
 
 const handleConfirmationDeletingCart=(cart)=>{
     forCartDeleteConfirmation.value.identifyer=cart
-    forCartDeleteConfirmation.value=`Deleting ${cart.product.name} from cart`
-    forCartDeleteConfirmation.value= `Are you shure to delete ${cart.product.name} from you cart?.`
+    forCartDeleteConfirmation.value.title=`Deleting ${cart.product.name} from cart`
+    forCartDeleteConfirmation.value.message= `Are you shure you want to delete ${cart.product.name} from you cart?.`
 }
 
-const handleDeleteCartItemConfirmationResult=(result)=>{
-
+const handleDeleteCartItemConfirmationResult=async(result)=>{
+    if(result.confirmation_result==true){
+        const response=await useCartStore.removeCartItemFromCart(result.identifier._id)
+        if(response==true){
+            if(useCartStore.$state.carts_current_page!=1 && !(useCartStore.$state.carts_current_page<1)){
+            useCartStore.setCartsCurrentPage(useCartStore.$state.carts_current_page-1)
+            await useCartStore.fetchAllCarts('')
+            }
+            const successMessage=`You remove ${result.identifier.product.name} from your cart successfully!`
+            toast.success(successMessage,{
+                position:'top-left'
+            })
+        }else if(response==false){
+            const failureMessage=`Unable to remove ${result.identifier.product.name} from your cart!`
+            toast.error(failureMessage,{
+                position:'bottom-left'
+            })
+        }
+    }
 }
 </script>
 

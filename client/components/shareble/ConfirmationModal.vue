@@ -46,9 +46,8 @@ const handleConfirmations=(e)=>{
     if(e.submitter.name=='yes'){
         confirmation_result.value=true
     }
-
     emit('confirmation-result',{
-        confirmation_result,
+        confirmation_result:confirmation_result.value,
         identifier:props.identifier
     })
 
@@ -66,7 +65,7 @@ const handleConfirmations=(e)=>{
     tabindex="-1"
     aria-labelledby="leftTopModalLabel"
     aria-hidden="true"
-    v-if="leftMode==true && identifier.length>0"
+    v-if="leftMode==true"
     >
         <!-- the dialog box -->
         <div
@@ -81,11 +80,17 @@ const handleConfirmations=(e)=>{
                 <div
                 class="flex flex-shrink-0 items-center justify-between rounded-t-md bg-primary-600 p-4 dark:border-b dark:border-neutral-500 dark:bg-transparent"
                 >
-                    <h5
-                    class="text-xl font-medium font-Roboto first-letter:capitalize leading-normal text-white"
-                    id="leftTopModalLabel">
-                    {{ formControllers.title }}
-                    </h5>
+                     <!-- the left one -->
+                     <div class="w-fit flex items-center">
+                         <!-- the logo -->
+                        <div class="1-10 h-10 flex items-center justify-center rounded-full overflow-hidden">
+                            <img src="../../assets/images/restlogo.png" class="w-full h-full object-cover" alt="">
+                        </div>
+                        <!-- the title -->
+                        <div class="text-xl font-Roboto capitalize">
+                            {{ title }}
+                        </div>
+                    </div>
                     <!-- the x button -->
                     <button
                     type="button"
@@ -145,6 +150,7 @@ const handleConfirmations=(e)=>{
                         />
                         <input
                         class="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                        data-te-modal-dismiss
                         data-te-ripple-init
                         data-te-ripple-color="light"
                         value="Yes"
