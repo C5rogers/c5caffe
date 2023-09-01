@@ -1,6 +1,5 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
 import axios from "axios";
-import { cartStore } from "./cart";
 
 
 
@@ -16,6 +15,7 @@ export const authStore = defineStore({
         isAdmin: localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') == 'admin' ? true : false,
         roll: localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') ? localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') : 'anonymous',
         protected_pages: ['cart', 'order'],
+        anonimous_user_pages: ['index', 'about', 'contact', 'product', 'login', 'signup', 'forgot_password'],
         attemptErrors: [],
         network_error: false
     }),
