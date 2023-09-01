@@ -36,7 +36,7 @@ onMounted(() => {
                         <router-link to="/product" data-te-ripple-init data-te-ripple-color="light" class="px-5 py-2 bg-secondary text-white rounded-full transition duration-200 transform hover:scale-105 theLink"><span>Get Start</span><span class="arrow">&rightarrow;</span></router-link>
                     </div>
                     <!-- the signup link -->
-                    <div>
+                    <div v-if="auth.$state.isAuthed==false">
                         <router-link to="/auth/signup" data-te-ripple-init class="px-5 py-2 border border-secondary rounded-full theLink"><span>Register</span><span class="arrow">&rightarrow;</span></router-link>
                     </div>
                 </div>

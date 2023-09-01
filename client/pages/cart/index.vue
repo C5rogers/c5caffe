@@ -34,6 +34,14 @@ const handleFavoriteProductReload=async()=>{
     await useCartStore.fetchFavoriteProducts()
 }
 
+const handleFavoriteProductDescription=(description)=>{
+    if(description.length>70){
+        return description.substring(0,70)+'...'
+    }else{
+        return description +'...'
+    }
+}
+
 const handleCartChangePage=async(pagenumber)=>{
     useCartStore.setCartsCurrentPage(pagenumber)
     await useCartStore.fetchAllCarts('')
@@ -78,6 +86,12 @@ const handleDeleteCartItemConfirmationResult=async(result)=>{
             })
         }
     }
+}
+const router=useRouter()
+
+const handleGoToProduct=(id)=>{
+    toast.clear()
+    router.push(`/product/${id}`)
 }
 </script>
 
@@ -205,83 +219,161 @@ const handleDeleteCartItemConfirmationResult=async(result)=>{
                     </div>
                     <!-- the body -->
                     <div 
-                    class="w-full h-full flex flex-col gap-1 items-center justify-center" 
+                    class="w-full h-full flex flex-col gap-1 items-center" 
                     v-if="useCartStore.$state.favorite_products.length>0 && useCartStore.$state.is_favorite_product_loading==false && useCartStore.$state.favorite_product_network_error==false">
                         <!-- this is first carosel container -->
                         <div
-                        id="firstFavoriteProductContainer"
-                        class="w-full h-full relative overflow-hidden after:clear-both after:block after:content-['']"
-                        data-te-carousel-init 
-                        data-te-carousel-slide
-                        > 
-                            <!-- the products -->
+                        id="favoriteProductsCarousel"
+                        class="relative w-full h-fit"
+                        data-te-carousel-init
+                        data-te-ride="carousel"
+                        >
+                            <!-- the carousel items -->
                             <div
-                            class="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-                            data-te-carousel-item 
-                            v-for="(product,index) in useCartStore.$state.favorite_products"
-                            :key="product._id"
-                            :data-te-carousel-active="index==1" 
-                            style="backface-visibility: hidden"
+                            class="relative w-full overflow-hidden after:clear-both after:block after:content-['']"
                             >
-                                <!-- the data holder -->
+                                <!-- the first item -->
                                 <div
-                                class="w-full flex flex-col gap-1 justify-center"
+                                v-if="useCartStore.$state.favorite_products[0]"
+                                class="relative float-left px-1 -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+                                data-te-carousel-active
+                                data-te-carousel-item
+                                style="backface-visibility: hidden"
                                 >
                                     <!-- the image -->
                                     <div
-                                    class="w-full h-[15em] flex justify-center items-center rounded-md overflow-hidden"
+                                    class="w-full h-[10em] rounded-md overflow-hidden flex items-center justify-center"
                                     >
-                                        <img :src="product.product_id.image" class="w-full h-full object-cover" :alt="product.product_id.name">
+                                        <img @click.self="handleGoToProduct(useCartStore.$state.favorite_products[0].product_id._id)" :src="useCartStore.$state.favorite_products[0].product_id.image" class="w-full cursor-pointer h-full object-cover" :alt="useCartStore.$state.favorite_products[0].product_id.name">
                                     </div>
-                                    <!-- the product name -->
-                                    <div class="font-Roboto font-bold flex flex-col gap-0 capitalize text-gray-800 text-xl">
-                                        <div>
-                                            {{ product.product_id.name }}
+                                    <!-- the name -->
+                                    <div
+                                    class="flex flex-col gap-0 mt-1 justify-center font-Roboto"
+                                    >
+                                        <!-- the name -->
+                                        <div
+                                        class="text-xl font-bold first-letter:capitalize hover:underline cursor-pointer"
+                                        @click="handleGoToProduct(useCartStore.$state.favorite_products[0].product_id._id)"
+                                        >
+                                            {{ useCartStore.$state.favorite_products[0].product_id.name }}
                                         </div>
-                                        <div class="text-xs font-light">
-                                            {{ product.product_id.catagory.name }}
+                                        <!-- the catagory -->
+                                        <div class=" first-letter:capitalize text-secondary text-xs -mt-1">
+                                            {{ useCartStore.$state.favorite_products[0].product_id.catagory.catagory }}
                                         </div>
                                     </div>
                                     <!-- the description -->
-                                    <div class="font-gray-700 font-Roboto first-letter:capitalize first-letter:text-xl text-sm">
-                                        {{ product.product_id.description }}
+                                    <div
+                                    class="text-sm text-gray-800 first-letter:capitalize cursor-pointer first-letter:text-lg hover:underline"
+                                    @click="handleGoToProduct(useCartStore.$state.favorite_products[0].product_id._id)"
+                                    >
+                                        {{handleFavoriteProductDescription(useCartStore.$state.favorite_products[0].product_id.description) }}
                                     </div>
-                                    <!-- the rating -->
+                                    <!-- the five star rating -->
+                                    <div
+                                    class="mt-1"
+                                    >
+                                        <SharebleFiveStartRating :rating-value="useCartStore.$state.favorite_products[0].product_id.average_rating" />
+                                    </div>
+                                </div>
+                                <!-- the other items -->
+                                <div
+                                v-if="useCartStore.$state.favorite_products[1]"
+                                class="relative float-left px-1 -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+                                data-te-carousel-item
+                                style="backface-visibility: hidden"
+                                v-for="product in useCartStore.$state.favorite_products"
+                                :key="product._id"
+                                >
+                                    <!-- the image -->
+                                    <div
+                                    class="w-full h-[10em] rounded-md overflow-hidden flex items-center justify-center"
+                                    >
+                                        <img :src="product.product_id.image" @click.self="handleGoToProduct(product.product_id._id)" class="w-full cursor-pointer h-full object-cover" :alt="product.product_id.name">
+                                    </div>
+                                    <!-- the name -->
+                                    <div
+                                    class="flex flex-col gap-0 mt-1 justify-center font-Roboto"
+                                    >
+                                        <!-- the name -->
+                                        <div
+                                        class="text-xl font-bold first-letter:capitalize hover:underline cursor-pointer"
+                                        @click="handleGoToProduct(product.product_id._id)"
+                                        >
+                                            {{ product.product_id.name }}
+                                        </div>
+                                        <!-- the catagory -->
+                                        <div class=" first-letter:capitalize text-secondary text-xs -mt-1">
+                                            {{ product.product_id.catagory.catagory }}
+                                        </div>
+                                    </div>
+                                    <!-- the description -->
+                                    <div
+                                    class="text-sm text-gray-800 first-letter:capitalize cursor-pointer first-letter:text-lg hover:underline"
+                                    @click="handleGoToProduct(product.product_id._id)"
+                                    >
+                                        {{ handleFavoriteProductDescription(product.product_id.description) }}
+                                    </div>
+                                    <!-- the five star rating -->
                                     <div>
                                         <SharebleFiveStartRating :rating-value="product.product_id.average_rating" />
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- the absolute buttons -->
-                                <button
-                                class="absolute top-0 bottom-0 left-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
-                                type="button" data-te-target="#firstFavoriteProductContainer" 
+                            <!--Carousel controls - prev item-->
+                            <button
+                                class="absolute bottom-0 left-0 top-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
+                                type="button"
+                                data-te-target="#favoriteProductsCarousel"
                                 data-te-slide="prev">
                                 <span class="inline-block h-8 w-8">
-                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
-                                    class="text-neutral-600 dark:text-neutral-300">
-                                    <path fill="currentColor"
-                                    d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="h-6 w-6">
+                                    <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M15.75 19.5L8.25 12l7.5-7.5" />
                                 </svg>
                                 </span>
                                 <span
-                                class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Previous</span>
+                                class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                >Previous</span
+                                >
                             </button>
-                            <!-- the other one -->
+                            <!--Carousel controls - next item-->
                             <button
-                            class="absolute top-0 bottom-0 right-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
-                            type="button" data-te-target="#firstFavoriteProductContainer" data-te-slide="next">
-                            <span class="inline-block h-8 w-8">
-                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
-                                class="text-neutral-600 dark:text-neutral-300">
-                                <path fill="currentColor"
-                                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-                            </svg>
-                            </span>
-                            <span
-                            class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Next</span>
+                                class="absolute bottom-0 right-0 top-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
+                                type="button"
+                                data-te-target="#favoriteProductsCarousel"
+                                data-te-slide="next">
+                                <span class="inline-block h-8 w-8">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="h-6 w-6">
+                                    <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                                </span>
+                                <span
+                                class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                >Next</span
+                                >
                             </button>
+                        </div>
+                        <div
+                        >
+
                         </div>
                     </div>
                 </div>
