@@ -27,11 +27,13 @@ const searchProduct=async()=>{
 }
 
 const handleReload=async()=>{
+    useProductStore.resetSearchNetworkError()
     await useProductStore.searchProduct(search_value.value)
 }
 
 const resetSearch=async()=>{
     search_value.value=''
+    useProductStore.resetNetworkError()
     await useProductStore.searchProduct(search_value.value)
 }
 
@@ -190,7 +192,7 @@ const handleChangePage=async(pagenumber)=>{
                         <SharebleEmpty/>
                     </div>
                     <!-- network error -->
-                    <div v-if="useProductStore.$state.searchNetworkError==true">
+                    <div v-if="useProductStore.$state.searchNetworkError==true && useProductStore.$state.isSearchingProductsLoading==false ">
                         <NetworkError @reload="handleReload" />
                     </div>
                 </div>

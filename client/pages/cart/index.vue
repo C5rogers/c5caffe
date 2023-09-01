@@ -243,7 +243,7 @@ const handleGoToProduct=(id)=>{
                         <button
                         data-te-ripple-init
                         data-te-ripple-color="light"
-                        class="w-full py-1 px-3 bg-primary rounded-md text-white font-bold text-sm font-Roboto "
+                        class="w-full py-2 px-3 bg-primary rounded-md text-white font-bold text-sm font-Roboto "
                         @click="handleCheckOut"
                         :disabled="useCartStore.computed_total_cart_price==0"
                         >
