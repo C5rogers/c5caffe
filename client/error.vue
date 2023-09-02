@@ -2,11 +2,18 @@
 const props=defineProps(['error'])
 
 const isLoading=ref(false)
+const useAuthStore=authStore()
 
 definePageMeta({
     layout:'404'
 })
-const handleGoHome=()=>clearError({redirect:'/'})
+const handleGoHome=()=>{
+    if(useAuthStore.$state.isAuthed && useAuthStore.$state.isAdmin){
+        clearError({redirect:'/admin'})
+    }else{
+        clearError({redirect:'/'})
+    }
+}
 
 onMounted(()=>{
     if(props.error.message=='document is not defined' && props.error.statusCode==500){
