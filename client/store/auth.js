@@ -15,7 +15,8 @@ export const authStore = defineStore({
         isAdmin: localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') == 'admin' ? true : false,
         roll: localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') ? localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') : 'anonymous',
         protected_pages: ['cart', 'order'],
-        anonimous_user_pages: ['index', 'about', 'contact', 'product', 'login', 'signup', 'forgot_password'],
+        anonimous_user_pages: ['index', 'about', 'contact', 'product', 'product-id', 'auth-login', 'auth-signup', 'auth-forgot_password', 'auth-change_password'],
+        admin_user_pages: ['admin'],
         attemptErrors: [],
         network_error: false
     }),
@@ -134,6 +135,14 @@ export const authStore = defineStore({
                 return false
             }
         },
+        isAdminPage(page) {
+            const thePage = this.admin_user_pages.find(pagename => pagename == page)
+            if (thePage) {
+                return true
+            } else {
+                return false
+            }
+        },
         resetNetworkError() {
             this.network_error = false
         },
@@ -148,6 +157,11 @@ export const authStore = defineStore({
         },
         resetAttemptError() {
             this.attemptErrors = []
+        },
+        getRoll() {
+            if (localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL')) {
+                this.roll = localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL')
+            }
         }
     },
     getters: {
