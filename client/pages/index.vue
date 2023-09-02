@@ -16,6 +16,12 @@ onMounted(() => {
 </script>
 
 <template>
+  <Head>
+        <Title>
+            C5 Online Caffe | Home
+        </Title>
+        <Meta name="description" content="This is the landing page for C5 Online caffe which will show overall the company status" />
+    </Head>
     <div class="min-h-screen w-full flex flex-col gap-5 items-center font-Roboto">
         <!-- the hero container -->
         <div class="w-full flex flex-col md:flex-row items-center justify-between h-fit border-b mt-5 gap-5 py-10">
