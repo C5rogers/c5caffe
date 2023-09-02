@@ -7,6 +7,7 @@ const dotenv = require('dotenv').config('../../../.env')
 const ProductRating = require('../../database/schemas/ProductRating')
 const SelledOrder = require('../../database/schemas/SelledOrder')
 const User = require('../../database/schemas/User')
+const ProductCatagoryRating = require('../../database/schemas/ProductCatagoryRating')
 
 
 module.exports.Products_get = async(req, res) => {
@@ -57,7 +58,8 @@ module.exports.Products_get = async(req, res) => {
         const total_pages = Math.ceil(product_count / limit)
         const allCatagorys = await Catagory.find({})
         const catagoryCount = await Catagory.find({}).count()
-        return res.status(200).json({ products, product_ratings, total_pages, current_page: page, selled_order_count, users_count, product_catagorys: allCatagorys, product_catagorys_count: catagoryCount })
+        const product_catagory_ratings = await ProductCatagoryRating.find({}).populate("user_id", "_id username gender location profile").populate('product_catagory_id')
+        return res.status(200).json({ products, product_ratings, total_pages, current_page: page, selled_order_count, users_count, product_catagorys: allCatagorys, product_catagorys_count: catagoryCount, product_catagory_ratings })
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)
@@ -79,6 +81,7 @@ module.exports.Product_get = async(req, res) => {
     }
 
 }
+
 
 module.exports.Product_create = async(req, res) => {
     try {

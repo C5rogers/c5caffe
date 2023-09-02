@@ -10,6 +10,7 @@ export const productStore = defineStore({
         products: [],
         product_catagorys: [],
         product_catagory_count: 0,
+        product_catagory_ratings: [],
         productRatings: [],
         singleProductRating: [],
         totalProductPages: 0,
@@ -46,6 +47,7 @@ export const productStore = defineStore({
                 this.users_count = await responce.data.users_count
                 this.product_catagorys = await responce.data.product_catagorys
                 this.product_catagory_count = await responce.data.product_catagorys_count
+                this.product_catagory_ratings = await responce.data.product_catagory_ratings
                 this.isProductsLoading = false
                 return true
             } catch (error) {
@@ -57,6 +59,11 @@ export const productStore = defineStore({
                 }
                 return false
             }
+        },
+        filterFromProductCatagory(catagoryName) {
+            const catagory = this.product_catagory_ratings.find((catagory) => catagory.catagory == catagoryName)
+            console.log(catagory)
+            return catagory
         },
         async fetchProduct(payload) {
             try {
@@ -126,6 +133,22 @@ export const productStore = defineStore({
             try {
                 this.isProductLoading = true
                 const responce = await axiosInstance.post('rating/product/' + payload.product_id + '/rate', { rating_value: payload.rating_value })
+                this.isProductLoading = false
+                return true
+            } catch (error) {
+                this.isProductLoading = false
+                console.log(error)
+                if (error.response) this.errors = error.response.data
+                if (error.code == 'ERR_NETWORK') {
+                    this.network_error = true
+                }
+                return false
+            }
+        },
+        async rateProductCatagory(payload) {
+            try {
+                this.isProductLoading = true
+                const responce = await axiosInstance.post('rating/product_catagory' + payload.product_catagory_id + '/rate', { rating_value: payload.rating_value })
                 this.isProductLoading = false
                 return true
             } catch (error) {

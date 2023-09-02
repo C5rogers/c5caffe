@@ -7,6 +7,7 @@ const rating_product=ref({})
 const useProductStore=productStore()
 const page_controller=ref(5)
 const {products}=storeToRefs(useProductStore)
+const useAuthStore=authStore()
 
 const catagory_controller=ref('')
 onMounted(async() => {
@@ -52,6 +53,9 @@ const handleChange=async()=>{
         useProductStore.setProeductPageLimit(number)
         await useProductStore.fetchProducts(catagory_controller.value)
     }
+}
+const handleRateCatagory=async(catagory_name)=>{
+    console.log(catagory_name)
 }
 </script>
 
@@ -246,8 +250,16 @@ const handleChange=async()=>{
                     <span class="text-secondary">5000+</span> Products
                 </div>
                 <!-- the other one -->
-                <div class="font-Roboto font-bold text-2xl" v-else>
+                <div class="font-Roboto w-fit font-bold cursor-pointer hover:underline text-2xl" v-else-if="useAuthStore.$state.isAuthed==true"
+                @click="handleRateCatagory(catagory_controller)"
+                >
                     <span class="text-secondary">{{ catagory_controller }}</span> Result
+                </div>
+                <div
+                class="font-Roboto font-bold text-2xl"
+                v-else
+                >
+                    <span class="text-secondary">{{ catagory_controller }}</span>
                 </div>
             </div>
             <!-- the product content -->
