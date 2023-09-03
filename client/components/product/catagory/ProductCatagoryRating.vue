@@ -13,9 +13,24 @@ const props=defineProps({
     catagoryInfo:{
         type:Object,
         required:true
+    },
+    trigAnimation:{
+        type:Boolean,
+        default:false,
     }
 })
 
+watch(()=>props.trigAnimation,(newValue)=>{
+    if(newValue){
+     dismiss_controller.value=false
+     rating_value.value=newValue.average_rating
+     total_rated_count.value=count_how_many_times_rated()
+     progress_animation_controller.value=true
+     setTimeout(() => {
+        progress_animation_controller.value=false
+     }, 1000)
+    }
+})
 
 const reset_rating_value=()=>{
     rating_value.value=0
@@ -50,7 +65,7 @@ watch(()=>props.catagoryInfo,(newValue)=>{
      progress_animation_controller.value=true
      setTimeout(() => {
         progress_animation_controller.value=false
-     }, 3000) 
+     }, 1000) 
     }
 })
 

@@ -5,6 +5,8 @@ import {Ripple,initTE,Select,Carousel} from "tw-elements";
 const product_controller=ref({})
 const rating_product=ref({})
 const rating_product_catagory=ref({})
+const animation_trigger_controller=ref(false)
+const product_animation_trigger_controller=ref(false)
 const useProductStore=productStore()
 const page_controller=ref(5)
 const {products}=storeToRefs(useProductStore)
@@ -46,6 +48,10 @@ const changeTheAddToProduct=(product)=>{
 }
 const changeRatingProduct=(product)=>{
     rating_product.value=product
+    product_animation_trigger_controller.value=true
+    setTimeout(() => {
+        product_animation_trigger_controller.value=false
+    }, 3000);
 }
 
 const handleChange=async()=>{
@@ -58,22 +64,12 @@ const handleChange=async()=>{
 const handleRateCatagory=async(catagory_name)=>{
    const catagory_Rating= useProductStore.filterFromProductCatagory(catagory_name)
    rating_product_catagory.value=catagory_Rating
+   animation_trigger_controller.value=true
+   setTimeout(() => {
+    animation_trigger_controller.value=false
+   }, 3000);
 }
 
-// const checkRatedProductCatagory=(catagoryName)=>{
-//     const catagory=useProductStore.filterFromProductCatagory(catagoryName)
-//     if(useAuthStore.$state.user._id){
-//         const user_id=useAuthStore.$state.user._id
-//         useProductStore.$state.product_catagory_ratings.forEach(product_catagory_rate => {
-//             if(product_catagory_rate.user_id._id==user_id ){
-//                 if(product_catagory_rate.product_catagory_id._id==catagory._id){
-//                     return true
-//                 }
-//             }
-//         });
-//     }
-//     return false
-// }
 </script>
 
 <template>
@@ -267,22 +263,7 @@ const handleRateCatagory=async(catagory_name)=>{
                     <span class="text-secondary">5000+</span> Products
                 </div>
                 <!-- the other one -->
-                <!-- the column holder -->
-                <!-- <div 
-                class="w-fit flex flex-col gap-0 justify-center"
-                v-else-if="useAuthStore.$state.isAuthed==true">
-                    <div class="font-Roboto w-fit font-bold cursor-pointer hover:underline text-2xl"
-                    @click="handleRateCatagory(catagory_controller)"
-                    data-te-toggle="modal"
-                    data-te-target="#productCatagoryRatingStaticBackdrop"
-                    >
-                        <span class="text-secondary">{{ catagory_controller }}</span> Result
-                    </div>
-                    <div class="w-fit px-2 py-1 rounded-full font-Roboto text-xs text-white bg-green-500 capitalize" v-if="checkRatedProductCatagory(catagory_controller)==true">
-                        rated
-                    </div>
-                </div> -->
-                <ProductCatagoryName :name="catagory_controller" @handle_rate_product_catagory="handleRateCatagory()" v-else-if="useAuthStore.$state.isAuthed==true"/>
+                <ProductCatagoryName :name="catagory_controller" @handle_rate_product_catagory="handleRateCatagory" v-else-if="useAuthStore.$state.isAuthed==true"/>
                 <div
                 class="font-Roboto font-bold text-2xl"
                 v-else
@@ -327,13 +308,13 @@ const handleRateCatagory=async(catagory_name)=>{
             <product-add-to-cart :productInfo="product_controller"/>
         </teleport>
         <teleport to='body'>
-                    <product-rating :productInfo="rating_product" />
+                    <product-rating :animation-trigger="product_animation_trigger_controller" :productInfo="rating_product" />
         </teleport>
         <teleport to='body'>
             <ProductSearch/>
         </teleport>
         <teleport to="body">
-            <ProductCatagoryRating :catagory-info="rating_product_catagory" />
+            <ProductCatagoryRating :trig-animation="animation_trigger_controller" :catagory-info="rating_product_catagory" />
         </teleport>
     </div>
     <!-- <AnimatePlaceHolderArea/> -->

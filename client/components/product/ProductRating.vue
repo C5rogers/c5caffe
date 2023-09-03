@@ -11,9 +11,24 @@ const props=defineProps({
     productInfo:{
         type:Object,
         required:true
+    },
+    animationTrigger:{
+        type:Boolean,
+        default:false
     }
 })
 
+watch(()=>props.animationTrigger,(newValue)=>{
+    if(newValue){
+        dismiss_controller.value=false
+        rating_value.value=newValue.average_rating
+        total_rated_count.value=count_how_many_times_rated()
+        progress_animation_controller.value=true
+        setTimeout(() => {
+            progress_animation_controller.value=false
+        }, 1000);
+    }
+})
 
 const reset_rating_value=()=>{
     total_rated_count.value=0
