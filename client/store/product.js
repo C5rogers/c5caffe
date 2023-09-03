@@ -61,8 +61,7 @@ export const productStore = defineStore({
             }
         },
         filterFromProductCatagory(catagoryName) {
-            const catagory = this.product_catagory_ratings.find((catagory) => catagory.catagory == catagoryName)
-            console.log(catagory)
+            const catagory = this.product_catagorys.find((catagory) => catagory.catagory == catagoryName)
             return catagory
         },
         async fetchProduct(payload) {
@@ -148,7 +147,7 @@ export const productStore = defineStore({
         async rateProductCatagory(payload) {
             try {
                 this.isProductLoading = true
-                const responce = await axiosInstance.post('rating/product_catagory' + payload.product_catagory_id + '/rate', { rating_value: payload.rating_value })
+                const responce = await axiosInstance.post('rating/product_catagory/' + payload.product_catagory_id + '/rate', { rating_value: payload.rating_value })
                 this.isProductLoading = false
                 return true
             } catch (error) {
