@@ -10,6 +10,9 @@ export const cartStore = defineStore({
         favorite_products: [],
         is_favorite_product_loading: false,
         favorite_product_network_error: false,
+        favorite_product_catagorys: [],
+        is_favorite_product_catagorys_loading: false,
+        favorite_product_catagorys_network_error: false,
         carts_current_page: 1,
         carts_total_pages: 0,
         carts_page_limit: 4,
@@ -94,6 +97,27 @@ export const cartStore = defineStore({
                 }
                 if (error.code == 'ERR_NETWORK') {
                     this.favorite_product_network_error = true
+                }
+                return false
+            }
+        },
+        async fetchFavoriteProductCatagorys() {
+            try {
+                this.is_favorite_product_catagorys_loading = true
+                const responce = await axiosInstance.get('/cart/favorite/product_catagory')
+                if (responce.status == 200 || responce.status == 201) {
+                    this.favorite_product_catagorys = await responce.data.favorite_product_catagorys
+                    this.is_favorite_product_catagorys_loading = false
+                    return true
+                }
+            } catch (error) {
+                console.log(error)
+                this.is_favorite_product_catagorys_loading = false
+                if (error.response) {
+                    this.errors = error.response.data
+                }
+                if (error.code == 'ERR_NETWORK') {
+                    this.favorite_product_catagorys_network_error = true
                 }
                 return false
             }
@@ -272,6 +296,12 @@ export const cartStore = defineStore({
         },
         resetComputedTotalCartPrice() {
             this.computed_total_cart_price = 0
+        },
+        resetFavoriteProductCatagoryIsLoading() {
+            this.is_favorite_product_catagorys_loading = false
+        },
+        resetFavoriteProductCatagoryNetworkError() {
+            this.favorite_product_catagorys_network_error = false
         }
     },
     getters: {

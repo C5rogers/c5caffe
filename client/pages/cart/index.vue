@@ -17,6 +17,7 @@ onMounted(async()=>{
     })
     await useCartStore.fetchAllCarts('')
     await useCartStore.fetchFavoriteProducts()
+    await useCartStore.fetchFavoriteProductCatagorys()
 })
 
 
@@ -32,6 +33,11 @@ const handleReload=async()=>{
 const handleFavoriteProductReload=async()=>{
     useCartStore.resetFavoriteProductsNetworkError()
     await useCartStore.fetchFavoriteProducts()
+}
+
+const handleFavoriteProductCataogryReload=async()=>{
+    useCartStore.resetFavoriteProductCatagoryNetworkError()
+    await useCartStore.fetchFavoriteProductCatagorys()
 }
 
 const handleFavoriteProductDescription=(description)=>{
@@ -273,185 +279,263 @@ const handleGoToProduct=(id)=>{
                 </div>
                 <!-- the related results -->
                 <div class="w-full h-3/4 flex flex-col gap-1 mt-2">
-                    <!-- the title -->
-                    <div class="w-full py-1 px-2 border-b border-gray-300 font-Roboto font-bold text-xl text-gray-700 capitalize">
-                        favorite products:
-                    </div>
-                    <!-- the body -->
-                    <div 
-                    class="w-full h-full flex flex-col gap-1 items-center" 
-                    v-if="useCartStore.$state.favorite_products.length>0 && useCartStore.$state.is_favorite_product_loading==false && useCartStore.$state.favorite_product_network_error==false">
-                        <!-- this is first carosel container -->
-                        <div
-                        id="favoriteProductsCarousel"
-                        class="relative w-full h-fit"
-                        data-te-carousel-init
-                        data-te-ride="carousel"
-                        >
-                            <!-- the carousel items -->
+                    <!-- the product -->
+                    <div
+                    class="w-full flex flex-col gap-1"
+                    >
+                        <!-- the title -->
+                        <div class="w-full py-1 px-2 border-b border-gray-300 font-Roboto font-bold text-xl text-gray-700 capitalize">
+                            favorite products:
+                        </div>
+                        <!-- the body -->
+                        <div 
+                        class="w-full h-full flex flex-col gap-1 items-center" 
+                        v-if="useCartStore.$state.favorite_products.length>0 && useCartStore.$state.is_favorite_product_loading==false && useCartStore.$state.favorite_product_network_error==false">
+                            <!-- this is first carosel container -->
                             <div
-                            class="relative w-full overflow-hidden after:clear-both after:block after:content-['']"
+                            id="favoriteProductsCarousel"
+                            class="relative w-full h-fit"
+                            data-te-carousel-init
+                            data-te-ride="carousel"
                             >
-                                <!-- the first item -->
+                                <!-- the carousel items -->
                                 <div
-                                v-if="useCartStore.$state.favorite_products[0]"
-                                class="relative float-left px-1 -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-                                data-te-carousel-active
-                                data-te-carousel-item
-                                style="backface-visibility: hidden"
+                                class="relative w-full overflow-hidden after:clear-both after:block after:content-['']"
                                 >
-                                    <!-- the image -->
+                                    <!-- the first item -->
                                     <div
-                                    class="w-full h-[10em] rounded-md overflow-hidden flex items-center justify-center"
+                                    v-if="useCartStore.$state.favorite_products[0]"
+                                    class="relative float-left px-1 -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+                                    data-te-carousel-active
+                                    data-te-carousel-item
+                                    style="backface-visibility: hidden"
                                     >
-                                        <img @click.self="handleGoToProduct(useCartStore.$state.favorite_products[0].product_id._id)" :src="useCartStore.$state.favorite_products[0].product_id.image" class="w-full cursor-pointer h-full object-cover" :alt="useCartStore.$state.favorite_products[0].product_id.name">
-                                    </div>
-                                    <!-- the name -->
-                                    <div
-                                    class="flex flex-col gap-0 mt-1 justify-center font-Roboto"
-                                    >
+                                        <!-- the image -->
+                                        <div
+                                        class="w-full h-[7em] rounded-md overflow-hidden flex items-center justify-center"
+                                        >
+                                            <img @click.self="handleGoToProduct(useCartStore.$state.favorite_products[0].product_id._id)" :src="useCartStore.$state.favorite_products[0].product_id.image" class="w-full cursor-pointer h-full object-cover" :alt="useCartStore.$state.favorite_products[0].product_id.name">
+                                        </div>
                                         <!-- the name -->
                                         <div
-                                        class="text-xl font-bold first-letter:capitalize hover:underline cursor-pointer"
+                                        class="flex flex-col gap-0 mt-1 justify-center font-Roboto"
+                                        >
+                                            <!-- the name -->
+                                            <div
+                                            class="text-xl font-bold first-letter:capitalize hover:underline cursor-pointer"
+                                            @click="handleGoToProduct(useCartStore.$state.favorite_products[0].product_id._id)"
+                                            >
+                                                {{ useCartStore.$state.favorite_products[0].product_id.name }}
+                                            </div>
+                                            <!-- the catagory -->
+                                            <div class=" first-letter:capitalize text-secondary text-xs -mt-1">
+                                                {{ useCartStore.$state.favorite_products[0].product_id.catagory.catagory }}
+                                            </div>
+                                        </div>
+                                        <!-- the description -->
+                                        <div
+                                        class="text-sm text-gray-800 first-letter:capitalize cursor-pointer first-letter:text-lg hover:underline"
                                         @click="handleGoToProduct(useCartStore.$state.favorite_products[0].product_id._id)"
                                         >
-                                            {{ useCartStore.$state.favorite_products[0].product_id.name }}
+                                            {{handleFavoriteProductDescription(useCartStore.$state.favorite_products[0].product_id.description) }}
                                         </div>
-                                        <!-- the catagory -->
-                                        <div class=" first-letter:capitalize text-secondary text-xs -mt-1">
-                                            {{ useCartStore.$state.favorite_products[0].product_id.catagory.catagory }}
+                                        <!-- the five star rating -->
+                                        <div
+                                        class="mt-1"
+                                        >
+                                            <SharebleFiveStartRating :rating-value="useCartStore.$state.favorite_products[0].product_id.average_rating" />
                                         </div>
                                     </div>
-                                    <!-- the description -->
+                                    <!-- the other items -->
                                     <div
-                                    class="text-sm text-gray-800 first-letter:capitalize cursor-pointer first-letter:text-lg hover:underline"
-                                    @click="handleGoToProduct(useCartStore.$state.favorite_products[0].product_id._id)"
+                                    v-if="useCartStore.$state.favorite_products[1]"
+                                    class="relative float-left px-1 -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+                                    data-te-carousel-item
+                                    style="backface-visibility: hidden"
+                                    v-for="product in useCartStore.$state.favorite_products"
+                                    :key="product._id"
                                     >
-                                        {{handleFavoriteProductDescription(useCartStore.$state.favorite_products[0].product_id.description) }}
-                                    </div>
-                                    <!-- the five star rating -->
-                                    <div
-                                    class="mt-1"
-                                    >
-                                        <SharebleFiveStartRating :rating-value="useCartStore.$state.favorite_products[0].product_id.average_rating" />
-                                    </div>
-                                </div>
-                                <!-- the other items -->
-                                <div
-                                v-if="useCartStore.$state.favorite_products[1]"
-                                class="relative float-left px-1 -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-                                data-te-carousel-item
-                                style="backface-visibility: hidden"
-                                v-for="product in useCartStore.$state.favorite_products"
-                                :key="product._id"
-                                >
-                                    <!-- the image -->
-                                    <div
-                                    class="w-full h-[10em] rounded-md overflow-hidden flex items-center justify-center"
-                                    >
-                                        <img :src="product.product_id.image" @click.self="handleGoToProduct(product.product_id._id)" class="w-full cursor-pointer h-full object-cover" :alt="product.product_id.name">
-                                    </div>
-                                    <!-- the name -->
-                                    <div
-                                    class="flex flex-col gap-0 mt-1 justify-center font-Roboto"
-                                    >
+                                        <!-- the image -->
+                                        <div
+                                        class="w-full h-[7em] rounded-md overflow-hidden flex items-center justify-center"
+                                        >
+                                            <img :src="product.product_id.image" @click.self="handleGoToProduct(product.product_id._id)" class="w-full cursor-pointer h-full object-cover" :alt="product.product_id.name">
+                                        </div>
                                         <!-- the name -->
                                         <div
-                                        class="text-xl font-bold first-letter:capitalize hover:underline cursor-pointer"
+                                        class="flex flex-col gap-0 mt-1 justify-center font-Roboto"
+                                        >
+                                            <!-- the name -->
+                                            <div
+                                            class="text-xl font-bold first-letter:capitalize hover:underline cursor-pointer"
+                                            @click="handleGoToProduct(product.product_id._id)"
+                                            >
+                                                {{ product.product_id.name }}
+                                            </div>
+                                            <!-- the catagory -->
+                                            <div class=" first-letter:capitalize text-secondary text-xs -mt-1">
+                                                {{ product.product_id.catagory.catagory }}
+                                            </div>
+                                        </div>
+                                        <!-- the description -->
+                                        <div
+                                        class="text-sm text-gray-800 first-letter:capitalize cursor-pointer first-letter:text-lg hover:underline"
                                         @click="handleGoToProduct(product.product_id._id)"
                                         >
-                                            {{ product.product_id.name }}
+                                            {{ handleFavoriteProductDescription(product.product_id.description) }}
                                         </div>
-                                        <!-- the catagory -->
-                                        <div class=" first-letter:capitalize text-secondary text-xs -mt-1">
-                                            {{ product.product_id.catagory.catagory }}
+                                        <!-- the five star rating -->
+                                        <div>
+                                            <SharebleFiveStartRating :rating-value="product.product_id.average_rating" />
                                         </div>
-                                    </div>
-                                    <!-- the description -->
-                                    <div
-                                    class="text-sm text-gray-800 first-letter:capitalize cursor-pointer first-letter:text-lg hover:underline"
-                                    @click="handleGoToProduct(product.product_id._id)"
-                                    >
-                                        {{ handleFavoriteProductDescription(product.product_id.description) }}
-                                    </div>
-                                    <!-- the five star rating -->
-                                    <div>
-                                        <SharebleFiveStartRating :rating-value="product.product_id.average_rating" />
                                     </div>
                                 </div>
+                                <!--Carousel controls - prev item-->
+                                <button
+                                    class="absolute bottom-0 left-0 top-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
+                                    type="button"
+                                    data-te-target="#favoriteProductsCarousel"
+                                    data-te-slide="prev">
+                                    <span class="inline-block h-8 w-8">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="h-6 w-6">
+                                        <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M15.75 19.5L8.25 12l7.5-7.5" />
+                                    </svg>
+                                    </span>
+                                    <span
+                                    class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                    >Previous</span
+                                    >
+                                </button>
+                                <!--Carousel controls - next item-->
+                                <button
+                                    class="absolute bottom-0 right-0 top-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
+                                    type="button"
+                                    data-te-target="#favoriteProductsCarousel"
+                                    data-te-slide="next">
+                                    <span class="inline-block h-8 w-8">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="h-6 w-6">
+                                        <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                    </svg>
+                                    </span>
+                                    <span
+                                    class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                                    >Next</span
+                                    >
+                                </button>
                             </div>
-                            <!--Carousel controls - prev item-->
-                            <button
-                                class="absolute bottom-0 left-0 top-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
-                                type="button"
-                                data-te-target="#favoriteProductsCarousel"
-                                data-te-slide="prev">
-                                <span class="inline-block h-8 w-8">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="h-6 w-6">
-                                    <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M15.75 19.5L8.25 12l7.5-7.5" />
-                                </svg>
-                                </span>
-                                <span
-                                class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-                                >Previous</span
-                                >
-                            </button>
-                            <!--Carousel controls - next item-->
-                            <button
-                                class="absolute bottom-0 right-0 top-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
-                                type="button"
-                                data-te-target="#favoriteProductsCarousel"
-                                data-te-slide="next">
-                                <span class="inline-block h-8 w-8">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="h-6 w-6">
-                                    <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                                </svg>
-                                </span>
-                                <span
-                                class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-                                >Next</span
-                                >
-                            </button>
-                        </div>
-                        <div
-                        >
+                            <div
+                            >
 
+                            </div>
+                        </div>
+                        <!-- the loading -->
+                        <div
+                        v-else-if="useCartStore.$state.is_favorite_product_loading==true && useCartStore.$state.favorite_product_network_error==false"
+                        >
+                            <AnimationsFavoriteItem/>
+                        </div>
+                        <!-- the empty -->
+                        <div class="w-full flex items-center justify-center" v-else-if="useCartStore.$state.is_favorite_product_loading==false && useCartStore.$state.favorite_products.length==0 && useCartStore.$state.favorite_product_network_error==false">
+                            <SharebleEmpty message="Oops there is no rated product by you yet!"/>
+                        </div>
+                        <!-- the network error -->
+                        <div
+                        class="w-full flex flex-col items-center justify-center"
+                        v-else-if="useCartStore.$state.favorite_product_network_error==true"
+                        >
+                            <NetworkError @reload="handleFavoriteProductReload" />
                         </div>
                     </div>
-                    <!-- the loading -->
+                    <!-- the catagory -->
                     <div
-                    v-if="useCartStore.$state.is_favorite_product_loading==true && useCartStore.$state.favorite_product_network_error==false"
+                    class="w-full flex flex-col overflow-y-auto gap-1"
                     >
-                        <AnimationsFavoriteItem/>
-                    </div>
-                    <!-- the empty -->
-                    <div class="w-full flex items-center justify-center" v-if="useCartStore.$state.is_favorite_product_loading==false && useCartStore.$state.favorite_products.length==0 && useCartStore.$state.favorite_product_network_error==false">
-                        <SharebleEmpty message="Oops there is no rated product by you yet!"/>
-                    </div>
-                    <!-- the network error -->
-                    <div
-                    class="w-full flex flex-col items-center justify-center"
-                    v-if="useCartStore.$state.favorite_product_network_error==true"
-                    >
-                        <NetworkError @reload="handleFavoriteProductReload" />
+                        <!-- the title -->
+                        <div class="w-full py-1 px-2 border-b border-gray-300 font-Roboto font-bold text-xl text-gray-700 capitalize">
+                            favorite product catagorys:
+                        </div>
+                        <!-- the body -->
+                        <div
+                        class="w-full flex flex-wrap gap-1 mt-1"
+                        v-if="useCartStore.$state.favorite_product_catagorys.length>0 && useCartStore.$state.is_favorite_product_catagorys_loading==false && useCartStore.$state.favorite_product_catagorys_network_error==false"
+                        >
+                            <div
+                            v-for="catagory_rate in useCartStore.$state.favorite_product_catagorys"
+                            :key="catagory_rate._id"
+                            class="w-fit px-1 py-1 flex flex-col gap-0 justify-center"
+                            >
+                                <!-- the name -->
+                                <div class="w-fit font-Roboto text-xs px-2 py-[1px] rounded-full bg-green-500 text-white capitalize">
+                                    {{ catagory_rate.product_catagory_id.catagory }}
+                                </div>
+                                <!-- the rating -->
+                                <SharebleFiveStartRating :rating-value="parseToNumber(catagory_rate.product_catagory_id.average_rating)" />
+                            </div>
+                        </div>
+                        <!-- the animation -->
+                        <div
+                        v-else-if="useCartStore.$state.is_favorite_product_catagorys_loading==true && useCartStore.$state.favorite_product_catagorys_network_error==false"
+                        class="w-full flex flex-wrap gap-1 mt-1"
+                        >
+                            <AnimationsFavoriteproductcatagorys/>
+                        </div>
+                        <!-- the empty -->
+                        <div
+                        class="w-full flex flex-col gap-0 items-center justify-center"
+                        v-else-if="useCartStore.$state.is_favorite_product_catagorys_loading==false && useCartStore.$state.favorite_product_catagorys.length==0 && useCartStore.$state.favorite_product_catagorys_network_error==false"
+                        >   
+                            <!-- the image -->
+                            <div
+                            class="w-28 h-28 flex justify-center items-center rounded-full overflow-hidden"
+                            >
+                                <img src="../../assets/images/witch.png" class="w-full h-full object-cover" alt="">
+                            </div>
+                            <!-- the message -->
+                            <div class="text-gray-700 text-xs font-Roboto capitalize">
+                                Oops there is no product catagory rated by you yet!
+                            </div>
+                        </div>
+                        <!-- the network error -->
+                        <div
+                        class="w-full flex flex-col items-center"
+                        v-else-if="useCartStore.$state.favorite_product_catagorys_network_error==true"
+                        >
+                           <!-- the image -->
+                           <div 
+                           class="w-28 h-28 flex justify-center items-center rounded-full overflow-hidden"
+                           >
+                                <img src="../../assets/images/noInternet.png" class="w-full h-full object-cover" alt="">
+                           </div>
+                           <!-- the message -->
+                           <div class="text-gray-700 text-xs capitalize font-Roboto">
+                            Oops check your internet connection
+                           </div>
+                           <!-- the button -->
+                           <button
+                           @click="handleFavoriteProductCataogryReload"
+                           class="px-3 py-[2px] text-xs capitalize mt-1 rounded-full border-[1px] border-secondary"
+                           >
+                            Reload
+                           </button>
+                        </div>
                     </div>
                 </div>
             </div>

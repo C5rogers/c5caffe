@@ -4,6 +4,7 @@ const { isValidObjectId } = require('mongoose')
 const User = require('../../database/schemas/User')
 const Product = require('../../database/schemas/Product')
 const productRating = require('../../database/schemas/ProductRating')
+const ProductCatagoryRating = require('../../database/schemas/ProductCatagoryRating')
 
 module.exports.Carts_get = async(req, res) => {
     try {
@@ -138,6 +139,20 @@ module.exports.Cart_favorite_products = async(req, res) => {
             }
         })
         return res.status(200).json({ favorite_products })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(error)
+    }
+}
+
+module.exports.Cart_favorite_product_catagorys = async(req, res) => {
+    try {
+        const token = req.cookies.jwt
+        const user_id = getIdFromToken(token)
+        const favorite_product_catagorys = await ProductCatagoryRating.find({
+            user_id
+        }).populate('product_catagory_id')
+        return res.status(200).json({ favorite_product_catagorys })
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)
