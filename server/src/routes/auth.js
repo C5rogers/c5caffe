@@ -18,7 +18,7 @@ router.post("/logout", middleware.protect_with_auth, AuthController.Logout_post)
 
 //to reset password
 router.post('/password/reset', middleware.check_authed, validations.custome_reset_password_validation, AuthController.Password_reset_request)
-router.post('/password/reset/update', middleware.check_authed, validations.custome_reset_password_update_validation, )
+router.post('/password/reset/update', middleware.check_authed, validations.custome_reset_password_update_validation, AuthController.Update_password)
 
 router.get('/google', passport.authenticate('google', { session: true, scope: ['profile', 'email'] }))
 router.get('/google/callback', AuthController.Google_loged)

@@ -18,7 +18,12 @@ export const authStore = defineStore({
         anonimous_user_pages: ['index', 'about', 'contact', 'product', 'product-id', 'auth-login', 'auth-signup', 'auth-forgot_password', 'auth-change_password'],
         admin_user_pages: ['admin'],
         attemptErrors: [],
-        network_error: false
+        network_error: false,
+        password_reset_success_message: '',
+        password_reset_error_message: "",
+        password_reset_token: "",
+        password_reseted_email_error_message: "",
+        password_reset_network_error: false,
     }),
     actions: {
         loadUserInformation() {
@@ -146,6 +151,9 @@ export const authStore = defineStore({
         resetNetworkError() {
             this.network_error = false
         },
+        resetChangePasswordNetworkError() {
+            this.password_reset_network_error = false
+        },
         resetAuthInformation() {
             localStorage.removeItem('C5_ONLINE_CAFFE_USER')
             localStorage.removeItem('C5_ONLINE_CAFFE_USER_ROLL')
@@ -161,6 +169,52 @@ export const authStore = defineStore({
         getRoll() {
             if (localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL')) {
                 this.roll = localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL')
+            }
+        },
+        async PasswordResetRequest(payload) {
+            try {
+                const responce = await axiosInstance('/auth/password/reset')
+                if (responce.status == 200 || responce.status == 201) {
+                    this.password_reset_success_message = await responce.data.message
+                    this.password_reset_token = await responce.data.token
+                    return true
+                }
+            } catch (error) {
+                console.log(error)
+                if (error.response) {
+                    this.attemptErrors = error.response.data
+                    if (error.response.data.message) {
+                        this.password_reset_error_message = error.response.data.message
+                    }
+                    if (error.code == 'ERR_NETWORK') {
+                        this.password_reset_network_error = true
+                    }
+                }
+                return false
+            }
+        },
+        async changePassword(payload) {
+            try {
+                const responce = await axiosInstance('/auth/password/reset/update', payload)
+                if (responce.status == 200 || responce.status == 201) {
+                    this.password_reset_success_message = await responce.data.message
+                    if (responce.data.error) {
+                        this.password_reseted_email_error_message = await responce.data.error
+                    }
+                    return true
+                }
+            } catch (error) {
+                console.log(error)
+                if (error.response) {
+                    this.attemptErrors = error.response.data
+                    if (error.response.data.message) {
+                        this.password_reset_error_message = error.response.data.message
+                    }
+                }
+                if (error.code == 'ERR_NETWORK') {
+                    this.password_reset_network_error = true
+                }
+                return false
             }
         }
     },
