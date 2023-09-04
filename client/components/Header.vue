@@ -191,7 +191,7 @@ const handleLogOut=async()=>{
                     aria-current="true"
                     class="dropLink w-full hover:text-secondary hover:border-b-secondary"
                     ><span><i class="fa fa-cog" aria-hidden="true"></i></span><span>Profile</span></a>
-                    <button @click="handleLogOut" class="flex w-full items-center justify-center gap-1 py-1 rounded-full bg-red-500 text-white"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span><span>Logout</span></button>
+                    <button @click="handleLogOut" class="flex w-full items-center justify-center gap-1 py-1 rounded-full bg-red-500 text-white"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span><span>{{ $t('logout') }}</span></button>
                 </div>
             </div>
             </div>

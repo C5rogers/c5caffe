@@ -14,9 +14,10 @@ const useAuthStore=authStore()
 
 const catagory_controller=ref('')
 onMounted(async() => {
+    catagory_controller.value=''
     if(useProductStore.$state.products.length==0){
         useProductStore.setProeductPageLimit(page_controller.value)
-        useProductStore.fetchProducts('')
+       await useProductStore.fetchProducts('')
     }
     initTE({
         Select,
@@ -68,6 +69,12 @@ const handleRateCatagory=async(catagory_name)=>{
    setTimeout(() => {
     animation_trigger_controller.value=false
    }, 3000);
+}
+
+
+const handleReloadData=async ()=>{
+    useProductStore.resetNetworkError()
+    await useProductStore.fetchProducts(catagory_controller.value)
 }
 
 </script>
@@ -216,9 +223,16 @@ const handleRateCatagory=async(catagory_name)=>{
                 </button>
             </div>
             <!-- else -->
-            <div class="w-3/4 flex flex-col gap-1 mt-4 items-center justify-center" v-else>
+            <div class="w-3/4 flex flex-col gap-1 mt-4 items-center justify-center" v-else-if="useProductStore.$state.network_error==false && useProductStore.$state.isProductsLoading==true">
                 <!-- show the empty catagory lists -->
                 <AnimationsCatagorys/>
+            </div>
+            <!-- else -->
+            <div
+            class="w-3/4 flex flex-col gap-1 mt-4 items-center justify-center"
+            v-else-if="useProductStore.$state.network_error==true"
+            >
+                <NetworkError @reload="handleReloadData" />
             </div>
         </div>
         <!-- the right one -->
@@ -304,6 +318,12 @@ const handleRateCatagory=async(catagory_name)=>{
             >
             <shareble-empty/>
         </div>  
+        <div
+        class="w-full lg:w-3/4 min-h-[30em] flex flex-col items-center ml-auto justify-center" 
+        v-else-if="useProductStore.$state.network_error==true"
+        >
+            <NetworkError @reload="handleReloadData" />
+        </div>
         <teleport to='body'>
             <product-add-to-cart :productInfo="product_controller"/>
         </teleport>

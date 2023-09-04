@@ -85,6 +85,11 @@ const handleAddToCart=async()=>{
                 dismiss_controller.value=true
             }, 3000);
             toast.success(`You added ${props.productInfo.name} to your cart successfully!`)
+            if(useCartStore.$state.total_users_cart_count==1){
+                toast.info('Note: Your cart will be expired after 24 houres unless you login!',{
+                position:'bottom-left'
+            })
+            }
         }else{
             toast.error(`You are faild to add ${props.productInfo.name} to your cart!`)
         }
