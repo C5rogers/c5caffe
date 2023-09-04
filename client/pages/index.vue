@@ -29,7 +29,7 @@ onMounted(() => {
             <div class="w-full sm:w-3/4 md:w-1/2 order-2 md:order-1 flex flex-col gap-3 justify-center">
                 <!-- the title -->
                 <div class="w-full text-4xl font-bold capitalize">
-                    Welcome To <span class="text-secondary">C5</span> Online Caffe.
+                    {{ $t('welcome') }} {{ $t('to') }} <span class="text-secondary">{{ $t('c5') }}</span> {{ $t('online caffe') }}
                 </div>
                 <!-- the article -->
                 <div class="text-gray-900 capitalize">
@@ -39,11 +39,11 @@ onMounted(() => {
                 <div class="w-full flex items-center gap-5">
                     <!-- the product link-->
                     <div>
-                        <router-link to="/product" data-te-ripple-init data-te-ripple-color="light" class="px-5 py-2 bg-secondary text-white rounded-full transition duration-200 transform hover:scale-105 theLink"><span>Get Start</span><span class="arrow">&rightarrow;</span></router-link>
+                        <router-link to="/product" data-te-ripple-init data-te-ripple-color="light" class="px-5 py-2 bg-secondary text-white rounded-full transition duration-200 transform hover:scale-105 theLink"><span>{{ $t('get start') }}</span><span class="arrow">&rightarrow;</span></router-link>
                     </div>
                     <!-- the signup link -->
                     <div v-if="auth.$state.isAuthed==false">
-                        <router-link to="/auth/signup" data-te-ripple-init class="px-5 py-2 border border-secondary rounded-full theLink"><span>Register</span><span class="arrow">&rightarrow;</span></router-link>
+                        <router-link to="/auth/signup" data-te-ripple-init class="px-5 py-2 border border-secondary rounded-full theLink"><span>{{ $t('register') }}</span><span class="arrow">&rightarrow;</span></router-link>
                     </div>
                 </div>
             </div>
@@ -302,7 +302,7 @@ onMounted(() => {
 <div class="container mt-2 mx-auto md:px-6">
   <!-- Section: Design Block -->
   <section class="mb-4 text-center">
-    <h2 class="mt-4 mb-10 text-3xl text-primary md:text-white font-bold">Why You Choose us</h2>
+    <h2 class="mt-4 mb-10 text-3xl text-primary md:text-white font-bold">{{ $t('why you choose us') }}</h2>
 
     <div class="grid lg:grid-cols-3 lg:gap-x-12">
       <div class="mb-16 lg:mb-0">
@@ -321,7 +321,7 @@ onMounted(() => {
             <h3 class="mb-4 text-2xl font-bold text-white dark:text-primary-400">
               10,000+
             </h3>
-            <h5 class="mb-4 text-lg font-medium">Products</h5>
+            <h5 class="mb-4 text-lg font-medium">{{ $t('products') }}</h5>
             <p class="text-neutral-500 dark:text-neutral-300">
               Laudantium totam quas cumque pariatur at doloremque hic quos
               quia eius
@@ -346,7 +346,7 @@ onMounted(() => {
             <h3 class="mb-4 text-2xl font-bold text-white dark:text-primary-400">
               5000+
             </h3>
-            <h5 class="mb-4 text-lg font-medium">Users</h5>
+            <h5 class="mb-4 text-lg font-medium">{{ $t('users') }}</h5>
             <p class="text-neutral-500 dark:text-neutral-300">
               Eum nostrum fugit numquam, voluptates veniam neque quibusdam
               ullam
@@ -367,7 +367,7 @@ onMounted(() => {
             <h3 class="mb-4 text-2xl font-bold text-white dark:text-primary-400">
               49/month
             </h3>
-            <h5 class="mb-4 text-lg font-medium">Deliverys</h5>
+            <h5 class="mb-4 text-lg font-medium">{{ $t('deliverys') }}</h5>
             <p class="text-neutral-500 dark:text-neutral-300">
               Cupiditate enim, minus nulla dolor cumque iure eveniet facere
               ullam
@@ -401,7 +401,7 @@ onMounted(() => {
     <div class="w-full sm:w-3/4 md:w-1/2 flex flex-col gap-3 justify-center">
         <!-- the title -->
         <div class="w-full text-4xl font-bold capitalize">
-            Our service and our products
+            {{ $t('our service and our products') }}
         </div>
         <!-- the article -->
         <div class="text-gray-900 capitalize">
@@ -410,7 +410,7 @@ onMounted(() => {
         <!-- the links -->
         <div class="w-full flex items-center gap-5">
             <div v-if="auth.isAuthed==false">
-                <router-link to="/auth/signup" data-te-ripple-init class="px-5 py-2 border border-secondary rounded-full theLink"><span>Register</span><span class="arrow">&rightarrow;</span></router-link>
+                <router-link to="/auth/signup" data-te-ripple-init class="px-5 py-2 border border-secondary rounded-full theLink"><span>{{ $t('register') }}</span><span class="arrow">&rightarrow;</span></router-link>
             </div>
         </div>
     </div>

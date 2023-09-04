@@ -1,4 +1,11 @@
 <script setup>
+import {Select,initTE} from 'tw-elements'
+
+onMounted(()=>{
+    initTE({
+        Select
+    })
+})
 
 const router=useRouter()
 const handleGoHome=()=>{
@@ -64,6 +71,16 @@ watch(()=>route.name,(newName)=>{
                                 <a href="#" class="w-7 h-7 sm:w-10 sm:h-10 md:w-14 md:h-14 flex items-center bg-primary justify-center text-white rounded-full text-lg sm:text-xl md:text-3xl"><i class="fa-brands fa-tiktok"></i></a>
                             </li>
                         </ul>
+                    </div>
+                    <!-- the change locale selct option -->
+                    <div class="mt-1">
+                        <form>
+                            <select data-te-select-init name="language" id="language" class="w-14 p-0" v-model="$i18n.locale">
+                                <option value="en" class="capitalize font-Roboto">{{ $t('english') }}</option>
+                                <option value="am" class="capitalize font-Roboto">{{ $t('amharic') }}</option>
+                            </select>
+                            <label data-te-select-label-ref>{{ $t('language') }}</label>
+                        </form>
                     </div>
                 </div>
                 <!-- the vertical line -->

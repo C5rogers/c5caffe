@@ -76,7 +76,7 @@ const handleLogOut=async()=>{
             <nav class="font-Roboto">
                 <ul class="flex items-center -mb-1 justify-center px-2 gap-1 md:gap-4 uppercase relative">
                     <li class="h-10">
-                        <nuxt-link to="/" class="pb-3 px-1 text-xs md:text-lg">Home</nuxt-link>
+                        <nuxt-link to="/" class="pb-3 px-1 text-xs md:text-lg">{{ $t('home') }}</nuxt-link>
                     </li>
                     <li class="h-10">
                     <button class=" mt-1 md:mt-0 md:pb-3 text-xs md:text-lg  px-1 uppercase flex items-center justify-center gap-1"
@@ -88,7 +88,7 @@ const handleLogOut=async()=>{
                         aria-expanded="false"
                         data-te-nav-link-ref
                         @click="handleMenuClic"
-                        >Service <span><i class="fa fa-angle-right transition duration-150 ease-out" :class="{'rotate-90':changeDirection}"></i></span>
+                        >{{ $t('service') }} <span><i class="fa fa-angle-right transition duration-150 ease-out" :class="{'rotate-90':changeDirection}"></i></span>
                     </button>
                         <!-- the absolute menu -->
                         <div class="absolute left-0 pt-3 right-20 top-full z-[1000] mt-0 hidden  border-none bg-white bg-clip-padding text-neutral-600 shadow-md dark:bg-neutral-700 dark:text-neutral-200 [&[data-te-dropdown-show]]:block"
@@ -104,7 +104,7 @@ const handleLogOut=async()=>{
                                 <span>
                                     <i class="fa-brands fa-paypal"></i>
                                 </span>
-                                Payment
+                                {{ $t('payment') }}
                                 </a>
                                 <a href="#"
                                 aria-current="true"
@@ -113,7 +113,7 @@ const handleLogOut=async()=>{
                                 <span>
                                     <i class="fas fa-shipping-fast"></i>
                                 </span>
-                                Delivery
+                                {{ $t('delivery') }}
                                 </a>
                                 <a href="#"
                                 aria-current="true"
@@ -122,7 +122,7 @@ const handleLogOut=async()=>{
                                 <span>
                                     <i class="fas fa-user-secret"></i>
                                 </span>
-                                Privacy Policy
+                                {{ $t('privacy policy') }}
                                 </a>
                                 <a href="#"
                                 aria-current="true"
@@ -131,19 +131,19 @@ const handleLogOut=async()=>{
                                 <span>
                                     <i class="fas fa-building"></i>
                                 </span>
-                                Company Policy
+                                {{ $t('company policy') }}
                                 </a>
                             </div>
                         </div>
                     </li>
                     <li class="h-10">
-                        <nuxt-link to="/product" class="pb-3 px-1 text-xs md:text-lg">Products</nuxt-link>
+                        <nuxt-link to="/product" class="pb-3 px-1 text-xs md:text-lg">{{ $t('products') }}</nuxt-link>
                     </li>
                     <li class="h-10">
-                        <nuxt-link to="/about" class="pb-3 px-1 text-xs md:text-lg">About Us</nuxt-link>
+                        <nuxt-link to="/about" class="pb-3 px-1 text-xs md:text-lg">{{ $t('about') }}</nuxt-link>
                     </li>
                     <li class="h-10">
-                        <nuxt-link to="/contact" class="pb-3 px-1 text-xs md:text-lg">Contact Us</nuxt-link>
+                        <nuxt-link to="/contact" class="pb-3 px-1 text-xs md:text-lg">{{ $t('contact') }}</nuxt-link>
                     </li>
                 </ul>
             </nav>
@@ -151,11 +151,11 @@ const handleLogOut=async()=>{
             <Cart/>
             <!-- the buttons -->
             <div class="flex relative items-center justify-center gap-3 my-auto mb-3" v-if="!isAuthed">
-                <button data-te-ripple-init  data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-lg font-light px-2 py-1 rounded-md transition duration-200  hover:bg-gray-100 " @click="handleToLogin">LOGIN</button>
+                <button data-te-ripple-init  data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-lg font-light px-2 py-1 rounded-md transition duration-200  hover:bg-gray-100 uppercase " @click="handleToLogin">{{ $t('login') }}</button>
                 <span>
                     <i class="fa fa-angle-right"></i>
                 </span>
-                <button data-te-ripple-init data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-lg font-light px-2 py-1 rounded-md duration-200  hover:bg-gray-100 " @click="handleToSignup">SIGNUP</button>
+                <button data-te-ripple-init data-te-ripple-color="rgb(167, 165, 165)" class="text-sm md:text-lg font-light px-2 py-1 rounded-md duration-200  hover:bg-gray-100 uppercase" @click="handleToSignup">{{ $t('signup') }}</button>
             </div>
             <!-- the else holder -->
             <div v-else-if="isAuthed" class="relative">
