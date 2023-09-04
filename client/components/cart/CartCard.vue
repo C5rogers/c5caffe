@@ -84,7 +84,7 @@ const handleGoToProduct=()=>{
             </div>
             <!-- the last one -->
             <div class="flex w-32 gap-1 mr-1 justify-center items-center font-light text-xl capitalize">
-                <span class="font-bold">Total: </span>
+                <span class="font-bold">{{ $t('total') }}: </span>
                 {{ cart.overall_price }}$
             </div>
         </div>
@@ -97,7 +97,7 @@ const handleGoToProduct=()=>{
             data-te-ripple-color="light"
             class=" py-1 w-[7em] px-4 items-center hover:text-secondary text-xs hover:underline font-light rounded-md"
             >
-                Remove
+                {{ $t('remove') }}
             </button>
         </div>
     </div>

@@ -454,14 +454,14 @@ const handleGoToProduct=(id)=>{
                         </div>
                         <!-- the empty -->
                         <div class="w-full flex items-center justify-center" v-else-if="useCartStore.$state.is_favorite_product_loading==false && useCartStore.$state.favorite_products.length==0 && useCartStore.$state.favorite_product_network_error==false">
-                            <SharebleEmpty message="Oops there is no rated product by you yet!"/>
+                            <SharebleEmpty :small-mode="true" message="Oops there is no rated product by you yet!"/>
                         </div>
                         <!-- the network error -->
                         <div
                         class="w-full flex flex-col items-center justify-center"
                         v-else-if="useCartStore.$state.favorite_product_network_error==true"
                         >
-                            <NetworkError @reload="handleFavoriteProductReload" />
+                            <NetworkError :small-mode="true" @reload="handleFavoriteProductReload" />
                         </div>
                     </div>
                     <!-- the catagory -->
@@ -502,39 +502,14 @@ const handleGoToProduct=(id)=>{
                         class="w-full flex flex-col gap-0 items-center justify-center"
                         v-else-if="useCartStore.$state.is_favorite_product_catagorys_loading==false && useCartStore.$state.favorite_product_catagorys.length==0 && useCartStore.$state.favorite_product_catagorys_network_error==false"
                         >   
-                            <!-- the image -->
-                            <div
-                            class="w-28 h-28 flex justify-center items-center rounded-full overflow-hidden"
-                            >
-                                <img src="../../assets/images/witch.png" class="w-full h-full object-cover" alt="">
-                            </div>
-                            <!-- the message -->
-                            <div class="text-gray-700 text-xs font-Roboto capitalize">
-                                Oops there is no product catagory rated by you yet!
-                            </div>
+                            <SharebleEmpty :small-mode="true" message="Oops there is no product catagory rated by you yet!" />
                         </div>
                         <!-- the network error -->
                         <div
                         class="w-full flex flex-col items-center"
                         v-else-if="useCartStore.$state.favorite_product_catagorys_network_error==true"
                         >
-                           <!-- the image -->
-                           <div 
-                           class="w-28 h-28 flex justify-center items-center rounded-full overflow-hidden"
-                           >
-                                <img src="../../assets/images/noInternet.png" class="w-full h-full object-cover" alt="">
-                           </div>
-                           <!-- the message -->
-                           <div class="text-gray-700 text-xs capitalize font-Roboto">
-                            Oops check your internet connection
-                           </div>
-                           <!-- the button -->
-                           <button
-                           @click="handleFavoriteProductCataogryReload"
-                           class="px-3 py-[2px] text-xs capitalize mt-1 rounded-full border-[1px] border-secondary"
-                           >
-                            Reload
-                           </button>
+                          <NetworkError :small-mode="true" @reload="handleFavoriteProductCataogryReload" />
                         </div>
                     </div>
                 </div>
