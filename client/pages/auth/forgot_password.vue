@@ -2,8 +2,15 @@
 import {Form,Field} from 'vee-validate'
 import * as yup from 'yup'
 import {Ripple,initTE} from 'tw-elements'
+import {useToast} from 'vue-toastification'
 
+
+const hide_form=ref(false)
 const inProcess=ref(false)
+const toast=useToast()
+
+const useAuthStore=authStore()
+
 
 onMounted(()=>{
     initTE({
@@ -16,9 +23,31 @@ const schema=yup.object().shape({
     email:yup.string().required().email().matches()
 })
 
-const handleForgotPassword=(value)=>{
+const handleForgotPassword=async(value)=>{
     inProcess.value=!inProcess.value
-    console.log(value)
+    const result=await useAuthStore.PasswordResetRequest(value)
+    if(result==true){
+        hide_form.value=true
+        if(useAuthStore.$state.password_reset_success_message){
+            toast.success(useAuthStore.$state.password_reset_success_message)
+            useAuthStore.resetPasswordSuccessMessage()
+        }else{
+            toast.success("You almost get email to reset your password.please verify your email")
+        }
+        inProcess.value=false
+    }else{
+        if(useAuthStore.$state.password_reset_error_message){
+            toast.error(useAuthStore.$state.password_reset_error_message,{
+                position:'bottom-right'
+            })
+            useAuthStore.resetPasswordErrorMessage()
+        }else{
+            toast.error('We got a troble to let you change your password',{
+                position:"bottom-right"
+            })
+        }
+        inProcess.value=false
+    }
 }
 
 definePageMeta({
@@ -39,7 +68,7 @@ definePageMeta({
         </div>
         <!-- the form -->
         <div class="w-full items-center">
-            <Form @submit="handleForgotPassword" class="font-Roboto w-full flex flex-col gap-3 items-center" :validation-schema="schema" v-slot="{errors}">
+            <Form @submit="handleForgotPassword" class="font-Roboto w-full flex flex-col gap-3 items-center" :validation-schema="schema" v-slot="{errors}" v-if="hide_form==false">
                 <!-- input cont -->
                 <div class="formInputCont">
                     <FormLabel title="Email" />
@@ -47,10 +76,17 @@ definePageMeta({
                     <div class="w-full relative">
                         <!-- the input -->
                         <Field type="email" placeholder="nejashi@gmail.com" class="formInput focus:bg-gray-200" name="email" />
-                        <InputErrorMark v-if="errors.email"/>
+                        <InputErrorMark v-if="errors.email || useAuthStore.$state.attemptErrors.email"/>
                         <!-- the error message -->
-                        <div class="formErrorMessage">
+                         <div class="formErrorMessage" v-if="errors.email">
                             {{ errors.email }}
+                        </div>
+                        <!-- the another email error -->
+                        <div
+                        class="formErrorMessage"
+                        v-else-if="useAuthStore.$state.attemptErrors.email"
+                        >
+                            {{ useAuthStore.$state.attemptErrors.email }}
                         </div>
                     </div>
                 </div>
@@ -77,6 +113,12 @@ definePageMeta({
                     </div>
                 </div>
             </Form>
+            <!-- the other one -->
+            <div
+            class="ont-Roboto w-full flex flex-col gap-3 items-center"
+            v-else-if="hide_form">
+                We send you email. Go ahead and verify your email to reset your password.
+            </div>
             <!-- the footer -->
         <div class="w-full mt-10 flex items-center justify-center text-gray-500 font-Roboto font-light">
             <span>&copy;</span> C5 Online Caffe 2015 E.C

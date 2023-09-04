@@ -173,7 +173,7 @@ export const authStore = defineStore({
         },
         async PasswordResetRequest(payload) {
             try {
-                const responce = await axiosInstance('/auth/password/reset')
+                const responce = await axiosInstance.post('/auth/password/reset', payload)
                 if (responce.status == 200 || responce.status == 201) {
                     this.password_reset_success_message = await responce.data.message
                     this.password_reset_token = await responce.data.token
@@ -195,7 +195,7 @@ export const authStore = defineStore({
         },
         async changePassword(payload) {
             try {
-                const responce = await axiosInstance('/auth/password/reset/update', payload)
+                const responce = await axiosInstance.post('/auth/password/reset/update', payload)
                 if (responce.status == 200 || responce.status == 201) {
                     this.password_reset_success_message = await responce.data.message
                     if (responce.data.error) {
@@ -216,6 +216,15 @@ export const authStore = defineStore({
                 }
                 return false
             }
+        },
+        resetPasswordSuccessMessage() {
+            this.password_reset_success_message = ''
+        },
+        resetPasswordErrorMessage() {
+            this.password_reset_error_message = ''
+        },
+        resetPasswordEmailErrorMessage() {
+            this.password_reseted_email_error_message = ''
         }
     },
     getters: {
