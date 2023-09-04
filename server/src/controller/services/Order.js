@@ -70,7 +70,7 @@ module.exports.Order_get = async(req, res) => {
                 const token = req.cookies.jwt
                 const user_id = getIdFromToken(token)
                 const order = await Order.findOne({ $and: [{ _id }, { user: user_id }] }).populate("user", "_id username gender location profile").populate("carts")
-                return res.status(200).json(order)
+                return res.status(200).json({ order })
             } else {
                 errors.order_id = "Invalid order id"
                 return res.status(400).json(errors)
