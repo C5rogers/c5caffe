@@ -61,5 +61,16 @@
     "note": "Note",
     "no size": "NoSize",
     "buy more and save": "Buy More & Save?",
-    "total": "Total"
+    "total": "Total",
+    "cart items": "Cart Items",
+    "summery": "Summery",
+    "excluding": "Excluding",
+    "favorite": "Favorite",
+    "service and delivery options": "Service and delivery options",
+    "click and collect": "Click and collect",
+    "standard delivery": "Standard delivery withn a day and extra delivery fee 53$",
+    "standard and quick delivery": " Standard and quick(instant) delivery withen a houer and extra delivery fee 100$",
+    "free": "FREE",
+    "check out": "Check Out",
+    "logout": "Logout"
 }

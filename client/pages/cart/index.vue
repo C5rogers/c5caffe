@@ -115,7 +115,7 @@ const handleGoToProduct=(id)=>{
             <div class=" md:w-2/3 lg:w-full h-2/3 p-2 border border-gray-300 rounded-xl">
                 <!-- the title -->
                 <div class="w-full py-1 px-2 border-b border-gray-300 font-Roboto font-bold text-xl text-gray-700 capitalize">
-                    Cart Items
+                    {{ $t("cart items") }}
                 </div>
                 <!-- the body -->
                 <div class="w-full flex flex-col gap-1 justify-center px-3">
@@ -168,7 +168,7 @@ const handleGoToProduct=(id)=>{
             <div class="w-full h-1/3 border p-2 border-gray-300 font-Roboto rounded-xl">
                 <!-- the title -->
                 <div class="w-full py-1 px-2 border-b border-gray-300 font-Roboto font-bold text-xl text-gray-700 capitalize">
-                    Service and delivery options
+                    {{ $t('service and delivery options') }}
                 </div>
                 <!-- the body -->
                 <div class="w-full flex flex-col gap-1 justify-center">
@@ -182,12 +182,12 @@ const handleGoToProduct=(id)=>{
                             </div>
                             <!-- the description -->
                             <div class="text-gray-800 first-letter:capitalize first-letter:2xl font-light">
-                                Click and collect.
+                                {{ $t('click and collect') }}
                             </div>
                         </div>
                         <!-- the right -->
                         <div class="text-gray-800 uppercase font-light text-xl">
-                            FREE
+                            {{ $t('free') }}
                         </div>
                     </div>
                     <!-- card two -->
@@ -200,7 +200,7 @@ const handleGoToProduct=(id)=>{
                             </div>
                             <!-- the description -->
                             <div class="text-gray-800 first-letter:capitalize first-letter:2xl font-light">
-                                Standard delivery withn a day and extra delivery fee 53$
+                                {{ $t("standard delivery") }}
                             </div>
                         </div>
                         <!-- the right -->
@@ -219,7 +219,7 @@ const handleGoToProduct=(id)=>{
                             </div>
                             <!-- the description -->
                             <div class="text-gray-800 first-letter:capitalize first-letter:2xl font-light">
-                                Standard and quick(instant) delivery withen a houer and extra delivery fee 100$
+                                {{ $t('standard and quick delivery') }}
                             </div>
                         </div>
                         <!-- the right -->
@@ -234,7 +234,7 @@ const handleGoToProduct=(id)=>{
         <div class="w-full md:w-fit lg:w-1/3 h-full border p-2 border-gray-300 rounded-xl">
             <!-- the title  -->
             <div class="w-full py-1 px-2 border-b border-gray-300 font-Roboto font-bold text-xl text-gray-700 capitalize">
-                Summery
+                {{ $t("summery") }}
             </div>
             <!-- the body -->
             <div class="w-full h-full flex flex-col gap-2 items-center justify-center">
@@ -242,7 +242,7 @@ const handleGoToProduct=(id)=>{
                 <div class="w-full h-fit flex flex-col gap-4">
                     <!-- the final result -->
                     <div class="w-full flex gap-2 items-center font-Roboto">
-                        <span class="font-bold">Total<sub>(excluding deliver)</sub>:</span><span>{{ useCartStore.computed_total_cart_price }}$USD</span>
+                        <span class="font-bold">{{ $t('total') }}<sub>({{ $t('excluding') }} {{ $t('delivery') }})</sub>:</span><span>{{ useCartStore.computed_total_cart_price }}$USD</span>
                     </div>
                     <!-- the check out button -->
                     <div class="w-full flex items-center justify-center">
@@ -254,7 +254,7 @@ const handleGoToProduct=(id)=>{
                         :disabled="useCartStore.computed_total_cart_price==0"
                         >
                             <div class="w-full flex justify-center items-center capitalize gap-1" v-if="!checkout_controller">
-                                <span><i></i></span><span>Check out</span>
+                                <span><i></i></span><span>{{ $t('check out') }}</span>
                             </div>
                             <div class="w-full flex justify-center items-center" v-if="checkout_controller">
                                 <Loading/>
@@ -285,7 +285,7 @@ const handleGoToProduct=(id)=>{
                     >
                         <!-- the title -->
                         <div class="w-full py-1 px-2 border-b border-gray-300 font-Roboto font-bold text-xl text-gray-700 capitalize">
-                            favorite products:
+                            {{ $t("favorite") }} {{ $t('products') }}:
                         </div>
                         <!-- the body -->
                         <div 
@@ -470,7 +470,7 @@ const handleGoToProduct=(id)=>{
                     >
                         <!-- the title -->
                         <div class="w-full py-1 px-2 border-b border-gray-300 font-Roboto font-bold text-xl text-gray-700 capitalize">
-                            favorite product catagorys:
+                            {{ $t("favorite") }} {{ $t('product catagorys') }}:
                         </div>
                         <!-- the body -->
                         <div
