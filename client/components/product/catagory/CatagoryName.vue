@@ -47,10 +47,10 @@ const checkRatedProductCatagory=()=>{
         data-te-toggle="modal"
         data-te-target="#productCatagoryRatingStaticBackdrop"
         >
-            <span class="text-secondary">{{ catagory_controller }}</span> Result
+            <span class="text-secondary">{{ catagory_controller }}</span> {{ $t('results') }}
         </div>
         <div class="w-fit px-2 py-[1px] rounded-full font-Roboto text-xs text-white bg-green-500 capitalize" v-if="rated_badge_controller==true">
-            rated
+            {{ $t("rated") }}
         </div>
     </div>
 </template>

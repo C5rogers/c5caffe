@@ -67,7 +67,7 @@ const handlePageClicked=(pagenumber)=>{
         v-if="!smallMode"
         >
             <i class="fa fa-angle-left text-gray-600 " :class="{'text-white':current_page==1}"></i>
-            <span>Previous</span>
+            <span>{{ $t("previous") }}</span>
         </button>
         <button 
         data-te-ripple-init
@@ -92,7 +92,7 @@ const handlePageClicked=(pagenumber)=>{
         :class="{'text-white bg-secondary border-none':current_page==totalPages}"
         v-if="!smallMode"
         >
-            <span>Next</span>
+            <span>{{ $t('next') }}</span>
             <i class="fa fa-angle-right text-gray-600 " :class="{'text-white':current_page==totalPages}"></i>
         </button>
         <button

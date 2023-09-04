@@ -49,11 +49,11 @@ watch(()=>route.name,(newName)=>{
                 <div class="h-full w-3/4 sm:w-1/2 flex flex-col gap-1 items-center sm:items-start justify-center">
                     <!-- the main title -->
                     <div class="text-xl md:text-3xl lg:text-clit-4xl font-bold">
-                        C5 Online Caffe.
+                    {{ $t('c5') }} {{ $t('online caffe') }}.
                     </div>
                     <!-- the location -->
                     <div class="text-lg md:text-xl lg:text-2xl font-light">
-                        Ethiopia | Addis Abeba.
+                       {{ $t('ethiopia') }} | {{ $t('addis abeba') }} 
                     </div>
                     <!-- the social media links -->
                     <div class="w-full flex items-center justify-center sm:justify-normal">
@@ -111,7 +111,7 @@ watch(()=>route.name,(newName)=>{
                             <span class="w-7 h-7 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full text-sm sm:text-lg md:text-xl text-white bg-primary">
                                 <i class="fa-solid fa-location-dot"></i>
                             </span>
-                            <span class="font-light text-sm sm:text-lg md:text-xl">Ethiopia | Addis Abeba</span>
+                            <span class="font-light text-sm sm:text-lg md:text-xl">{{ $t("ethiopia") }} | {{ $t('addis abeba') }}</span>
                         </li>
                     </ul>
                 </div>
@@ -129,7 +129,7 @@ watch(()=>route.name,(newName)=>{
                     <div class="flex flex-col justify-center gap-0">
                         <!-- the name -->
                         <div class="text-lg sm:text-2xl text-gray-200">
-                            C5 Online Caffe
+                            {{$t('c5')}} {{ $t('online caffe') }}
                         </div>
                         <div class="text-gray-300 text-xs sm:text-lg">
                             <span>&copy;</span> 2015 E.C
@@ -143,7 +143,7 @@ watch(()=>route.name,(newName)=>{
                 <!-- the right content -->
                 <div class="sm:w-1/2 text-center sm:text-left text-gray-300 py-2 px-4 h-full flex items-center justify-center">
                     <p class="text-sm leading-tight">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium vitae facilis perferendis tempora, recusandae odio animi. Eum laboriosam facere aperiam!
+                        {{ $t('user2 testimony') }}
                     </p>
                 </div>
             </div>

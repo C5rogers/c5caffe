@@ -133,7 +133,7 @@ const resetTotal_price=()=>{
                         </div>
                         <!-- the title -->
                         <div class="text-xl font-Roboto capitalize">
-                            Add To Cart
+                            {{ $t('add to cart') }}
                         </div>
                     </div>
                     <!-- exit button -->
@@ -184,7 +184,7 @@ const resetTotal_price=()=>{
                                     {{ productInfo.name }}
                                 </div>
                                 <div class="-mt-1 text-gray-700 text-xs sm:text-sm md:text-lg font-light">
-                                    Note: NoSize
+                                    {{ $t('note') }}: {{ $t("no size") }}
                                 </div>
                             </div>
                         </div>
@@ -205,11 +205,11 @@ const resetTotal_price=()=>{
                                 <div class="w-56 flex flex-col gap-2 justify-center">
                                     <!-- note -->
                                     <div class="md:-ml-2 text-gray-700 text-xs sm:text-sm  md:text-lg font-light">
-                                        Note: NoSize
+                                        {{ $t('note') }}: {{ $t('no size') }}
                                     </div>
                                     <!-- title -->
                                     <div class="font-bold text-secondary text-xs sm:text-sm md:text-lg capitalize">
-                                        Buy More & Save?
+                                        {{ $t('buy more and save') }}
                                     </div>
                                     <!-- body -->
                                     <div class="text-gray-700 text-xs sm:text-sm">
@@ -228,7 +228,7 @@ const resetTotal_price=()=>{
                                 <div class="w-full flex gap-2 items-center">
                                     <SharebleIncrementComp :reset="reset_controller" :unit-price="parseToNumber(unit_price_controller)" @change-calculation="handleChangeCalculation" />
                                     <div class="flex gap-2 items-center">
-                                        <span class="font-bold text-sm md:text-lg">Total:</span>
+                                        <span class="font-bold text-sm md:text-lg">{{ $t('total') }}:</span>
                                         <span class="font-light">{{ total_price_controller }}$</span>
                                     </div>
                                 </div>
@@ -242,7 +242,7 @@ const resetTotal_price=()=>{
                                     @click="handleAddToCart"
                                     >
                                         <i class="fa-solid fa-cart-plus text-lg"></i>
-                                        <span>Add To Cart</span>
+                                        <span>{{ $t("add to cart") }}</span>
                                     </button>
                                 </div>
                             </div>
@@ -263,7 +263,7 @@ const resetTotal_price=()=>{
                         data-te-ripple-color="light"
                         @click="resetTotal_price()"
                         >
-                        Exit
+                        {{ $t('exit') }}
                     </button>
                 </div>
             </div>

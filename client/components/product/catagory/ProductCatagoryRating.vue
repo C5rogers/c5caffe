@@ -144,7 +144,7 @@ const handleRatingProductCatagory=async()=>{
                         </div>
                         <!-- the title -->
                         <div class="text-xl font-Roboto capitalize">
-                            Product Catagory Rating
+                            {{ $t('product catagory') }} {{ $t('rating') }}
                         </div>
                     </div>
                     <!--Close button-->
@@ -178,7 +178,7 @@ const handleRatingProductCatagory=async()=>{
                     <div class="w-full h-fit py-5 px-4 flex flex-col gap-2 items-center justify-center">
                         <!-- the title -->
                         <div class="text-2xl font-Roboto font-light">
-                            Rating Overview:
+                            {{ $t('rating overview') }}:
                         </div>
                         <!-- the value holder -->
                         <div>
@@ -216,7 +216,7 @@ const handleRatingProductCatagory=async()=>{
                         </ul>
                         <!-- the total ratings -->
                         <div class="font-light">
-                            {{ total_rated_count }} ratings
+                            {{ total_rated_count }} {{ $t('ratings') }}
                         </div>
                     </div>
                     <!-- the lower holder -->
@@ -267,7 +267,7 @@ const handleRatingProductCatagory=async()=>{
                         class="w-80 py-1 px-3 flex items-center rounded-md bg-primary justify-center capitalize font-Roboto text-white"
                         >
                             <span v-if="useProductStore.$state.isProductLoading==false">
-                                Apply
+                                {{ $t('apply') }}
                             </span>
                             <span
                             v-else
@@ -289,7 +289,7 @@ const handleRatingProductCatagory=async()=>{
                     data-te-ripple-color="light"
                     @click="reset_rating_value()"
                     >
-                        Exit
+                        {{ $t('exit') }}
                     </button>
                 </div>
             </div>

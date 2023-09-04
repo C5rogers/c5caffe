@@ -99,7 +99,7 @@ const handleGoToLogin=()=>{
                 </div>
                 <!-- the product description -->
                 <div>
-                    <p class="text-xs text-gray-200 pl-4 pr-1 leading-tight">{{ handleDescriptionShorting(product.description) }} <nuxt-link :to="`product/${product._id}`" class="text-blue-500">See more.</nuxt-link></p>
+                    <p class="text-xs text-gray-200 pl-4 pr-1 leading-tight">{{ handleDescriptionShorting(product.description) }} <nuxt-link :to="`product/${product._id}`" class="text-blue-500">{{ $t('see more') }}.</nuxt-link></p>
                     <shareble-five-start-rating :ratingValue="product.average_rating" class="pl-4" />
                 </div>
                 <!-- the product price and add to cart button -->
@@ -119,7 +119,7 @@ const handleGoToLogin=()=>{
                         @click="handle_show_add_to_cart"
                         >
                             <i class="fa-solid fa-cart-plus text-lg"></i>
-                            <span>Add To Cart</span>
+                            <span>{{ $t('add to cart') }}</span>
                         </button>
                     </div>
                 </div>

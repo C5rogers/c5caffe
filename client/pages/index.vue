@@ -33,7 +33,7 @@ onMounted(() => {
                 </div>
                 <!-- the article -->
                 <div class="text-gray-900 capitalize">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus consequatur provident sapiente modi harum iure expedita, facere ullam rerum doloremque necessitatibus quo, dolores libero officia numquam, delectus ipsa fugiat. Ducimus dolore facilis repellendus libero beatae.</p>
+                    <p>{{ $t('welcome description') }}</p>
                 </div>
                 <!-- the links -->
                 <div class="w-full flex items-center gap-5">
@@ -124,7 +124,7 @@ onMounted(() => {
       <div class="flex flex-col gap-4 justify-center p-4">
             <!-- the article -->
             <div class="text-gray-700">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut omnis sunt consequuntur iure laudantium perferendis inventore dolores iste eius, cumque voluptates fugiat nam facilis non!</p>
+                <p>{{ $t('user1 testimony') }}</p>
             </div>
             <!-- the profile -->
             <div class="flex gap-2 items-center">
@@ -134,7 +134,7 @@ onMounted(() => {
                 </div>
                 <!-- the name -->
                 <div class="text-gray-800 text-lg">
-                    Natenael Haylemariam.
+                    {{ $t('user1 name') }}
                 </div>
             </div>
         </div>
@@ -148,7 +148,7 @@ onMounted(() => {
       <div class="flex flex-col gap-4 justify-center p-4">
             <!-- the article -->
             <div class="text-lg text-gray-700">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit quaerat aperiam perferendis possimus eum tempora itaque saepe eveniet, nihil tempore ipsam. In tempora beatae quasi animi nisi corporis doloribus qui itaque exercitationem quia?</p>
+                <p>{{ $t('user2 testimony') }}</p>
             </div>
             <!-- the profile -->
             <div class="flex gap-2 items-center">
@@ -158,7 +158,7 @@ onMounted(() => {
                 </div>
                 <!-- the name -->
                 <div class="text-gray-800 text-lg">
-                    Rosa Mekonen.
+                  {{ $t('user2 name') }}
                 </div>
             </div>
         </div>
@@ -172,7 +172,7 @@ onMounted(() => {
       <div class="flex flex-col gap-4 justify-center p-4">
             <!-- the article -->
             <div class="text-gray-700">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque distinctio deleniti eveniet dolorem porro nesciunt dicta, eligendi natus, assumenda qui, aut quos dolor vero ullam.</p>
+                <p>{{ $t('user3 testimony') }}</p>
             </div>
             <!-- the profile -->
             <div  class="flex gap-2 items-center">
@@ -182,7 +182,7 @@ onMounted(() => {
                 </div>
                 <!-- the name -->
                 <div class="text-gray-800 text-lg">
-                    Hiwet Demese.
+                  {{ $t('user3 name') }}
                 </div>
             </div>
         </div>
@@ -245,7 +245,7 @@ onMounted(() => {
             <div class="bg-orange-100 flex flex-col gap-4 justify-center p-4 rounded-md shadow-md">
                 <!-- the article -->
                 <div class="text-gray-700">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut omnis sunt consequuntur iure laudantium perferendis inventore dolores iste eius, cumque voluptates fugiat nam facilis non!</p>
+                    <p>{{ $t('user1 testimony') }}</p>
                 </div>
                 <!-- the profile -->
                 <div class="flex gap-2 items-center">
@@ -255,7 +255,7 @@ onMounted(() => {
                     </div>
                     <!-- the name -->
                     <div class="text-gray-800 text-lg">
-                        Natenael Haylemariam.
+                        {{ $t('user1 name') }}
                     </div>
                 </div>
             </div>
@@ -263,7 +263,7 @@ onMounted(() => {
             <div class="bg-orange-100 flex flex-col gap-4 justify-center p-4 rounded-md shadow-md">
                 <!-- the article -->
                 <div class="text-lg text-gray-700">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit quaerat aperiam perferendis possimus eum tempora itaque saepe eveniet, nihil tempore ipsam. In tempora beatae quasi animi nisi corporis doloribus qui itaque exercitationem quia?</p>
+                    <p>{{ $t('user2 testimony') }}</p>
                 </div>
                 <!-- the profile -->
                 <div class="flex gap-2 items-center">
@@ -273,7 +273,7 @@ onMounted(() => {
                     </div>
                     <!-- the name -->
                     <div class="text-gray-800 text-lg">
-                        Rosa Mekonen.
+                        {{ $t('user2 name') }}
                     </div>
                 </div>
             </div>
@@ -281,7 +281,7 @@ onMounted(() => {
             <div class="bg-orange-100 flex flex-col gap-4 justify-center p-4 rounded-md shadow-md">
                 <!-- the article -->
                 <div class="text-gray-700">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque distinctio deleniti eveniet dolorem porro nesciunt dicta, eligendi natus, assumenda qui, aut quos dolor vero ullam.</p>
+                    <p>{{ $t('user3 testimony') }}</p>
                 </div>
                 <!-- the profile -->
                 <div  class="flex gap-2 items-center">
@@ -291,7 +291,7 @@ onMounted(() => {
                     </div>
                     <!-- the name -->
                     <div class="text-gray-800 text-lg">
-                        Hiwet Demese.
+                        {{ $t('user3 name') }}
                     </div>
                 </div>
             </div>
@@ -323,8 +323,7 @@ onMounted(() => {
             </h3>
             <h5 class="mb-4 text-lg font-medium">{{ $t('products') }}</h5>
             <p class="text-neutral-500 dark:text-neutral-300">
-              Laudantium totam quas cumque pariatur at doloremque hic quos
-              quia eius
+              {{$t('for product')}}
             </p>
           </div>
         </div>
@@ -348,8 +347,7 @@ onMounted(() => {
             </h3>
             <h5 class="mb-4 text-lg font-medium">{{ $t('users') }}</h5>
             <p class="text-neutral-500 dark:text-neutral-300">
-              Eum nostrum fugit numquam, voluptates veniam neque quibusdam
-              ullam
+              {{$t('for users')}}
             </p>
           </div>
         </div>
@@ -365,12 +363,11 @@ onMounted(() => {
           </div>
           <div class="p-3">
             <h3 class="mb-4 text-2xl font-bold text-white dark:text-primary-400">
-              49/month
+              49/{{ $t('month') }}
             </h3>
             <h5 class="mb-4 text-lg font-medium">{{ $t('deliverys') }}</h5>
             <p class="text-neutral-500 dark:text-neutral-300">
-              Cupiditate enim, minus nulla dolor cumque iure eveniet facere
-              ullam
+              {{ $t('for delivery') }}
             </p>
           </div>
         </div>
@@ -405,7 +402,7 @@ onMounted(() => {
         </div>
         <!-- the article -->
         <div class="text-gray-900 capitalize">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus consequatur provident sapiente modi harum iure expedita, facere ullam rerum doloremque necessitatibus quo, dolores libero officia numquam, delectus ipsa fugiat. Ducimus dolore facilis repellendus libero beatae.</p>
+            <p>{{ $t('service and products description') }}</p>
         </div>
         <!-- the links -->
         <div class="w-full flex items-center gap-5">

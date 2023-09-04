@@ -91,7 +91,7 @@ const handleRateCatagory=async(catagory_name)=>{
                 :class="{'bg-secondary text-white':catagory_controller==''}"
                 @click="filterByCatagory('')"
                 >
-                    All
+                    {{ $t('all') }}
                 </button>
                 <button
                 v-for="catagory in useProductStore.$state.product_catagorys"
@@ -147,7 +147,7 @@ const handleRateCatagory=async(catagory_name)=>{
                 </div>
                 <!-- the title -->
                 <div class="font-Roboto font-bold text-lg" v-if="catagory_controller.length==0">
-                    <span class="text-secondary">5000+</span> Products
+                    <span class="text-secondary">5000+</span> {{ $t('product') }}
                 </div>
                 <!-- the other one -->
                 <div class="font-Roboto font-bold text-lg" v-else>
@@ -182,7 +182,7 @@ const handleRateCatagory=async(catagory_name)=>{
             </Transition>
             <!-- the footer -->
             <div class="w-full mt-3 mb-2 flex items-center justify-center py-1 px-3 text-gray-700 font-Roboto capitalize ">
-                2015 E.C | C5 Online Caffe.
+                2015 E.C | {{ $t('c5') }} {{ $t('online caffe') }}
             </div>
         </div>
         <div 
@@ -194,7 +194,7 @@ const handleRateCatagory=async(catagory_name)=>{
         <div class="hidden w-1/4 fixed left-2 top-20 bottom-1 overflow-y-scroll py-5 md:flex flex-col items-center gap-2 pl-1 border-r ">
             <!-- the title one -->
             <div class="text-2xl w-full font-Roboto font-bold text-secondary">
-                Catagorys:
+                {{ $t('catagorys') }}:
             </div>
             <!-- the catagory lists container-->
             <div class="w-3/4 flex h-64 overflow-y-scroll pr-0 flex-col gap-2 mt-4 items-center " v-if="useProductStore.$state.product_catagorys.length>0">
@@ -203,7 +203,7 @@ const handleRateCatagory=async(catagory_name)=>{
                 @click="filterByCatagory('')"
                 :class="{'border_secondary text-secondary border-secondary':catagory_controller==''}"
                 >
-                    All
+                    {{ $t('all') }}
                 </button>
                 <button
                  class="w-full border-l-4 pl-5 flex items-center text-left border-gray-200 hover:text-secondary transition duration-200 hover:border-secondary"
@@ -260,7 +260,7 @@ const handleRateCatagory=async(catagory_name)=>{
                 </div>
                 <!-- the title -->
                 <div class="font-Roboto font-bold text-2xl" v-if="catagory_controller.length==0">
-                    <span class="text-secondary">5000+</span> Products
+                    <span class="text-secondary">5000+</span> {{ $t('product') }}
                 </div>
                 <!-- the other one -->
                 <ProductCatagoryName :name="catagory_controller" @handle_rate_product_catagory="handleRateCatagory" v-else-if="useAuthStore.$state.isAuthed==true"/>
@@ -290,7 +290,7 @@ const handleRateCatagory=async(catagory_name)=>{
                 />
             </div>
             <div class="w-full mt-3 mb-2 flex items-center justify-center py-1 px-3 text-gray-700 font-Roboto capitalize ">
-                2015 E.C | C5 Online Caffe.
+                2015 E.C | {{ $t('c5') }} {{ $t('online caffe') }}
             </div>
         </div>
         <div class="hidden w-full h-fit relative mt-10 px-5 md:px-0 md:w-3/4 ml-auto md:flex flex-col gap-2 " v-else-if="useProductStore.$state.isProductsLoading==true">

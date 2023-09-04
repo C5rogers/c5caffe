@@ -136,7 +136,7 @@ const handleRatingProduct=async()=>{
                         </div>
                         <!-- the title -->
                         <div class="text-xl font-Roboto capitalize">
-                            Product Rating
+                            {{ $t('product') }} {{ $t('rating') }}
                         </div>
                     </div>
                     <!-- exit button -->
@@ -172,7 +172,7 @@ const handleRatingProduct=async()=>{
                     <div class="w-full h-fit py-5 px-4 flex flex-col gap-2 items-center justify-center">
                         <!-- the title -->
                         <div class="text-2xl font-Roboto font-light">
-                            Rating Overview:
+                            {{ $t('rating overview') }}
                         </div>
                         <!-- the value holder -->
                         <div>
@@ -210,7 +210,7 @@ const handleRatingProduct=async()=>{
                         </ul>
                         <!-- the total ratings -->
                         <div class="font-light">
-                            {{ total_rated_count }} ratings
+                            {{ total_rated_count }} {{ $t('ratings') }}
                         </div>
                     </div>
                     <!-- the lower holder -->
@@ -261,7 +261,7 @@ const handleRatingProduct=async()=>{
                         class="w-80 py-1 px-3 flex items-center rounded-md bg-primary justify-center capitalize font-Roboto text-white"
                         >
                             <span v-if="useProductStore.$state.isProductLoading==false">
-                                Apply
+                                {{ $t("rate") }}
                             </span>
                             <span
                             v-else
@@ -283,7 +283,7 @@ const handleRatingProduct=async()=>{
                     data-te-ripple-color="light"
                     @click="reset_rating_value()"
                     >
-                        Exit
+                        {{ $t('exit') }}
                     </button>
                 </div>
 

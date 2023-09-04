@@ -88,7 +88,7 @@ const handleChangePage=async(pagenumber)=>{
                         </div>
                         <!-- the title -->
                         <div class="text-xl font-Roboto capitalize">
-                            Search Products
+                            {{ $t('products') }} {{ $t('search') }}
                         </div>
                     </div>
                     <!-- exit button -->
