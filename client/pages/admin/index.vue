@@ -13,6 +13,6 @@ definePageMeta({
         <Meta name="description" content="This is where all the activitys are controlled by the admin" />
     </Head>
     <div>
-        hellow there
+        hellow there this is index page
     </div>
 </template>
