@@ -49,8 +49,8 @@ const checkRatedProductCatagory=()=>{
         >
             <span class="text-secondary">{{ catagory_controller }}</span> {{ $t('results') }}
         </div>
-        <div class="w-fit px-2 py-[1px] rounded-full font-Roboto text-xs text-white bg-green-500 capitalize" v-if="rated_badge_controller==true">
-            {{ $t("rated") }}
+        <div class="w-fit px-2 py-[1px] flex justify-center gap-1 rounded-full font-Roboto text-xs text-white bg-green-500 capitalize" v-if="rated_badge_controller==true">
+           <span><i class="fa-solid fa-circle-check"></i></span> {{ $t("rated") }}
         </div>
     </div>
 </template>
