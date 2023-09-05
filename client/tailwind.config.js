@@ -21,5 +21,5 @@ module.exports = {
             }
         },
     },
-    plugins: [process.client ? require("tw-elements/dist/plugin.cjs") : '']
+    plugins: [require("tw-elements/dist/plugin.cjs")]
 }

@@ -34,8 +34,6 @@ const handleClick=()=>{
     <ClientOnly placeholder="loading...">
         <button
     type="button"
-    data-te-ripple-init
-    data-te-ripple-color="white"
     class="
     rounded-md 
     px-3

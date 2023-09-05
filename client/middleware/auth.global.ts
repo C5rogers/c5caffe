@@ -6,8 +6,9 @@ export default defineNuxtRouteMiddleware((to,from)=>{
             useAuthStore.getRoll()
             if(useAuthStore.$state.isAdmin=true && useAuthStore.$state.roll=='admin'){
                 //for admin
-                if(!(useAuthStore.isAdminPage(to.name))){
+                if(useAuthStore.isAdminPage(to.name)==false){
                     abortNavigation()
+                    console.log(to.name)
                     return navigateTo('/admin')
                 }
             }else{

@@ -16,7 +16,7 @@ export const authStore = defineStore({
         roll: localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') ? localStorage.getItem('C5_ONLINE_CAFFE_USER_ROLL') : 'anonymous',
         protected_pages: ['cart', 'order'],
         anonimous_user_pages: ['index', 'about', 'contact', 'product', 'product-id', 'auth-login', 'auth-signup', 'auth-forgot_password', 'auth-change_password'],
-        admin_user_pages: ['admin'],
+        admin_user_pages: ['admin', 'admin-product', 'admin-product-create', 'admin-product-edit-id'],
         attemptErrors: [],
         network_error: false,
         password_reset_success_message: '',

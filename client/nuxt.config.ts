@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   plugins:[
     { src: '~/plugins/notification.js',mode:'client'},
-    {src:'~/plugins/i18n.js'}
+    {src:'~/plugins/i18n.js'},
   ],
   modules:[['@pinia/nuxt',{
     autoImports:['defineStore','acceptHMRUpdate']

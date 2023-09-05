@@ -159,7 +159,7 @@ const handleReloadData=async ()=>{
                 <ProductCatagoryName :name="catagory_controller" @handle_rate_product_catagory="handleRateCatagory" v-else-if="useAuthStore.$state.isAuthed==true"/>
                 <!-- the other one -->
                 <div class="font-Roboto font-bold text-lg" v-else>
-                    <span class="text-secondary">{{ catagory_controller }}</span> {{ $t('result') }}
+                    <span class="text-secondary">{{ catagory_controller }}</span> {{ $t('results') }}
                 </div>
             </div>
             <!-- product container -->
@@ -283,7 +283,7 @@ const handleReloadData=async ()=>{
                 class="font-Roboto font-bold text-2xl"
                 v-else
                 >
-                    <span class="text-secondary">{{ catagory_controller }}</span> {{ $t('result') }}
+                    <span class="text-secondary">{{ catagory_controller }}</span> {{ $t('results') }}
                 </div>
             </div>
             <!-- the product content -->

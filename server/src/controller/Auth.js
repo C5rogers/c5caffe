@@ -133,7 +133,7 @@ module.exports.Password_reset_request = async(req, res) => {
         token: hash,
         created_at: Date.now()
     })
-    const link = `${dotenv.parsed.CLIENT_URL}passwordReset?token=${resetToken}&id=${user._id}`
+    const link = `${dotenv.parsed.CLIENT_URL}change_password?token=${resetToken}&id=${user._id}`
     const result = await sendEmail(user.email, "Password Reset Request", { name: user.username, link: link }, "./template/requestResetPassword.handlebars")
     if (result == true) {
         return res.status(201).json({ message: "Verify your email to change your password", token: newToken })
