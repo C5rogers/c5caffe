@@ -173,6 +173,112 @@ definePageMeta({
                 </div>
                 <AdminSelledOrderReportGraph/>
             </div>
+            <!-- the button one  -->
+            <div class="w-full flex flex-col h-fit gap-1 justify-center">
+                <!-- the title -->
+                <div class="text-xl ml-1 capitalize font-Roboto">
+                    Current Services 
+                </div>
+                <div class="w-full h-32 grid grid-cols-4 gap-3">
+                    <!-- the frist one -->
+                    <div class="h-full w-full rounded-md bg-white flex flex-col justify-center items-center">
+                        <!-- the image container -->
+                        <div 
+                        class="bg-gray-200 rounded-full w-16 h-16 [&>svg]:h-5 [&>svg]:w-5 flex justify-center items-center p-2 [&>svg]:text-gray-800 dark:[&>svg]:text-gray-300"
+                        >
+                            <svg 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            class="h-3.5 w-3.5"
+                            viewBox="0 0 512 512">
+                                <path fill="currentColor" d="M192 208c0-17.67-14.33-32-32-32h-16c-35.35 0-64 28.65-64 64v48c0 35.35 28.65 64 64 64h16c17.67 0 32-14.33 32-32V208zm176 144c35.35 0 64-28.65 64-64v-48c0-35.35-28.65-64-64-64h-16c-17.67 0-32 14.33-32 32v112c0 17.67 14.33 32 32 32h16zM256 0C113.18 0 4.58 118.83 0 256v16c0 8.84 7.16 16 16 16h16c8.84 0 16-7.16 16-16v-16c0-114.69 93.31-208 208-208s208 93.31 208 208h-.12c.08 2.43.12 165.72.12 165.72c0 23.35-18.93 42.28-42.28 42.28H320c0-26.51-21.49-48-48-48h-32c-26.51 0-48 21.49-48 48s21.49 48 48 48h181.72c49.86 0 90.28-40.42 90.28-90.28V256C507.42 118.83 398.82 0 256 0z"/>
+                            </svg>
+                        </div>
+                        <div
+                        class="flex flex-col items-center font-Roboto justify-center gap-0"
+                        >
+                            <!-- the first title -->
+                            <div class="text-xs capitalize font-bold">
+                                Online Help & Guide
+                            </div>
+                            <div class="text-xs capitalize font-light">
+                                24-7 support 
+                            </div>
+                        </div>
+                    </div>
+                    <!-- the second one -->
+                    <div class="h-full w-full rounded-md bg-white flex flex-col justify-center items-center">
+                        <!-- the image container -->
+                        <div
+                        class="bg-lime-200 rounded-full w-16 h-16 [&>svg]:h-5 [&>svg]:w-5 flex justify-center items-center p-2 [&>svg]:text-gray-800 dark:[&>svg]:text-gray-300"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                            class="h-3.5 w-3.5"
+                            viewBox="0 0 512 512">
+                                <path fill="currentColor" d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4c32.7 12.3 69 19.4 107.4 19.4c141.4 0 256-93.1 256-208S397.4 32 256 32zM128 272c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32zm128 0c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32zm128 0c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"/>
+                            </svg>
+                        </div>
+                        <div
+                        class="flex flex-col items-center font-Roboto justify-center gap-0"
+                        >
+                            <!-- the first title -->
+                            <div class="text-xs capitalize font-bold">
+                                Real Time Chat
+                            </div>
+                            <div class="text-xs capitalize font-light">
+                                Directly with the admin
+                            </div>
+                        </div>
+                    </div>
+                    <!-- the 3rd one -->
+                    <div class="h-full w-full rounded-md bg-white flex flex-col justify-center items-center">
+                        <!-- the image container -->
+                        <div
+                        class="bg-red-200 rounded-full w-16 h-16 [&>svg]:h-5 [&>svg]:w-5 flex justify-center items-center p-2 [&>svg]:text-gray-800 dark:[&>svg]:text-gray-300"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                            class="h-3.5 w-3.5"
+                            viewBox="0 0 576 512">
+                                <path fill="currentColor" d="M504.717 320H211.572l6.545 32h268.418c15.401 0 26.816 14.301 23.403 29.319l-5.517 24.276C523.112 414.668 536 433.828 536 456c0 31.202-25.519 56.444-56.824 55.994c-29.823-.429-54.35-24.631-55.155-54.447c-.44-16.287 6.085-31.049 16.803-41.548H231.176C241.553 426.165 248 440.326 248 456c0 31.813-26.528 57.431-58.67 55.938c-28.54-1.325-51.751-24.385-53.251-52.917c-1.158-22.034 10.436-41.455 28.051-51.586L93.883 64H24C10.745 64 0 53.255 0 40V24C0 10.745 10.745 0 24 0h102.529c11.401 0 21.228 8.021 23.513 19.19L159.208 64H551.99c15.401 0 26.816 14.301 23.403 29.319l-47.273 208C525.637 312.246 515.923 320 504.717 320zM408 168h-48v-40c0-8.837-7.163-16-16-16h-16c-8.837 0-16 7.163-16 16v40h-48c-8.837 0-16 7.163-16 16v16c0 8.837 7.163 16 16 16h48v40c0 8.837 7.163 16 16 16h16c8.837 0 16-7.163 16-16v-40h48c8.837 0 16-7.163 16-16v-16c0-8.837-7.163-16-16-16z"/>
+                            </svg>
+                        </div>
+                        <div
+                        class="flex flex-col items-center font-Roboto justify-center gap-0"
+                        >
+                            <!-- the first title -->
+                            <div class="text-xs capitalize font-bold">
+                                Online Shooping
+                            </div>
+                            <div class="text-xs capitalize font-light">
+                                without any limitations 
+                            </div>
+                        </div>
+                    </div>
+                    <!-- the 4th one -->
+                    <div class="h-full w-full rounded-md bg-white flex flex-col justify-center items-center">
+                        <!-- the image container -->
+                        <div
+                        class="bg-blue-200 rounded-full w-16 h-16 [&>svg]:h-5 [&>svg]:w-5 flex justify-center items-center p-2 [&>svg]:text-gray-800 dark:[&>svg]:text-gray-300"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                            class="h-3.5 w-3.5" 
+                            viewBox="0 0 448 512">
+                                <path fill="currentColor" d="M224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64zm215.39-149.71c-19.32-20.76-55.47-51.99-55.47-154.29c0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29c-6 6.45-8.66 14.16-8.61 21.71c.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32c.05-7.55-2.61-15.27-8.61-21.71z"/>
+                            </svg>
+                        </div>
+                        <div
+                        class="flex flex-col items-center font-Roboto justify-center gap-0"
+                        >
+                            <!-- the first title -->
+                            <div class="text-xs capitalize font-bold">
+                                Product Alerts
+                            </div>
+                            <div class="text-xs capitalize font-light">
+                                fast and roubest
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- the right one -->
         <div class="w-1/4 mt-7 h-full rounded-xl pb-5 bg-white flex flex-col gap-1">
