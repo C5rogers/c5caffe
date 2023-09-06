@@ -8,9 +8,7 @@ import {
 
 
 const route=useRoute()
-const router=useRouter()
 const useAuthStore=authStore()
-const useCartStore=cartStore()
 
 onMounted(()=>{
     initTE({
@@ -25,15 +23,6 @@ const slim_toogler=()=>{
         document.getElementById('adminSideNav')
     )
     instance.toggleSlim()
-}
-
-const handleLogOut=async()=>{
-    await useAuthStore.logout()
-    useCartStore.resetUserCart()
-    toast.info("You loged out successfully!",{
-        position:'bottom-left'
-    })
-    router.push('/')
 }
 
 </script>
@@ -56,12 +45,12 @@ const handleLogOut=async()=>{
                         @click="slim_toogler"
                         >
                         <span class="block [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-black">
-                        <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        class="h-5 w-5"
-                        viewBox="0 0 448 512">
-                        <path fill="currentColor" d="M12.83 352h262.34A12.82 12.82 0 0 0 288 339.17v-38.34A12.82 12.82 0 0 0 275.17 288H12.83A12.82 12.82 0 0 0 0 300.83v38.34A12.82 12.82 0 0 0 12.83 352zm0-256h262.34A12.82 12.82 0 0 0 288 83.17V44.83A12.82 12.82 0 0 0 275.17 32H12.83A12.82 12.82 0 0 0 0 44.83v38.34A12.82 12.82 0 0 0 12.83 96zM432 160H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0 256H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z"/>
-                        </svg>
+                            <svg 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            class="h-5 w-5"
+                            viewBox="0 0 448 512">
+                            <path fill="currentColor" d="M12.83 352h262.34A12.82 12.82 0 0 0 288 339.17v-38.34A12.82 12.82 0 0 0 275.17 288H12.83A12.82 12.82 0 0 0 0 300.83v38.34A12.82 12.82 0 0 0 12.83 352zm0-256h262.34A12.82 12.82 0 0 0 288 83.17V44.83A12.82 12.82 0 0 0 275.17 32H12.83A12.82 12.82 0 0 0 0 44.83v38.34A12.82 12.82 0 0 0 12.83 96zM432 160H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0 256H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z"/>
+                            </svg>
                         </span>
                     </button>
                     <!-- the route name -->
@@ -93,17 +82,7 @@ const handleLogOut=async()=>{
                     data-te-dropdown-menu-ref
                     >
                         <!-- the element holder -->
-                        <div
-                        class="w-28 px-3 py-3 flex flex-col font-Roboto text-sm gap-3 capitalize"
-                        >
-                            <a href="#"
-                            aria-current="true"
-                            class="dropLink w-full hover:text-secondary hover:border-b-secondary"
-                            >
-                                <span><i class="fa fa-cog" aria-hidden="true"></i></span><span>Profile</span>
-                            </a>
-                            <button @click="handleLogOut" class="flex w-full items-center justify-center gap-1 py-1 rounded-full bg-red-500 text-white"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span><span>{{ $t('logout') }}</span></button>
-                        </div>
+                        <AdminInfo/>
                     </div>
                 </div>
                 <!-- the admin profile -->
