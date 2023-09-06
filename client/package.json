@@ -20,6 +20,7 @@
     "dependencies": {
         "@pinia/nuxt": "^0.4.11",
         "axios": "^1.4.0",
+        "chart.js": "^4.4.0",
         "pinia": "^2.1.6",
         "tw-elements": "^1.0.0-beta3",
         "vee-validate": "^4.11.1",
