@@ -16,7 +16,12 @@ export const chart_dataStore = defineStore({
         selled_order_report: [],
         is_chart_data_loading: false,
         chart_data_network_error: false,
-        error: []
+        error: [],
+        products: 0,
+        users: 0,
+        product_ratings: 0,
+        product_catagory_ratings: 0,
+        product_catagorys: 0
     }),
     actions: {
         async getChartData() {
@@ -24,6 +29,11 @@ export const chart_dataStore = defineStore({
                 this.is_chart_data_loading = true
                 const responce = await axiosInstance.get('/chart/data')
                 if (responce.status == 200 || responce.status == 201) {
+                    this.products = await responce.data.products
+                    this.users = await responce.data.users
+                    this.product_ratings = await responce.data.product_ratings
+                    this.product_catagory_ratings = await responce.data.product_catagory_ratings
+                    this.product_catagorys = await responce.data.product_catagorys
                     this.product_uploading_rate = await responce.data.product_uploading_rate
                     this.users_signedup_perweek = await responce.data.users_signedup_perweek
                     this.orders_per_week = await responce.data.orders_per_week
