@@ -13,7 +13,7 @@ definePageMeta({
 </script>
 
 <template>
-    <div class="w-full max-h-[93vh] grid grid-cols-3 grid-rows-2 gap-3">
+    <div class="w-full max-h-[90vh] grid grid-cols-3 grid-rows-2 gap-3">
         <!-- the first is selled order report -->
         <div class="w-full h-full flex flex-col bg-white pb-10 rounded-xl p-5">
             <!-- the title -->
@@ -35,6 +35,30 @@ definePageMeta({
                 Admin Product Uploading Rate
             </div>
             <AdminProductUploadingRate/>
+        </div>
+        <!-- the user report -->
+        <div class="w-full h-full flex flex-col bg-white rounded-xl pb-10 p-5">
+            <!-- the title -->
+            <div class="font-Roboto w-full border-b pb-1 pl-3 text-xl capitalize">
+                Users Signedup Per Month
+            </div>
+            <AdminSignedUpUserRate/>
+        </div>
+        <!-- the user report -->
+        <div class="w-full h-full flex flex-col bg-white rounded-xl pb-10 p-5">
+            <!-- the title -->
+            <div class="font-Roboto w-full border-b pb-1 pl-3 text-xl capitalize">
+                Rated Product Rate
+            </div>
+            <AdminProductRatingRiport/>
+        </div>
+        <!-- the user report -->
+        <div class="w-full h-full flex flex-col bg-white rounded-xl pb-10 p-5">
+            <!-- the title -->
+            <div class="font-Roboto w-full border-b pb-1 pl-3 text-xl capitalize">
+                Rated Product Catagorys Rate
+            </div>
+            <AdminProductCatagoryRatingReport/>
         </div>
     </div>
 </template>
