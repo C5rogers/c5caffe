@@ -117,7 +117,11 @@ const handleSignup=async(value)=>{
         toast.success("Welcome sir to C5 Online caffe",{
             position:'top-left'
         })
-        router.push('/')
+        if(useAuthStore.$state.isAdmin==true){
+            router.push('/admin')
+        }else{
+            router.push('/')
+        }
        }else{
         inProcess.value=false
         setTimeout(() => {

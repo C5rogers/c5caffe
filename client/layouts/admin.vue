@@ -2,10 +2,20 @@
 import {
   Sidenav,
   initTE,
+  Dropdown,
+  Ripple
 } from "tw-elements";
+
+
+const route=useRoute()
+const router=useRouter()
+const useAuthStore=authStore()
+const useCartStore=cartStore()
 
 onMounted(()=>{
     initTE({
+        Dropdown,
+        Ripple,
         Sidenav
     })
 })
@@ -17,8 +27,15 @@ const slim_toogler=()=>{
     instance.toggleSlim()
 }
 
-const route=useRoute()
-const useAuthStore=authStore()
+const handleLogOut=async()=>{
+    await useAuthStore.logout()
+    useCartStore.resetUserCart()
+    toast.info("You loged out successfully!",{
+        position:'bottom-left'
+    })
+    router.push('/')
+}
+
 </script>
 
 <template>
@@ -39,15 +56,11 @@ const useAuthStore=authStore()
                         @click="slim_toogler"
                         >
                         <span class="block [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-black">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            class="h-5 w-5">
-                            <path
-                            fill-rule="evenodd"
-                            d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
-                            clip-rule="evenodd" />
+                        <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        class="h-5 w-5"
+                        viewBox="0 0 448 512">
+                        <path fill="currentColor" d="M12.83 352h262.34A12.82 12.82 0 0 0 288 339.17v-38.34A12.82 12.82 0 0 0 275.17 288H12.83A12.82 12.82 0 0 0 0 300.83v38.34A12.82 12.82 0 0 0 12.83 352zm0-256h262.34A12.82 12.82 0 0 0 288 83.17V44.83A12.82 12.82 0 0 0 275.17 32H12.83A12.82 12.82 0 0 0 0 44.83v38.34A12.82 12.82 0 0 0 12.83 96zM432 160H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm0 256H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z"/>
                         </svg>
                         </span>
                     </button>
@@ -60,14 +73,42 @@ const useAuthStore=authStore()
                         {{ route.name }}
                     </div>
                 </div>
-                <!-- the admin profile -->
-                <div
-                class="w-8 h-8 cursor-pointer flex items-center justify-center rounded-full overflow-hidden"
-                >
-                    <img :src="useAuthStore.$state.user.profile" class="w-fill h-full object-cover" :alt="useAuthStore.$state.user.name">
+                <!-- the right one -->
+                <div class="flex w-28 relative justify-end ml-auto">
+                    <div
+                    data-te-ripple-init
+                    id="dropdownAdminButton"
+                    data-te-ripple-color="light"
+                    data-te-dropdown-toggle-ref
+                    aria-expanded="false"
+                    data-te-nav-link-ref
+                    class="w-8 h-8 cursor-pointer flex items-center justify-center rounded-full overflow-hidden"
+                    >
+                        <img :src="useAuthStore.$state.user.profile" class="w-fill h-full object-cover" :alt="useAuthStore.$state.user.name">
+                    </div>
+                    <!-- the absolute one -->
+                    <div
+                    class="absolute pt-3 right-10 top-full z-[1000] mt-0 hidden w-full border-none bg-white bg-clip-padding text-neutral-600 shadow-md dark:bg-neutral-700 dark:text-neutral-200 [&[data-te-dropdown-show]]:block"
+                    aria-labelledby="dropdownAdminMenu"
+                    data-te-dropdown-menu-ref
+                    >
+                        <!-- the element holder -->
+                        <div
+                        class="w-28 px-3 py-3 flex flex-col font-Roboto text-sm gap-3 capitalize"
+                        >
+                            <a href="#"
+                            aria-current="true"
+                            class="dropLink w-full hover:text-secondary hover:border-b-secondary"
+                            >
+                                <span><i class="fa fa-cog" aria-hidden="true"></i></span><span>Profile</span>
+                            </a>
+                            <button @click="handleLogOut" class="flex w-full items-center justify-center gap-1 py-1 rounded-full bg-red-500 text-white"><span><i class="fa fa-sign-out" aria-hidden="true"></i></span><span>{{ $t('logout') }}</span></button>
+                        </div>
+                    </div>
                 </div>
+                <!-- the admin profile -->
             </div>
-            <div class="w-full mt-12 p-3 ml-auto min-h-[150vh] overflow-y-scroll bg-gray-100">
+            <div class="w-full mt-12 p-3 ml-auto min-h-[93vh] overflow-y-scroll bg-gray-100">
                 <slot/>
             </div>
         </div>

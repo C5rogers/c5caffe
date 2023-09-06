@@ -139,10 +139,10 @@ const gotoDashborad=()=>{
                 <nuxt-link 
                 data-te-sidenav-link-ref 
                 class="w-full flex h-12 cursor-pointer items-center truncate rounded-[5px] px-5 py-4 text-[0.875rem] text-gray-400 outline-none transition duration-300 ease-linear hover:bg-slate-800 hover:outline-none  focus:outline-none active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                to="admin/user">
+                to="/admin/user">
                     <span
                     class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-gray-300"
-                    :class="{'[&>svg]:text-secondary':route.name=='admin-users'}"
+                    :class="{'[&>svg]:text-secondary':route.name=='admin-user'}"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -198,10 +198,10 @@ const gotoDashborad=()=>{
                 <nuxt-link
                 data-te-sidenav-link-ref 
                 class="w-full flex h-12 cursor-pointer items-center truncate rounded-[5px] px-5 py-4 text-[0.875rem] text-gray-400 outline-none transition duration-300 ease-linear hover:bg-slate-800 hover:outline-none  focus:outline-none  active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                to="/admin">
+                to="/admin/analisis">
                     <span
                     class="mr-4 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gray-400 dark:[&>svg]:text-gray-300"
-                    :class="{'[&>svg]:text-secondary':route.name=='admin-analitics'}"
+                    :class="{'[&>svg]:text-secondary':route.name=='admin-analisis'}"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

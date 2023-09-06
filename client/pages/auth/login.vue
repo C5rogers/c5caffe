@@ -54,7 +54,11 @@ const handleLoginTwo=async (values)=>{
         toast.success("Welcome back sir!",{
             position:'top-left'
         })
-        router.push('/')
+        if(useAuthStore.$state.isAdmin==true){
+            router.push('/admin')
+        }else{
+            router.push('/')
+        }
     }else{
         inLoginProcess.value=false
         setTimeout(() => {
