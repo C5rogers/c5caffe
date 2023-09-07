@@ -295,6 +295,19 @@ definePageMeta({
                     </div>
                 </div>
             </div>
+            <!-- the product rating report -->
+            <div class="w-full flex items-center justify-center">
+                <AdminCircularProductRating/>
+            </div>
+            <!-- some discription -->
+            <div class="w-full mt-3 flex px-2 flex-col gap-1">
+                <!-- the title -->
+                <div class="py-1 px-2 border-b">
+                    <div class="font-bold ml-2 font-Roboto capitalize">
+                        Product Uploading Rate Report
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
