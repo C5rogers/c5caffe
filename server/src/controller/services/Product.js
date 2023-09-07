@@ -97,7 +97,7 @@ module.exports.Product_create = async(req, res) => {
         } else {
             const newCatagory = await Catagory.create({ catagory })
             const newProduct = await Product.create({ name, price: parsedPrice, description, catagory: newCatagory, image: filepath })
-            return res.status(201).json(newProduct)
+            return res.status(201).json({ newProduct })
         }
     } catch (error) {
         console.log(error)
