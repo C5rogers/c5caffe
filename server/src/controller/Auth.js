@@ -88,7 +88,7 @@ module.exports.Login_post = async(req, res) => {
                 await create_cart_from_cookie(carts, userDb._id)
                 res.clearCookie("carts")
             }
-            const theUser = await User.findOne({ _id: userDb._id }).select("_id username gender location profile roll")
+            const theUser = await User.findOne({ _id: userDb._id }).select("_id email username gender location profile roll")
             if (theUser.roll == 'admin') {
                 await sendEmail(theUser.email, 'Checking The Admin Is The One Who Login', { name: theUser.username }, './template/adminAlertEmail.handlebars')
             }
