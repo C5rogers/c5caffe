@@ -1,6 +1,6 @@
 <script setup>
 import {Form,Field} from 'vee-validate'
-import {Ripple,initTE,Input} from 'tw-elements'
+import {Ripple,initTE,Input,Select} from 'tw-elements'
 import {useToast} from 'vue-toastification'
 import * as yup from 'yup'
 
@@ -9,7 +9,7 @@ const useAdminActionStore=adminProductAndCatagoryStore()
 
 onMounted(()=>{
     initTE({
-        Ripple,Input
+        Ripple,Input,Select
     })
 })
 const MAX_FILE_SIZE=2097152
@@ -116,6 +116,28 @@ const handleCreateProduct=(value)=>{
                 </div>
             </div>
             <div class="w-full flex flex-col gap-1 justify-between h-fit">
+                <FormLabel title="Product Catagory" />
+                <!-- the input container -->
+                <div class="mt-1 relative w-3/4">
+                    <!-- the input wrapper -->
+                    <div class="w-full relative">
+                        <select data-te-select-init data-te-select-filter="true">
+                            <option v-for="catagory in useAdminActionStore.$state.catagorys"
+                            :key="catagory._id" :value="catagory.catagory">{{ catagory.catagory }}</option>
+                        </select>
+                        <label data-te-select-label-ref>Snack</label>
+                    </div>
+                    <!-- the error mark -->
+                    <InputErrorMark v-if="0>1"/>
+                    <!-- the error message -->
+                    <div class="formErrorMessage ml-2" v-if="0>1">
+                        
+                    </div>
+                </div>
+
+            </div>
+            <!-- the description -->
+            <div class="w-full flex flex-col gap-1 justify-between h-fit">
                 <FormLabel title="Product Description" />
                 <!-- the input container -->
                 <div class="mt-1 relative w-3/4">
@@ -141,7 +163,39 @@ const handleCreateProduct=(value)=>{
                 </div>
             </div>
             <!-- the image holder button -->
-            
+            <div class="w-full flex flex-col gap-1 justify-between h-fit">
+                <FormLabel title="Product Image" />
+                <!-- the input container -->
+                <div class="mt-1 relative w-3/4">
+                    <!-- the input wrapper -->
+                    <div class="mb-3">
+                        <input
+                            class="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                            type="file"
+                            id="formFile" />
+                    </div>
+                    <!-- the error mark -->
+                    <InputErrorMark v-if="0>1"/>
+                    <!-- the error message -->
+                    <div class="formErrorMessage ml-2" v-if="0>1">
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- the post button -->
+            <div class="w-full flex flex-col gap-1 justify-between h-fit">
+                <div class="mt-1 relative w-3/4">
+                    <button
+                    class="inline-block rounded bg-gray-900 px-7 py-2 w-full text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                    data-te-ripple-init
+                    data-te-ripple-color="light">
+                        <span v-if="1>0">
+                            Post Product
+                        </span>
+                        <Loading :small-mode="true" v-else />
+                    </button>
+                </div>
+            </div>
         </form>
 
     </div>

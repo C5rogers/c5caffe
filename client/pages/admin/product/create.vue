@@ -1,5 +1,9 @@
 <script setup>
 
+const useAdminActionStore=adminProductAndCatagoryStore()
+onMounted(async()=>{
+    await useAdminActionStore.getCatagorys()
+})
 
 definePageMeta({
     layout:"admin"
@@ -36,8 +40,18 @@ definePageMeta({
                 <AdminCatagoryCreate/>
             </div>
             <!-- the catagory lists -->
-            <div>
-
+            <div class="w-full border-b mt-3 font-Roboto font-light pb-1">
+                Currently Avelable Catagorys
+            </div>
+            <!-- the catagorys -->
+            <div class="w-full flex transition duration-200 flex-wrap gap-1 items-center">
+                <div 
+                class="px-2 py-1 rounded-full text-xs capitalize border-[1px] border-secondary text-gray-800 hover:bg-secondary hover:text-white cursor-pointer transition duration-200"
+                v-for="catagory in useAdminActionStore.$state.catagorys"
+                :key="catagory._id"
+                >
+                    {{ catagory.catagory }}
+                </div>
             </div>
         </div>
         <!-- the creation analysis -->

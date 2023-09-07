@@ -27,7 +27,48 @@ const handleCreateCatagory=(value)=>{
 </script>
 
 <template>
-    <div>
-        catagory creating form
+    <div class="w-full flex items-center">
+        <form @submit.prevent="" class="w-full">
+            <!-- input container -->
+            <div class="w-full flex flex-col gap-1 justify-between h-fit">
+                <FormLabel title="Catagory Name" />
+                <!-- input cont -->
+                <div class="mt-1 relative w-[90%]">
+                    <!-- the input -->
+                    <div class="relative mb-3 w-full" data-te-input-wrapper-init>
+                        <input
+                            type="text"
+                            class="peer block min-h-[auto] w-full focus:bg-gray-50 rounded first-letter:capitalize bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-secondary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none   [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                            id="ProductName"
+                            placeholder="Hann Burger" />
+                        <label
+                            for="ProductName"
+                            class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-300 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-gray-400 peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-secondary"
+                            >
+                            Makaranio
+                        </label>
+                    </div>
+                    <InputErrorMark v-if="0>1"/>
+                    <!-- the error message -->
+                    <div class="formErrorMessage ml-2" v-if="0>1">
+                    
+                    </div>
+                </div>
+            </div>
+            <!-- the create button -->
+            <div class="w-full flex flex-col gap-1 justify-between h-fit">
+                <div class="mt-1 relative w-[90%]">
+                    <button
+                    class="inline-block rounded bg-gray-900 px-7 py-2 w-full text-sm font-medium uppercase leading-normal text-white  transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                    data-te-ripple-init
+                    data-te-ripple-color="light">
+                        <span v-if="1>0">
+                            Post Catagory
+                        </span>
+                        <Loading :small-mode="true" v-else />
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 </template>
