@@ -89,6 +89,9 @@ module.exports.Login_post = async(req, res) => {
                 res.clearCookie("carts")
             }
             const theUser = await User.findOne({ _id: userDb._id }).select("_id username gender location profile roll")
+            if (theUser.roll == 'admin') {
+                await sendEmail(theUser.email, 'Checking The Admin Is The One Who Login', { name: theUser.username }, './template/adminAlertEmail.handlebars')
+            }
             return res.status(200).json({ message: "Authenticated successfully", user: theUser })
         } else {
             errors.message = "Invalid credentials"
