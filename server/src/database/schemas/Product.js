@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const sendEmail = require('../../utils/email/sendEmail')
+const User = require('./User')
 
 const ProductSchema = new mongoose.Schema({
     name: {
@@ -36,6 +38,15 @@ const ProductSchema = new mongoose.Schema({
         required: true,
         default: new Date()
     }
+})
+
+ProductSchema.post('save', async(product) => {
+    const allUsers = await User.find({})
+    allUsers.forEach(async(user) => {
+        if (user.roll == 'user') {
+            await sendEmail(user.email, 'New Product Is Posted In C5 Online Caffe', { name: user.username }, './template/checkoutNewProductAlert.handlebars')
+        }
+    });
 })
 
 module.exports = mongoose.model('products', ProductSchema)
