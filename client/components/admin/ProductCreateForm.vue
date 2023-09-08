@@ -88,6 +88,7 @@ const handleCreateProduct=async(value)=>{
             toast.error(useAdminActionStore.$state.error_message,{
                 position:'bottom-left'
             })
+            useAdminActionStore.resetErrorMessage()
         }
     }
 }

@@ -242,6 +242,8 @@ export const adminProductAndCatagoryStore = defineStore({
                     this.errors = error.response.data
                     if (error.response.data.message) {
                         this.error_message = error.response.data.message
+                    } else if (error.response.data && error.response.data.catagory) {
+                        this.error_message = error.response.data.catagory
                     }
                 }
                 if (error.code == 'ERR_NETWORK') {
