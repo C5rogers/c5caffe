@@ -51,6 +51,9 @@ export const adminProductAndCatagoryStore = defineStore({
         setProductsPageLimit(payload) {
             this.products_page_limit = payload
         },
+        setProductsCurrentPage(page) {
+            this.products_current_page = page
+        },
         async getProducts(payload) {
             try {
                 this.is_products_loading = true

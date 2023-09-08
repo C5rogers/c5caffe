@@ -30,11 +30,23 @@ const handleDescription=(description)=>{
     }
 }
 
-const handleChangePage=(page)=>{
-
+const handleChangePage=async(page)=>{
+    useAdminActionStore.setProductsCurrentPage(page)
+    await useAdminActionStore.getProducts(search_controller.value)
 }
 const handleSearch=async()=>{
     await useAdminActionStore.getProducts(search_controller.value)
+}
+const handleDate=(date)=>{
+    return date.substring(0,10)
+}
+const parseToNumber=(price)=>{
+    const parsed=Number(price)
+    if(isNaN(parsed)){
+        return 0
+    }else{
+        return parsed
+    }
 }
 </script>
 
@@ -136,6 +148,13 @@ const handleSearch=async()=>{
                             <div class="text-xs -mt-1 first-letter:capitalize text-gray-500">
                                 {{ handleDescription(product.description) }}
                             </div>
+                            <!-- date -->
+                            <div class="text-xs flex items-center gap-1 first-letter:capitalize text-gray-500">
+                                <span class="h-2 w-2 rounded-full bg-green-500">
+
+                                </span>
+                                {{ handleDate(product.created_at) }}
+                            </div>
                         </div>
                     </div>
                     <!-- the price -->
@@ -157,7 +176,7 @@ const handleSearch=async()=>{
                         <button
                         data-te-ripple-init
                         data-te-ripple-color="light"
-                        class="flex px-2 text-white gap-1 items-center justify-center bg-green-400 py-1 rounded"
+                        class="flex px-2 text-white gap-1 items-center justify-center bg-green-600 py-1 rounded"
                         >
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" 
@@ -193,8 +212,10 @@ const handleSearch=async()=>{
                 <SharebleEmpty />
             </div>
             <!-- the pagination holder -->
-            <div class="w-full flex justify-end">
-                <ShareblePagination :small-mode="true" :total-pages="useAdminActionStore.$state.products_total_page" :initial-page="useAdminActionStore.$state.products_current_page" :page-limit="4" @change_page="handleChangePage"/>
+            <div class="w-full flex justify-end"
+            v-if="useAdminActionStore.$state.products.length>0 && useAdminActionStore.$state.is_products_loading==false && useAdminActionStore.$state.products_network_error==false"
+            >
+                <ShareblePagination :small-mode="true" :total-pages="parseToNumber(useAdminActionStore.$state.products_total_page)" :initial-page="parseToNumber(useAdminActionStore.$state.products_current_page)" :page-limit="4" @change_page="handleChangePage"/>
             </div>
         </div>
     </div>
