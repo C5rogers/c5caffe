@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Out New Product Catagory Posted In C5 Online Caffe</title>
+        <style>
+        * {
+    margin: 0;
+    padding: 0;
+    }
+
+    body {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        background-color: aliceblue;
+    }
+
+    .container {
+        width: 25em;
+        border-radius: 10px;
+        border: solid 1px rgb(189, 184, 184);
+        padding: 5px;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        place-items: center;
+    }
+
+    .image_holder {
+        width: 6em;
+        height: 6em;
+        border-radius: 100%;
+        overflow: hidden;
+        display: flex;
+        place-items: center;
+        justify-content: center;
+        border: solid 1px rgb(189, 184, 184);
+    }
+
+    .image_holder .img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .article_container {
+        width: 100%;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        place-items: center;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    .article_container .greating {
+        font-size: 2rem;
+        margin-bottom: 3px;
+    }
+
+    .article_container .greating .name {
+        font-weight: bolder;
+    }
+
+    .content_container {
+        text-align: center;
+        color: rgb(46, 45, 45);
+    }
+
+    .main_link {
+        width: fit-content;
+        padding: 2px 10px;
+        background-color: #f57e16;
+        border-radius: 3px;
+        justify-self: center;
+        text-decoration: none;
+        color: white;
+    }
+
+    .footer {
+        text-align: center;
+        color: rgb(88, 88, 88);
+    }
+    </style>
+</head>
+<body>
+    <body>
+    {{!-- the whole container --}}
+    <div class="container">
+        {{!-- the image holder --}}
+        <div class="image_holder">
+            {{!-- the image --}}
+            <img src="https://www.creativefabrica.com/wp-content/uploads/2019/08/Restaurant-Logo-by-Koko-Store-580x386.jpg" class="img" alt="">
+        </div>
+        {{!-- the article container --}}
+        <div class="article_container">
+            {{!-- the greatting --}}
+            <div class="greating">
+                Hi <span>{{name}},</span>
+            </div>
+            {{!-- the subject --}}
+            <div class="subject">
+                <p>We are threalled to announce you that we post new product catagory to C5 Online Caffe.</p>
+            </div>
+            {{!-- the content --}}
+            <div class="content_container">
+                <p>Please click <a href="http://localhost:3000/product" target="_blank" class="main_link">This</a> link to get the new product catagory.</p>
+                <p class="company_description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste tempora officiis ab facere voluptatum magnam sed blanditiis exercitationem non maiores.</p>
+            </div>
+        </div>
+        {{!-- the conclusion --}}
+        <div class="footer">
+            <span>&copy;</span> C5 Online Caffe 2015 E.C
+        </div>
+    </div>
+</body>
+</html>

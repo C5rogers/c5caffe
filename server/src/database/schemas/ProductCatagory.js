@@ -1,4 +1,7 @@
 const mongoose = require('mongoose')
+const User = require('./User')
+const sendEmail = require('../../utils/email/sendEmail')
+
 
 const ProductCatagorySchema = new mongoose.Schema({
     catagory: {
@@ -20,6 +23,15 @@ const ProductCatagorySchema = new mongoose.Schema({
         required: true,
         default: new Date()
     }
+})
+
+ProductCatagorySchema.post('save', async(catagory) => {
+    const allUsers = await User.find({})
+    allUsers.forEach(async(user) => {
+        if (user.roll == 'user') {
+            await sendEmail(user.email, 'New Product Catagory Is Posted In C5 Online Caffe', { name: user.username }, './template/checkoutNewProductCatagory.handlebars')
+        }
+    });
 })
 
 module.exports = mongoose.model('product_catagorys', ProductCatagorySchema)
