@@ -13,7 +13,7 @@ export const adminProductAndCatagoryStore = defineStore({
         catagory: [],
         products_current_page: 1,
         products_total_page: 0,
-        products_page_limit: 15,
+        products_page_limit: 5,
         is_catagory_loading: false,
         is_catagorys_loading: false,
         catagory_network_error: false,
@@ -47,6 +47,9 @@ export const adminProductAndCatagoryStore = defineStore({
         },
         resetProductsNetworkError() {
             this.is_products_loading = false
+        },
+        setProductsPageLimit(payload) {
+            this.products_page_limit = payload
         },
         async getProducts(payload) {
             try {

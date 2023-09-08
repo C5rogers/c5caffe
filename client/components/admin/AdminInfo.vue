@@ -6,6 +6,8 @@ const toast=useToast()
 const useAuthStore=authStore()
 const useCartStore=cartStore()
 
+const router=useRouter()
+
 const handleLogOut=async()=>{
     await useAuthStore.logout()
     useCartStore.resetUserCart()
