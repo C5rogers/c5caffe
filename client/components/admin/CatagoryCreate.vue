@@ -28,6 +28,9 @@ const handleCreateCatagory=async(value)=>{
         toast.success(useAdminActionStore.$state.success_message,{
             position:'top-left'
         })
+        toast.info('Alert Email also sended to all C5 onlline caffe users',{
+            position:'bottom-left'
+        })
         useAdminActionStore.resetSuccessMessage()
         await useAdminActionStore.getCatagorys()
     }else{
