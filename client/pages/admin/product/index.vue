@@ -11,6 +11,12 @@ onMounted(async()=>{
     })
 })
 
+const router=useRouter()
+
+const handleGoCreateProduct=()=>{
+    router.push('/admin/product/create')
+}
+
 definePageMeta({
     layout:"admin"
 })
@@ -37,6 +43,7 @@ definePageMeta({
                     type="button"
                     data-te-ripple-init
                     data-te-ripple-color="light"
+                    @click="handleGoCreateProduct"
                     class="inline-block rounded bg-green-600 px-4 py-1 w-full text-sm font-medium leading-normal text-white transition duration-150 ease-in-out hover:bg-green-700 focus:bg-primary-600  focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                     >New</button>
                 </div>
@@ -60,9 +67,49 @@ definePageMeta({
                     <button 
                     type="button"
                     data-te-ripple-init
+                    @click="handleGoCreateProduct"
                     data-te-ripple-color="light"
                     class="inline-block rounded bg-green-600 px-4 py-1 w-full text-sm font-medium leading-normal text-white transition duration-150 ease-in-out hover:bg-green-700 focus:bg-primary-600  focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                     >Add</button>
+                </div>
+            </div>
+            <!-- catagory lists -->
+            <div class="w-full flex flex-wrap gap-1">
+                <div
+                class="relative w-fit pl-2 pr-7 py-1 rounded-full border-[1px] border-secondary first-letter:capitalize text-xs"
+                v-for="catagory in useAdminActionStore.$state.catagorys"
+                :key="catagory._id"
+                >
+                    <span>
+                        {{ catagory.catagory }}
+                    </span>
+                    <!-- the absolute edit button -->
+                    <button
+                    data-te-ripple-init
+                    data-te-ripple-color="light"
+                    class="absolute right-4 shadow-md -top-3 flex items-center justify-center p-2 rounded-full bg-green-600 text-white"
+                    >
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                            class="w-3 h-3"
+                            viewBox="0 0 512 512">
+                                <path fill="currentColor" d="m497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4L.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3l262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3l-31.1-31.1L51.7 376H88v48z"/>
+                            </svg>
+                        </span>
+                    </button>
+                    <button
+                    data-te-ripple-init
+                    data-te-ripple-color="light"
+                    class="absolute right-1 shadow-md -top-3 flex items-center justify-center p-2 rounded-full bg-red-600 text-white"
+                    >
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" 
+                            class="w-3 h-3" 
+                            viewBox="0 0 448 512">
+                                <path fill="currentColor" d="M32 464a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128H32zm272-256a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zM432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z"/>
+                            </svg>
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
