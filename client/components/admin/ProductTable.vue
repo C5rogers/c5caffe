@@ -3,6 +3,7 @@ import {Select,Ripple,initTE,Input} from 'tw-elements'
 
 const search_controller=ref("")
 const page_controller=ref(5)
+const router=useRouter()
 
 onMounted(()=>{
     initTE({
@@ -47,6 +48,11 @@ const parseToNumber=(price)=>{
     }else{
         return parsed
     }
+}
+
+
+const goToEditProduct=(product_id)=>{
+    router.push(`/admin/product/edit/${product_id}`)
 }
 </script>
 
@@ -176,6 +182,7 @@ const parseToNumber=(price)=>{
                         <button
                         data-te-ripple-init
                         data-te-ripple-color="light"
+                        @click="goToEditProduct(product._id)"
                         class="flex px-2 text-white gap-1 items-center justify-center bg-green-600 py-1 rounded"
                         >
                             <span>
