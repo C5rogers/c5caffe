@@ -44,7 +44,7 @@ definePageMeta({
                 Currently Avelable Catagorys
             </div>
             <!-- the catagorys -->
-            <div class="w-full flex transition duration-200 flex-wrap gap-1 items-center">
+            <div class="w-full h-[55vh] overflow-y-scroll flex transition duration-200 flex-wrap gap-1 items-center">
                 <div 
                 class="px-2 py-1 rounded-full text-xs capitalize border-[1px] border-secondary text-gray-800 hover:bg-secondary hover:text-white cursor-pointer transition duration-200"
                 v-for="catagory in useAdminActionStore.$state.catagorys"

@@ -42,6 +42,7 @@ watch(()=>props.identifier,(newValue)=>{
 })
 
 const handleConfirmations=(e)=>{
+    confirmation_result.value=false
     e.preventDefault()
     if(e.submitter.name=='yes'){
         confirmation_result.value=true
@@ -77,7 +78,7 @@ const handleConfirmations=(e)=>{
             >
                 <!-- the title holder -->
                 <div
-                class="flex flex-shrink-0 items-center justify-between rounded-t-md bg-primary-600 p-4 dark:border-b dark:border-neutral-500 dark:bg-transparent"
+                class="flex flex-shrink-0 items-center justify-between rounded-t-md bg-blue-200 p-4 dark:border-b dark:border-neutral-500 dark:bg-transparent"
                 >
                     <!-- the left one -->
                     <div class="w-fit flex items-center">

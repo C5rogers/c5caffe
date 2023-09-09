@@ -41,7 +41,7 @@ const handleCreateCatagory=async(value)=>{
             toast.error(useAdminActionStore.$state.error_message,{
                 position:'bottom-left'
             })
-            useAdminActionStore.resetErrorMessage()
+            useAdminActionStore.resetCatagoryErrors()
         }
         resetTheForm()
     }
@@ -81,13 +81,13 @@ const resetTheForm=()=>{
                             Makaranio
                         </label>
                     </div>
-                    <InputErrorMark v-if="errors.catagory || useAdminActionStore.$state.errors.catagory"/>
+                    <InputErrorMark v-if="errors.catagory || useAdminActionStore.$state.catagory_errors.catagory"/>
                     <!-- the error message -->
                     <div class="formErrorMessage ml-2" v-if="errors.catagory">
                         {{ errors.catagory }}
                     </div>
-                    <div class="formErrorMessage ml-2" v-else-if="useAdminActionStore.$state.errors.catagory">
-                        {{ useAdminActionStore.$state.errors.catagory }}
+                    <div class="formErrorMessage ml-2" v-else-if="useAdminActionStore.$state.catagory_errors.catagory">
+                        {{ useAdminActionStore.$state.catagory_errors.catagory }}
                     </div>
                 </div>
             </div>

@@ -19,6 +19,7 @@ export const adminProductAndCatagoryStore = defineStore({
         catagory_network_error: false,
         catagorys_network_error: false,
         errors: [],
+        catagory_errors: [],
         is_product_loading: false,
         is_products_loading: false,
         product_network_error: false,
@@ -27,6 +28,9 @@ export const adminProductAndCatagoryStore = defineStore({
         success_message: ''
     }),
     actions: {
+        resetCatagoryErrors() {
+            this.catagory_errors = []
+        },
         resetErrors() {
             this.errors = []
         },
@@ -190,7 +194,7 @@ export const adminProductAndCatagoryStore = defineStore({
                 console.log(error)
                 this.is_catagory_loading = false
                 if (error.response) {
-                    this.errors = error.response.data
+                    this.catagory_errors = error.response.data
                     if (error.response.data.message) {
                         this.error_message = error.response.data.message
                     }
@@ -214,7 +218,7 @@ export const adminProductAndCatagoryStore = defineStore({
                 console.log(error)
                 this.is_catagorys_loading = false
                 if (error.response) {
-                    this.errors = error.response.data
+                    this.catagory_errors = error.response.data
                     if (error.response.data.message) {
                         this.error_message = error.response.data.message
                     }
@@ -239,7 +243,7 @@ export const adminProductAndCatagoryStore = defineStore({
                 console.log(error)
                 this.is_catagory_loading = false
                 if (error.response) {
-                    this.errors = error.response.data
+                    this.catagory_errors = error.response.data
                     if (error.response.data.message) {
                         this.error_message = error.response.data.message
                     } else if (error.response.data && error.response.data.catagory) {
@@ -266,7 +270,7 @@ export const adminProductAndCatagoryStore = defineStore({
                 console.log(error)
                 this.is_catagory_loading = false
                 if (error.response) {
-                    this.errors = error.response.data
+                    this.catagory_errors = error.response.data
                     if (error.response.data.message) {
                         this.error_message = error.response.data.message
                     }
@@ -290,7 +294,7 @@ export const adminProductAndCatagoryStore = defineStore({
                 console.log(error)
                 this.is_catagory_loading = false
                 if (error.response) {
-                    this.errors = error.response.data
+                    this.catagory_errors = error.response.data
                     if (error.response.data.message) {
                         this.error_message = error.response.data.message
                     }

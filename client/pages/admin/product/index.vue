@@ -27,6 +27,7 @@ const handleGoCreateProduct=()=>{
 }
 
 const handleDeleteCatagoryResult=async(result)=>{
+    console.log(result.confirmation_result)
     if(result.confirmation_result==true){
         const res=await useAdminActionStore.deleteCatagory(result.identifier._id)
         if(res==true){
@@ -112,7 +113,7 @@ definePageMeta({
                 </div>
             </div>
             <!-- catagory lists -->
-            <div class="w-full min-h-[55vh] overflow-y-auto flex flex-wrap gap-3 mt-2">
+            <div class="w-full h-[70vh] overflow-scroll flex flex-wrap gap-3 mt-2">
                 <div
                 class=" w-fit px-2  flex gap-2 items-center py-1 rounded-full hover:bg-secondary hover:text-white transition duration-200 border-[1px] border-secondary first-letter:capitalize text-xs"
                 v-for="catagory in useAdminActionStore.$state.catagorys"

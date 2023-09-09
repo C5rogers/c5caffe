@@ -1,9 +1,17 @@
 <script setup>
 import {Select,Ripple,initTE,Input} from 'tw-elements'
+import {useToast} from 'vue-toastification'
 
+const toast=useToast()
 const search_controller=ref("")
 const page_controller=ref(5)
 const router=useRouter()
+
+const forProductDeleteConfirmation=ref({
+    identifier:{},
+    title:"",
+    message:""
+})
 
 onMounted(()=>{
     initTE({
@@ -50,6 +58,37 @@ const parseToNumber=(price)=>{
     }
 }
 
+const confirmProductDeletion=(product)=>{
+    forProductDeleteConfirmation.value.identifier=product,
+    forProductDeleteConfirmation.value.title=`Deleting ${product.name} from the site`
+    forProductDeleteConfirmation.value.message=`Are you really shure to remove ${product.name} from the site that provide this product for its clients?`
+}
+const handleConfirmedProductDeletion=async(result)=>{
+    if(result.confirmation_result==true){
+        const res=await useAdminActionStore.deleteProduct(result.identifier._id)
+        if(res==true){
+            toast.success(`You deleted ${result.identifier.name} from the site successfully`,{
+                position:'top-left'
+            })
+            if(useAdminActionStore.$state.success_message){
+                toast.success(useAdminActionStore.$state.success_message,{
+                    position:'top-left'
+                })
+                useAdminActionStore.resetSuccessMessage()
+            }
+        }else{
+            toast.error(`Unable to delete ${result.identifier.name} from site`,{
+                position:'bottom-left'
+            })
+            if(useAdminActionStore.$state.error_message){
+                toast.error(useAdminActionStore.$state.error_message,{
+                    position:'bottom-left'
+                })
+                useAdminActionStore.resetErrorMessage()
+            }
+        }
+    }
+}
 
 const goToEditProduct=(product_id)=>{
     router.push(`/admin/product/edit/${product_id}`)
@@ -197,8 +236,11 @@ const goToEditProduct=(product_id)=>{
                             </span>
                         </button>
                         <button
+                        data-te-toggle="modal"
+                        data-te-target="#leftTopModal"
                         data-te-ripple-init
                         data-te-ripple-color="light"
+                        @click="confirmProductDeletion(product)"
                         class="flex px-2 text-white gap-1 items-center justify-center bg-red-400 py-1 rounded"
                         >
                             <span>
@@ -234,4 +276,13 @@ const goToEditProduct=(product_id)=>{
     <div v-else-if="useAdminActionStore.$state.products_network_error==true">
 
     </div>
+    <teleport to="body">
+        <SharebleConfirmationModal
+        :left-mode="true"
+        :title="forProductDeleteConfirmation.title"
+        :identifier="forProductDeleteConfirmation.identifier"
+        :message="forProductDeleteConfirmation.message"
+        @confirmation-result="handleConfirmedProductDeletion"
+        />
+    </teleport>
 </template>
