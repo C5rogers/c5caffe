@@ -1,6 +1,9 @@
 <script setup>
 
 import {Ripple,initTE} from 'tw-elements'
+import {useToast} from 'vue-toastification'
+
+const toast=useToast()
 const useAdminActionStore=adminProductAndCatagoryStore()
 
 onMounted(async()=>{
@@ -11,10 +14,45 @@ onMounted(async()=>{
     })
 })
 
+const forCatagoryDeleteConfirmation=ref({
+    identifier:{},
+    title:"",
+    message:""
+})
+
 const router=useRouter()
 
 const handleGoCreateProduct=()=>{
     router.push('/admin/product/create')
+}
+
+const handleDeleteCatagoryResult=async(result)=>{
+    if(result.confirmation_result==true){
+        const res=await useAdminActionStore.deleteCatagory(result.identifier._id)
+        if(res==true){
+            await useAdminActionStore.getCatagorys()
+            toast.success(`${result.identifier.catagory} is removed successfully!`)
+            if(useAdminActionStore.$state.success_message){
+                toast.success(useAdminActionStore.$state.success_message)
+                useAdminActionStore.resetSuccessMessage()
+            }
+        }else{
+            toast.error(`Unable to delete ${result.identifier.catagory} from the site`,{
+                position:'bottom-right'
+            })
+            if(useAdminActionStore.$state.error_message){
+                toast.error(useAdminActionStore.$state.error_message,{
+                    position:'bottom-right'
+                })
+                useAdminActionStore.resetErrorMessage()
+            }
+        }
+    }
+}
+const confirmDeleteCatagory=(catagory)=>{
+    forCatagoryDeleteConfirmation.value.identifier=catagory
+    forCatagoryDeleteConfirmation.value.title=`Deleting ${catagory.catagory} from the site`
+    forCatagoryDeleteConfirmation.value.message=`Are you shure you want to delete ${catagory.catagory} from catagory lists that this site give to its clients?`
 }
 
 definePageMeta({
@@ -101,8 +139,11 @@ definePageMeta({
                             </span>
                         </button>
                         <button
+                        data-te-toggle="modal"
+                        data-te-target="#rightTopModal"
                         data-te-ripple-init
                         data-te-ripple-color="light"
+                        @click="confirmDeleteCatagory(catagory)"
                         class=" flex items-center justify-center p-2 rounded-full border border-red-600"
                         >
                             <span>
@@ -118,4 +159,13 @@ definePageMeta({
             </div>
         </div>
     </div>
+    <teleport to="body">
+        <SharebleConfirmationModal 
+        :left-mode="false"  
+        :title="forCatagoryDeleteConfirmation.title"
+        :identifier="forCatagoryDeleteConfirmation.identifier"
+        :message="forCatagoryDeleteConfirmation.message"
+        @confirmation-result="handleDeleteCatagoryResult"
+        />
+    </teleport>
 </template>

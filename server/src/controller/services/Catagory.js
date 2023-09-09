@@ -105,7 +105,7 @@ module.exports.Catagory_delete = async(req, res) => {
                         }).distinct('_id')
                     }
                 })
-                if (currentlyUsingProduct) {
+                if (currentlyUsingProduct.length > 0) {
                     return res.status(400).json({ message: "Can't delete catagory, it is currently in use!" })
                 } else {
                     await Catagory.deleteOne({ _id: catagory_id })

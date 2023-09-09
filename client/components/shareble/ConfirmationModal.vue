@@ -180,7 +180,7 @@ const handleConfirmations=(e)=>{
             >
                 <!-- the title holder -->
                 <div
-                class="flex flex-shrink-0 items-center justify-between rounded-t-md bg-info-600 p-4 dark:border-b dark:border-neutral-500 dark:bg-transparent"
+                class="flex flex-shrink-0 items-center justify-between rounded-t-md bg-blue-200 p-4 dark:border-b dark:border-neutral-500 dark:bg-transparent"
                 >
                     <!-- the left one -->
                     <div class="w-fit flex items-center">
@@ -196,7 +196,7 @@ const handleConfirmations=(e)=>{
                     <!-- the x button -->
                     <button
                     type="button"
-                    class="box-content rounded-none border-none text-white hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                    class="box-content rounded-none border-none text-gray-500 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
                     data-te-modal-dismiss
                     aria-label="Close">
                         <svg
@@ -234,7 +234,7 @@ const handleConfirmations=(e)=>{
                 </div>
                 <!-- the footer one -->
                 <div
-                class="flex flex-shrink-0 flex-wrap items-center justify-center rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50"
+                class="flex flex-shrink-0 flex-wrap bg-gray-100 items-center justify-center rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50"
                 >
                     <!-- the buttons -->
                     <form @submit="handleConfirmations">

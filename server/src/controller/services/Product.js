@@ -156,7 +156,7 @@ module.exports.Product_delete = async(req, res) => {
                 ]
             })
 
-            if (currentlyHoldingProduct) {
+            if (currentlyHoldingProduct.length > 0) {
                 return res.status(400).json({ message: "Unable to delete the product, it is currently in use!" })
             } else {
                 await ProductRating.deleteMany({ product_id })
