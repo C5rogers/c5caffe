@@ -1,4 +1,5 @@
 const Catagory = require('../../database/schemas/ProductCatagory')
+const Product = require('../../database/schemas/Product')
 const { isValidObjectId } = require('mongoose')
 const CatagoryRating = require('../../database/schemas/ProductCatagoryRating')
 
@@ -97,8 +98,19 @@ module.exports.Catagory_delete = async(req, res) => {
         if (isValidObjectId(catagory_id)) {
             const theCatagory = await Catagory.findOne({ _id: catagory_id })
             if (theCatagory) {
-                await Catagory.deleteOne({ _id: catagory_id })
-                return res.status(200).json({ message: "Catagory deleted successfully" })
+                const currentlyUsingProduct = await Product.find({
+                    catagory: {
+                        $in: await Catagory.find({
+                            _id: catagory_id
+                        }).distinct('_id')
+                    }
+                })
+                if (currentlyUsingProduct) {
+                    return res.status(400).json({ message: "Can't delete catagory, it is currently in use!" })
+                } else {
+                    await Catagory.deleteOne({ _id: catagory_id })
+                    return res.status(200).json({ message: "Catagory deleted successfully" })
+                }
             } else {
                 return res.status(400).json({ message: "There is no catagory with this id" })
             }

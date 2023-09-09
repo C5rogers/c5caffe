@@ -1,5 +1,6 @@
 const Product = require('../../database/schemas/Product')
 const Catagory = require('../../database/schemas/ProductCatagory')
+const Cart = require('../../database/schemas/Cart')
 const { isValidObjectId } = require('mongoose')
 const path = require('path')
 const fs = require('fs').promises
@@ -143,14 +144,30 @@ module.exports.Product_delete = async(req, res) => {
         const product_id = req.params.id
         const theProduct = await Product.findOne({ _id: product_id })
         if (theProduct) {
-            await ProductRating.deleteMany({ product_id })
-            await Product.deleteOne({ _id: product_id })
-            await fs.unlink(theProduct.image, (error) => {
-                if (error) {
-                    console.log("Error in deleting the file")
-                }
+
+            const currentlyHoldingProduct = await Cart.find({
+                $and: [
+                    { status: 'unordered' },
+                    {
+                        product: {
+                            $in: await Product.find({ _id: product_id }).distinct('_id')
+                        }
+                    }
+                ]
             })
-            return res.status(200).json({ message: "Product deleted successfully" })
+
+            if (currentlyHoldingProduct) {
+                return res.status(400).json({ message: "Unable to delete the product, it is currently in use!" })
+            } else {
+                await ProductRating.deleteMany({ product_id })
+                await Product.deleteOne({ _id: product_id })
+                await fs.unlink(theProduct.image, (error) => {
+                    if (error) {
+                        console.log("Error in deleting the file")
+                    }
+                })
+                return res.status(200).json({ message: "Product deleted successfully" })
+            }
         } else {
             return res.status(400).json({ message: "There is no product with this id" })
         }
