@@ -188,9 +188,9 @@ module.exports.Users_get = async(req, res) => {
                     { location: regexQuery },
                     { roll: regexQuery }
                 ]
-            }).select("_id email username gender location profile roll").limit(limit * 1).skip((page - 1) * limit)
+            }).select("_id email username phone gender location profile roll created_at").limit(limit * 1).skip((page - 1) * limit)
         } else {
-            users = await User.find({ roll: 'user' }).select("_id email username gender location profile roll").limit(limit * 1).skip((page - 1) * limit)
+            users = await User.find({}).select("_id email phone username gender location profile roll created_at").limit(limit * 1).skip((page - 1) * limit)
         }
         const total_users = await User.find({ roll: 'user' }).count()
         const total_users_page = Math.ceil(total_users / limit)
