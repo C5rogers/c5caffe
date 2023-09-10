@@ -24,4 +24,6 @@ router.get('/google', passport.authenticate('google', { session: true, scope: ['
 router.get('/google/callback', AuthController.Google_loged)
     // router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/api/v1/auth/login' }), AuthController.Google_loged)
 
+router.get('/users', middleware.protect_with_auth, middleware.check_auth_admin, AuthController.Users_get)
+
 module.exports = router

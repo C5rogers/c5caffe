@@ -165,3 +165,38 @@ module.exports.Update_password = async(req, res) => {
         return res.status(200).json({ error: "unable to send email to client", message: "Password reseted successfully" })
     }
 }
+
+module.exports.Users_get = async(req, res) => {
+    try {
+        const { q } = req.query
+        let page = req.query.page
+        let limit = req.query.limit
+        if (!page) {
+            page = 1
+        }
+        if (!limit) {
+            limit = 10
+        }
+        let users
+        if (q) {
+            const regexQuery = new RegExp(q, 'i')
+            users = await User.find({
+                $or: [
+                    { username: regexQuery },
+                    { email: regexQuery },
+                    { gender: regexQuery },
+                    { location: regexQuery },
+                    { roll: regexQuery }
+                ]
+            }).select("_id email username gender location profile roll").limit(limit * 1).skip((page - 1) * limit)
+        } else {
+            users = await User.find({ roll: 'user' }).select("_id email username gender location profile roll").limit(limit * 1).skip((page - 1) * limit)
+        }
+        const total_users = await User.find({ roll: 'user' }).count()
+        const total_users_page = Math.ceil(total_users / limit)
+        return res.status(200).json({ users, total_users, total_users_page, current_page: page })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(error)
+    }
+}
