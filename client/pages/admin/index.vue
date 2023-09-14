@@ -1,9 +1,12 @@
 <script setup>
 
 const useChart_dataStore=chart_dataStore()
-onMounted(async()=>{
-    await useChart_dataStore.getChartData()
+
+onMounted(async() => {
+  await  useChart_dataStore.getChartData()
 })
+
+
 definePageMeta({
     layout:"admin"
 })

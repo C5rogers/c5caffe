@@ -2,9 +2,24 @@
 import Chart from 'chart.js/auto'
 
 const useChart_dataStore=chart_dataStore()
+let chartInstance=null
+
 onMounted(() => {
     if(useChart_dataStore.$state.selled_order_report){
-        new Chart(document.getElementById('SellesReport'),{
+        drawGraph()
+    }
+    
+})
+
+watch(()=>useChart_dataStore.$state.selled_order_report,(newValue)=>{
+    if(chartInstance){
+        chartInstance.destroy()
+    }
+    drawGraph()
+})
+
+const drawGraph=()=>{
+    chartInstance = new Chart(document.getElementById('SellesReport'),{
             type:'line',
             data:{
                 labels:useChart_dataStore.$state.selled_order_report.labels,
@@ -23,9 +38,7 @@ onMounted(() => {
                 maintainAspectRatio: false,
             }
         })
-    }
-    
-})
+}
 
 </script>
 

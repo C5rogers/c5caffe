@@ -2,9 +2,25 @@
 import Chart from 'chart.js/auto'
 
 const useChart_dataStore=chart_dataStore()
+let chartInstance=null
+
+
 onMounted(()=>{
     if(useChart_dataStore.$state.product_catagory_rating_rate){
-        new Chart(document.getElementById('ProductCatagoryRatingReport'),{
+        drawGraph()
+    }
+})
+
+
+watch(()=>useChart_dataStore.$state.product_catagory_rating_rate,(newValue)=>{
+    if(chartInstance){
+        chartInstance.destroy()
+    }
+    drawGraph()
+})
+
+const drawGraph=()=>{
+    chartInstance=new Chart(document.getElementById('ProductCatagoryRatingReport'),{
             type:'bar',
             data:{
                 labels:useChart_dataStore.$state.product_catagory_rating_rate.labels,
@@ -21,8 +37,7 @@ onMounted(()=>{
                 maintainAspectRatio:false
             }
         })
-    }
-})
+}
 
 </script>
 

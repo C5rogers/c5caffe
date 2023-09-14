@@ -2,15 +2,23 @@
 import Chart from 'chart.js/auto'
 
 const useChart_dataStore=chart_dataStore()
+let ChartInstance=null
 onMounted(()=>{
     if(useChart_dataStore.$state.cart_usage){
         drawGraph()
     }
 })
 
+watch(()=>useChart_dataStore.$state.cart_usage,(newValue)=>{
+    if(ChartInstance){
+        ChartInstance.destroy()
+    }
+    drawGraph()
+})
+
 
 const drawGraph=()=>{
-    new Chart(document.getElementById('CartReport'),{
+    ChartInstance =  new Chart(document.getElementById('CartReport'),{
         type:'doughnut',
         data:{
             labels:useChart_dataStore.$state.cart_usage.labels,

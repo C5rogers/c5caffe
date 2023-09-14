@@ -3,10 +3,25 @@
 import Chart from 'chart.js/auto'
 
 const useChart_dataStore=chart_dataStore()
+let chartInstance=null
+
 
 onMounted(()=>{
     if(useChart_dataStore.$state.users_signedup_perweek){
-        new Chart(document.getElementById('SignedUpUsersReport'),{
+        drawGraph()
+    }
+})
+
+watch(()=>useChart_dataStore.$state.users_signedup_perweek,(newValue)=>{
+    if(chartInstance){
+        chartInstance.destroy()
+    }
+    drawGraph()
+})
+
+
+const drawGraph=()=>{
+   chartInstance  = new Chart(document.getElementById('SignedUpUsersReport'),{
             type:'radar',
             data:{
                 labels:useChart_dataStore.$state.users_signedup_perweek.labels,
@@ -23,8 +38,7 @@ onMounted(()=>{
                 maintainAspectRatio:false
             }
         })
-    }
-})
+}
 
 
 </script>
