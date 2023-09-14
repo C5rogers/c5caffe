@@ -22,6 +22,9 @@ export const adminUsersStore = defineStore({
         total_users: 0,
     }),
     actions: {
+        resetUsersNetworkError() {
+            this.users_network_error = false
+        },
         setCurrentPage(payload) {
             this.users_current_page = payload
         },

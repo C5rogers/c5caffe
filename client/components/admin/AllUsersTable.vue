@@ -64,6 +64,10 @@ const goToEditProduct=(user_id)=>{
 const confirmProductDeletion=(usre)=>{
     
 }
+const handleUsersReload=async()=>{
+    useAdminUsersStore.resetUsersNetworkError()
+    await useAdminUsersStore.getUsers('')
+}
 
 </script>
 
@@ -259,6 +263,14 @@ const confirmProductDeletion=(usre)=>{
         </div>
         <div class="w-full h-[55vh] flex justify-center items-center" v-else-if="useAdminUsersStore.$state.users.length==0 && useAdminUsersStore.$state.is_users_loading==false && useAdminUsersStore.$state.users_network_error==false">
             <SharebleEmpty />
+        </div>
+        <!-- the animation -->
+        <div  class="min-h-[55vh] overflow-y-auto flex flex-col gap-[2px]" v-else-if="useAdminUsersStore.$state.is_users_loading==true && useAdminUsersStore.$state.users_network_error==false">
+            <AnimationsAdminUsers/>
+        </div>
+        <!-- the network error -->
+        <div class="min-h-[55vh] overflow-y-auto flex flex-col gap-[2px] items-center justify-center" v-else-if="useAdminUsersStore.$state.users_network_error==true&&useAdminUsersStore.$state.is_users_loading==false">
+            <NetworkError @reload="handleUsersReload" />
         </div>
         <!-- the pagination holder -->
         <div class="w-full flex justify-end"
