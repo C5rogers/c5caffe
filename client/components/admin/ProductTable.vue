@@ -90,6 +90,11 @@ const handleConfirmedProductDeletion=async(result)=>{
     }
 }
 
+const handleNetworkErrorReload=async()=>{
+    useAdminActionStore.resetProductsNetworkError()
+    await useAdminActionStore.getProducts('')
+}
+
 const goToEditProduct=(product_id)=>{
     router.push(`/admin/product/edit/${product_id}`)
 }
@@ -264,6 +269,10 @@ const goToEditProduct=(product_id)=>{
             <div v-else-if="useAdminActionStore.$state.is_products_loading==true && useAdminActionStore.$state.products_network_error==false">
                 <AnimationsAdminProducts/>
             </div>
+            <!-- the reset network error -->
+            <div v-else-if="useAdminActionStore.$state.products_network_error==true&&useAdminActionStore.$state.is_products_loading==false">
+                <NetworkError @reload="handleNetworkErrorReload" />
+            </div>
             <!-- the pagination holder -->
             <div class="w-full flex justify-end"
             v-if="useAdminActionStore.$state.products.length>0 && useAdminActionStore.$state.is_products_loading==false && useAdminActionStore.$state.products_network_error==false"
@@ -271,10 +280,6 @@ const goToEditProduct=(product_id)=>{
                 <ShareblePagination :small-mode="true" :total-pages="parseToNumber(useAdminActionStore.$state.products_total_page)" :initial-page="parseToNumber(useAdminActionStore.$state.products_current_page)" :page-limit="4" @change_page="handleChangePage"/>
             </div>
         </div>
-    </div>
-    <!-- the network error -->
-    <div v-if="useAdminActionStore.$state.products_network_error==true">
-
     </div>
     <teleport to="body">
         <SharebleConfirmationModal

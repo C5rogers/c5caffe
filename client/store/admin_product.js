@@ -47,10 +47,10 @@ export const adminProductAndCatagoryStore = defineStore({
             this.catagory_network_error = false
         },
         resetCatagorysNetworkError() {
-            this.is_catagorys_loading = false
+            this.catagorys_network_error = false
         },
         resetProductsNetworkError() {
-            this.is_products_loading = false
+            this.products_network_error = false
         },
         setProductsPageLimit(payload) {
             this.products_page_limit = payload
@@ -79,7 +79,7 @@ export const adminProductAndCatagoryStore = defineStore({
                     }
                 }
                 if (error.code == 'ERR_NETWORK') {
-                    this.product_network_error = true
+                    this.products_network_error = true
                 }
                 return false
             }
