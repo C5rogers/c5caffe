@@ -56,6 +56,12 @@ const confirmDeleteCatagory=(catagory)=>{
     forCatagoryDeleteConfirmation.value.message=`Are you shure you want to delete ${catagory.catagory} from catagory lists that this site give to its clients?`
 }
 
+const handleReloadCatagorys=async()=>{
+    useAdminActionStore.resetCatagoryErrors()
+    useAdminActionStore.resetCatagorysNetworkError()
+    await useAdminActionStore.getCatagorys()
+}
+
 definePageMeta({
     layout:"admin"
 })
@@ -113,7 +119,7 @@ definePageMeta({
                 </div>
             </div>
             <!-- catagory lists -->
-            <div class="w-full h-[70vh] overflow-scroll flex flex-wrap gap-3 mt-2">
+            <div class="w-full h-[70vh] overflow-scroll flex flex-wrap gap-3 mt-2" v-if="useAdminActionStore.$state.catagorys.length>0 && useAdminActionStore.$state.is_catagorys_loading==false && useAdminActionStore.$state.catagorys_network_error==false">
                 <div
                 class=" w-fit px-2  flex gap-2 items-center py-1 rounded-full hover:bg-secondary hover:text-white transition duration-200 border-[1px] border-secondary first-letter:capitalize text-xs"
                 v-for="catagory in useAdminActionStore.$state.catagorys"
@@ -157,6 +163,18 @@ definePageMeta({
                         </button>
                     </div>
                 </div>
+            </div>
+            <!-- the empty one -->
+            <div class="w-full h-[70vh] flex flex-col gap-1 items-center justify-center" v-else-if="useAdminActionStore.$state.catagorys.length==0 && useAdminActionStore.$state.is_catagorys_loading==false&& useAdminActionStore.$state.catagorys_network_error==false">
+                <SharebleEmpty/>
+            </div>
+            <!-- the animations -->
+            <div class="w-full h-[70vh] overflow-scroll flex flex-wrap gap-3 mt-2" v-else-if="useAdminActionStore.$state.is_catagorys_loading==true&&useAdminActionStore.$state.catagorys_network_error==false">
+                <AnimationsAdminCatagorys/>
+            </div>
+            <div class="w-full h-[70vh] overflow-scroll flex flex-col justify-center items-center gap-1 mt-2" v-else-if="useAdminActionStore.$state.catagorys_network_error==true&&useAdminActionStore.$state.is_catagorys_loading==false">
+                <!-- now network error showen here -->
+                <NetworkError @reload="handleReloadCatagorys" />
             </div>
         </div>
     </div>
