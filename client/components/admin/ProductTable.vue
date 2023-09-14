@@ -260,6 +260,10 @@ const goToEditProduct=(product_id)=>{
             <div class="w-full h-[55vh] flex justify-center items-center" v-else-if="useAdminActionStore.$state.products.length==0 && useAdminActionStore.$state.is_products_loading==false && useAdminActionStore.$state.products_network_error==false">
                 <SharebleEmpty />
             </div>
+            <!-- the animations -->
+            <div v-else-if="useAdminActionStore.$state.is_products_loading==true && useAdminActionStore.$state.products_network_error==false">
+                <AnimationsAdminProducts/>
+            </div>
             <!-- the pagination holder -->
             <div class="w-full flex justify-end"
             v-if="useAdminActionStore.$state.products.length>0 && useAdminActionStore.$state.is_products_loading==false && useAdminActionStore.$state.products_network_error==false"
@@ -268,12 +272,8 @@ const goToEditProduct=(product_id)=>{
             </div>
         </div>
     </div>
-    <!-- the animation -->
-    <div v-if="useAdminActionStore.$state.is_products_loading==true && useAdminActionStore.$state.products_network_error==false">
-
-    </div>
     <!-- the network error -->
-    <div v-else-if="useAdminActionStore.$state.products_network_error==true">
+    <div v-if="useAdminActionStore.$state.products_network_error==true">
 
     </div>
     <teleport to="body">
