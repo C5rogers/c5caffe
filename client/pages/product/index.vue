@@ -308,14 +308,14 @@ const handleReloadData=async ()=>{
                 2015 E.C | {{ $t('c5') }} {{ $t('online caffe') }}
             </div>
         </div>
-        <div class="hidden w-full h-fit relative mt-10 px-5 md:px-0 md:w-3/4 ml-auto md:flex flex-col gap-2 " v-else-if="useProductStore.$state.isProductsLoading==true">
+        <div class="hidden w-full h-fit relative mt-10 px-5 md:px-0 md:w-3/4 ml-auto md:flex flex-col gap-2 " v-else-if="useProductStore.$state.isProductsLoading==true && useProductStore.$state.network_error==false">
             <!-- show the animation here -->
             <AnimationsProducts/>
         </div>
         <!-- the empty one -->
         <div
             class="w-full lg:w-3/4 min-h-[30em] flex items-center ml-auto justify-center" 
-            v-if="useProductStore.$state.products.length==0 && useProductStore.$state.network_error==false && useProductStore.$state.isProductsLoading==false"
+            v-else-if="useProductStore.$state.products.length==0 && useProductStore.$state.network_error==false && useProductStore.$state.isProductsLoading==false"
             >
             <shareble-empty/>
         </div>  
