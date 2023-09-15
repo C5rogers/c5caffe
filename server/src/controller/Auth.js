@@ -9,6 +9,12 @@ const Token = require('../database/schemas/Token')
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const sendEmail = require('../utils/email/sendEmail.js')
+const { isValidObjectId } = require('mongoose')
+const Cart = require('../database/schemas/Cart')
+const Order = require('../database/schemas/Order')
+const ProductRating = require('../database/schemas/ProductRating')
+const ProductCatagoryRating = require('../database/schemas/ProductCatagoryRating')
+const SelledOrder = require('../database/schemas/SelledOrder')
 
 
 module.exports.Signup_post = async(req, res) => {
@@ -195,6 +201,27 @@ module.exports.Users_get = async(req, res) => {
         const total_users = await User.find({ roll: 'user' }).count()
         const total_users_page = Math.ceil(total_users / limit)
         return res.status(200).json({ users, total_users, total_users_page, current_page: page })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(error)
+    }
+}
+module.exports.User_delete = async(req, res) => {
+    try {
+        const user_id = req.params.id
+        if (isValidObjectId(user_id)) {
+            await Cart.deleteMany({ user: user_id })
+            await Order.deleteMany({ user: user_id })
+            await ProductRating.deleteMany({ user_id })
+            await ProductCatagoryRating.deleteMany({ user_id })
+            await SelledOrder.deleteMany({ user: user_id })
+            const user = await User.findOne({ _id: user_id })
+            await sendEmail(user.email, 'You are sadly removed from the membership of C5 Online caffe', { user: user.username }, './template/deletedUserReportEmail.handlebars')
+            await User.deleteOne({ _id: user_id })
+            return res.status(200).json({ message: `${user.username} removed from membership of C5 online caffe successfully!` })
+        } else {
+            return res.status(400).json({ message: "Invalid user identification" })
+        }
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)
