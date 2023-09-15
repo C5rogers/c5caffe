@@ -12,6 +12,7 @@ const resetFormField=()=>{
     formController.value.message=''
     formController.value.title=''
     formController.value.username=''
+    formController.value.warning=''
 }
 
 onMounted(()=>{
@@ -35,13 +36,17 @@ const props=defineProps({
     reload:{
         type:Boolean,
         default:false
+    },
+    warning:{
+        type:String
     }
 })
 
 const formController=ref({
     title:'',
     message:'',
-    username:''
+    username:'',
+    warning:''
 })
 
 watch(()=>props.reload,(newValue)=>{
@@ -49,6 +54,7 @@ watch(()=>props.reload,(newValue)=>{
         formController.value.title=props.title
         formController.value.message=props.message
         formController.value.username=props.userInformation.username
+        formController.value.warning=props.warning
     }
 })
 
@@ -58,6 +64,7 @@ watch(()=>props.userInformation,(newValue)=>{
         formController.value.title=props.title
         formController.value.message=props.message
         formController.value.username=props.userInformation.username
+        formController.value.warning=props.warning
     }
 })
 
@@ -175,6 +182,10 @@ const handleConfirmation=(value)=>{
                             </div>
                         </Form>
                     </div>
+                    <!-- the warning message -->
+                    <p class="p-4 text-center text-xs text-red-600 hover:underline">
+                        {{ formController.warning }}
+                    </p>
                 </div>
                 <!-- the footer -->
                 <div 

@@ -12,7 +12,8 @@ const reload_controller=ref(false)
 const forUserDeleteConfirmation=ref({
     user:{},
     title:'',
-    message:''
+    message:'',
+    warning:''
 })
 
 const useAdminUsersStore=adminUsersStore()
@@ -65,6 +66,7 @@ const confirmUserDeletion=(user)=>{
     forUserDeleteConfirmation.value.user=user
     forUserDeleteConfirmation.value.title=`Deleting ${user.username}`
     forUserDeleteConfirmation.value.message=`Re-inter the correct name of \"${user.username}\" to confirm`
+    forUserDeleteConfirmation.value.warning=`Remember all the informations related to ${user.username} will going to be errased permanently!`
     setTimeout(() => {
         reload_controller.value=true
     }, 2000);
@@ -288,6 +290,12 @@ const handleUserDeleteConfirmation=(result)=>{
         </div>
     </div>
     <teleport to="body">
-        <AdminDeleteUserConfirmation :reload="reload_controller" :user-information="forUserDeleteConfirmation.user" :title="forUserDeleteConfirmation.title" :message="forUserDeleteConfirmation.message" @delete_user_confirmation_result="handleUserDeleteConfirmation" />
+        <AdminDeleteUserConfirmation 
+        :reload="reload_controller" 
+        :user-information="forUserDeleteConfirmation.user" 
+        :title="forUserDeleteConfirmation.title" 
+        :message="forUserDeleteConfirmation.message" 
+        @delete_user_confirmation_result="handleUserDeleteConfirmation"
+        :warning="forUserDeleteConfirmation.warning" />
     </teleport>
 </template>
