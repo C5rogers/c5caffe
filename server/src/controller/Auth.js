@@ -218,7 +218,7 @@ module.exports.User_delete = async(req, res) => {
                 await ProductRating.deleteMany({ user_id })
                 await ProductCatagoryRating.deleteMany({ user_id })
                 await SelledOrder.deleteMany({ user: user_id })
-                await sendEmail(user.email, 'You are sadly removed from the membership of C5 Online caffe', { user: user.username }, './template/deletedUserReportEmail.handlebars')
+                await sendEmail(user.email, 'You are sadly removed from the membership of C5 Online caffe', { username: user.username }, './template/deletedUserReportEmail.handlebars')
                 const profileName = user.profile.substring(30, user.profile.length)
                 if (profileName == 'male.png' || profileName == 'female.png') {
                     await User.deleteOne({ _id: user_id })

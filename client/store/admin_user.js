@@ -34,6 +34,12 @@ export const adminUsersStore = defineStore({
         setUsersPageLimit(payload) {
             this.users_page_limit = payload
         },
+        resetErrorMessage() {
+            this.error_message = ''
+        },
+        resetSuccessMessage() {
+            this.success_message = ''
+        },
         async getUsers(payload) {
             try {
                 this.is_users_loading = true
@@ -57,6 +63,30 @@ export const adminUsersStore = defineStore({
                 }
                 if (error.code == 'ERR_NETWORK') {
                     this.users_network_error = true
+                }
+                return false
+            }
+        },
+        async deleteUser(payload) {
+            try {
+                this.is_user_loading = true
+                const responce = await axiosInstance.delete(`/auth/user/${payload}`)
+                if (responce.status == 200 || responce.status == 201) {
+                    this.success_message = await responce.data.message
+                    this.is_user_loading = false
+                    return true
+                }
+            } catch (error) {
+                console.log(error)
+                this.is_user_loading = false
+                if (error.response) {
+                    this.errors = error.response.data
+                    if (error.response.data.message) {
+                        this.error_message = error.response.data.message
+                    }
+                }
+                if (error.code == 'ERR_NETWORK') {
+                    this.user_network_error = true
                 }
                 return false
             }

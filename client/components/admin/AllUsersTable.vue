@@ -75,8 +75,38 @@ const handleUsersReload=async()=>{
     useAdminUsersStore.resetUsersNetworkError()
     await useAdminUsersStore.getUsers('')
 }
-const handleUserDeleteConfirmation=(result)=>{
-    console.log(result)
+const handleUserDeleteConfirmation=async(result)=>{
+    if(result.confirmation_result==true){
+        //make the request and show some toast
+        const deletionResult=await useAdminUsersStore.deleteUser(result.user._id)
+        if(deletionResult==true){
+            if(useAdminUsersStore.$state.success_message){
+                toast.success(useAdminUsersStore.$state.success_message,{
+                    position:'top-left'
+                })
+                useAdminUsersStore.resetSuccessMessage()
+            }else{
+                toast.success(`${result.user.username} deleted successfully!`,{
+                    position:'top-left'
+                })
+            }
+            await useAdminUsersStore.getUsers(search_controller.value)
+        }else{
+            toast.error(`Unalble to delete ${result.user.username} from C5 Online caffe`,{
+                position:'bottom-left'
+            })
+            if(useAdminUsersStore.$state.error_message){
+                toast.error(useAdminUsersStore.$state.error_message,{
+                    position:'bottom-left'
+                })
+                useAdminUsersStore.resetErrorMessage()
+            }
+        }
+    }else if(result.confirmation_result==false){
+        toast.error('Unable to confirm user deletion from C5 online caffe',{
+            position:'bottom-left'
+        })
+    }
 }
 
 </script>
