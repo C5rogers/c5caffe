@@ -15,6 +15,7 @@ const Order = require('../database/schemas/Order')
 const ProductRating = require('../database/schemas/ProductRating')
 const ProductCatagoryRating = require('../database/schemas/ProductCatagoryRating')
 const SelledOrder = require('../database/schemas/SelledOrder')
+const { deleteUploadedProfile } = require('../utils/fileRelated')
 
 
 module.exports.Signup_post = async(req, res) => {
@@ -210,15 +211,26 @@ module.exports.User_delete = async(req, res) => {
     try {
         const user_id = req.params.id
         if (isValidObjectId(user_id)) {
-            await Cart.deleteMany({ user: user_id })
-            await Order.deleteMany({ user: user_id })
-            await ProductRating.deleteMany({ user_id })
-            await ProductCatagoryRating.deleteMany({ user_id })
-            await SelledOrder.deleteMany({ user: user_id })
             const user = await User.findOne({ _id: user_id })
-            await sendEmail(user.email, 'You are sadly removed from the membership of C5 Online caffe', { user: user.username }, './template/deletedUserReportEmail.handlebars')
-            await User.deleteOne({ _id: user_id })
-            return res.status(200).json({ message: `${user.username} removed from membership of C5 online caffe successfully!` })
+            if (user.roll != 'admin') {
+                await Cart.deleteMany({ user: user_id })
+                await Order.deleteMany({ user: user_id })
+                await ProductRating.deleteMany({ user_id })
+                await ProductCatagoryRating.deleteMany({ user_id })
+                await SelledOrder.deleteMany({ user: user_id })
+                await sendEmail(user.email, 'You are sadly removed from the membership of C5 Online caffe', { user: user.username }, './template/deletedUserReportEmail.handlebars')
+                const profileName = user.profile.substring(30, user.profile.length)
+                if (profileName == 'male.png' || profileName == 'female.png') {
+                    await User.deleteOne({ _id: user_id })
+                    return res.status(200).json({ message: `${user.username} removed from membership of C5 online caffe successfully!` })
+                } else {
+                    deleteUploadedProfile(profileName)
+                    await User.deleteOne({ _id: user_id })
+                    return res.status(200).json({ message: `${user.username} removed from membership of C5 online caffe successfully!` })
+                }
+            } else {
+                return res.status(400).json({ message: "I am sorry the site can not stay without admin!" })
+            }
         } else {
             return res.status(400).json({ message: "Invalid user identification" })
         }
