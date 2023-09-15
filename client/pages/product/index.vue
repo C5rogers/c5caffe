@@ -205,7 +205,7 @@ const handleReloadData=async ()=>{
                 {{ $t('catagorys') }}:
             </div>
             <!-- the catagory lists container-->
-            <div class="w-3/4 flex h-64 overflow-y-scroll pr-0 flex-col gap-2 mt-4 items-center " v-if="useProductStore.$state.product_catagorys.length>0">
+            <div class="w-3/4 flex h-64 overflow-y-scroll pr-0 flex-col gap-2 mt-4 items-center " v-if="useProductStore.$state.product_catagorys.length>0&&useProductStore.$state.isProductsLoading==false&&useProductStore.$state.network_error==false">
                 <button
                 class="w-full border-l-4 pl-5 flex items-center text-left border-gray-200 hover:text-secondary transition duration-200 hover:border-secondary"
                 @click="filterByCatagory('')"
@@ -237,7 +237,7 @@ const handleReloadData=async ()=>{
             </div>
         </div>
         <!-- the right one -->
-        <div class="hidden w-full h-fit relative mt-10 px-5 md:px-0 md:w-3/4 ml-auto md:flex flex-col gap-2 " v-if="useProductStore.$state.products.length>0&&useProductStore.$state.isProductsLoading==false">
+        <div class="hidden w-full h-fit relative mt-10 px-5 md:px-0 md:w-3/4 ml-auto md:flex flex-col gap-2 " v-if="useProductStore.$state.products.length>0&&useProductStore.$state.isProductsLoading==false&&useProductStore.$state.network_error==false">
             <!-- the upper header -->
             <div class="w-full mt-5 flex flex-col gap-2 justify-center">
                 <!-- the first  -->
