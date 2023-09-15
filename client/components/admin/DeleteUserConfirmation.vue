@@ -1,0 +1,197 @@
+<script setup>
+import {Form,Field} from 'vee-validate'
+import * as yup from 'yup'
+import {Modal,initTE,Ripple} from 'tw-elements'
+
+const schema=yup.object().shape({
+    username:yup.string().required("you must inter the correct name of the user to confirm!")
+})
+
+
+const resetFormField=()=>{
+    formController.value.message=''
+    formController.value.title=''
+    formController.value.username=''
+}
+
+onMounted(()=>{
+    initTE({
+        Modal,
+        Ripple
+    })
+})
+
+const props=defineProps({
+    userInformation:{
+        typ:Object,
+        required:true
+    },
+    title:{
+        type:String,
+    },
+    message:{
+        type:String
+    },
+    reload:{
+        type:Boolean,
+        default:false
+    }
+})
+
+const formController=ref({
+    title:'',
+    message:'',
+    username:''
+})
+
+watch(()=>props.reload,(newValue)=>{
+    if(newValue){
+        formController.value.title=props.title
+        formController.value.message=props.message
+        formController.value.username=props.userInformation.username
+    }
+})
+
+watch(()=>props.userInformation,(newValue)=>{
+    if(newValue){
+        resetFormField()
+        formController.value.title=props.title
+        formController.value.message=props.message
+        formController.value.username=props.userInformation.username
+    }
+})
+
+const emit=defineEmits(['delete_user_confirmation_result'])
+
+const handleConfirmation=(value)=>{
+    let confirmation_result=false
+    if(value.username==formController.value.username){
+        confirmation_result=true
+    }
+    emit('delete_user_confirmation_result',{confirmation_result,user:props.userInformation})
+}   
+
+
+</script>
+
+<template>
+    <div
+    data-te-modal-init
+    class="fixed left-0 top-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+    id="userDeleteConfirmationModal"
+    tabindex="-1"
+    aria-labelledby="userDeleteConfirmationModallabel"
+    aria-hidden="true">
+        <!-- the dialog box -->
+        <div
+        data-te-modal-dialog-ref
+        class="pointer-events-none absolute sm:left-7 h-auto w-full translate-x-[-100%] opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]"
+        >
+            <div
+            class="min-[576px]:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600"
+            >
+                <!-- the title holder -->
+                <div
+                class="flex flex-shrink-0 items-center justify-between rounded-t-md bg-blue-200 p-4 dark:border-b dark:border-neutral-500 dark:bg-transparent"
+                >
+                    <!-- the left one -->
+                    <div class="w-fit flex items-center">
+                         <!-- the logo -->
+                        <div class="1-10 h-10 flex items-center justify-center rounded-full overflow-hidden">
+                            <img src="../../assets/images/restlogo.png" class="w-full h-full object-cover" alt="">
+                        </div>
+                        <!-- the title -->
+                        <div class="sm:text-xl font-Roboto capitalize">
+                            {{ formController.title }}
+                        </div>
+                    </div>
+                    <!-- the x button -->
+                    <button
+                    type="button"
+                    class="box-content rounded-none border-none text-white hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                    data-te-modal-dismiss
+                    aria-label="Close">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="h-6 w-6">
+                            <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- the body holder -->
+                <div
+                class="relative flex flex-auto flex-wrap justify-center p-4 px-10"
+                data-te-modal-body-ref>
+                    <!-- the notification icon -->
+                    <span class="text-secondary [&>svg]:h-16 [&>svg]:w-14">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                            fill-rule="evenodd"
+                            d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
+                            clip-rule="evenodd" />
+                        </svg>
+                    </span>
+                    <!-- the form -->
+                    <div class="w-full h-fit flex">
+                        <Form 
+                        @submit="handleConfirmation" :validation-schema="schema" v-slot="{errors}"
+                        class="w-full flex flex-col font-Roboto gap-2 justify-center"
+                        >
+                            <!-- the form cont -->
+                            <div class="w-full flex flex-col gap-1">
+                                <!-- the label -->
+                                <FormLabel :title="formController.message" />
+                                <!-- the input holder -->
+                                <div class="w-full relative">
+                                    <Field name="username" type="text" placeholder="Nejashi" class="formInput focus:bg-gray-200" />
+                                    <InputErrorMark v-if="errors.username" />
+                                    <div class="formErrorMessage" v-if="errors.username">
+                                        {{ errors.username }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- the other form cont -->
+                            <div class="w-full flex gap-1 mt-1">
+                                <button
+                                data-te-ripple-init
+                                data-te-ripple-color="light"
+                                data-te-modal-dismiss
+                                type="submit"
+                                :disabled="errors.username"
+                                class="w-full py-2 px-2 bg-black rounded-md text-white first-letter:capitalize text-xs font-bold"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </Form>
+                    </div>
+                </div>
+                <!-- the footer -->
+                <div 
+                class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50"
+                >
+                    <!-- the exit button -->
+                    <button
+                        type="button"
+                        class="inline-block rounded bg-secondary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+                        data-te-modal-dismiss
+                        data-te-ripple-init
+                        data-te-ripple-color="light"
+                        >
+                        Exit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -268,7 +268,7 @@ const handleLogOut=async()=>{
         </div>
       <!-- the absolute one -->
       <div 
-        id="sidenav"
+        id="sidenav-2"
         class="fixed -left-[500px] top-0 z-[1035] flex flex-col gap-5  px-4 h-screen w-60 -translate-x-full overflow-hidden bg-white shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] data-[te-sidenav-hidden='false']:translate-x-0 dark:bg-zinc-800"
         data-te-sidenav-init
         data-te-sidenav-hidden="false"

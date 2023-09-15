@@ -92,7 +92,7 @@ const handleReloadData=async ()=>{
         class="w-full flex flex-wrap md:hidden items-center px-5 py-1  mt-2 justify-center"
         >
            <!-- the button container -->
-           <div class="w-full flex flex-wrap gap-1 items-center justify-center" v-if="useProductStore.$state.product_catagorys.length>0">
+           <div class="w-full flex flex-wrap gap-1 items-center justify-center" v-if="useProductStore.$state.product_catagorys.length>0&&useProductStore.$state.isProductsLoading==false&&useProductStore.$state.network_error==false">
                 <button
                 class="w-fit py-1 px-2 border-[1px] text-gray-900 font-light border-secondary flex items-center justify-center rounded-full text-xs"
                 :class="{'bg-secondary text-white':catagory_controller==''}"
@@ -110,13 +110,17 @@ const handleReloadData=async ()=>{
                     {{ catagory.catagory }}
                 </button>
            </div>
-           <div class="w-3/4 flex flex-wrap gap-1 mt-4 items-center justify-center" v-else>
+           <div class="w-3/4 flex flex-wrap gap-1 mt-4 items-center justify-center" v-else-if="useProductStore.$state.isProductsLoading==true&&useProductStore.$state.network_error==false">
                <!-- show the animation here -->
                <AnimationsCatagorys/>
             </div>
+            <!-- the network error -->
+            <div class="w-3/4 flex justify-center items-center h-fit flex-col gap-1 mt-4" v-else-if="useProductStore.$state.network_error==true">
+                <NetworkError :small-mode="true" @reload="handleReloadData" />
+            </div>
         </div>
         <!-- the mobile product container -->
-        <div class="flex flex-col px-3 py-1 w-full items-center justify-center md:hidden" v-if="useProductStore.$state.products.length>0 && useProductStore.$state.isProductsLoading==false">
+        <div class="flex flex-col px-3 py-1 w-full items-center justify-center md:hidden" v-if="useProductStore.$state.products.length>0 && useProductStore.$state.isProductsLoading==false&&useProductStore.$state.network_error==false">
             <!-- the upper header -->
             <div class="w-full mt-1 flex flex-col gap-2 justify-center">
                 <!-- the first  -->

@@ -7,6 +7,14 @@ const search_controller=ref("")
 const page_controller=ref(5)
 const router=useRouter()
 
+const reload_controller=ref(false)
+
+const forUserDeleteConfirmation=ref({
+    user:{},
+    title:'',
+    message:''
+})
+
 const useAdminUsersStore=adminUsersStore()
 
 onMounted(()=>{
@@ -25,14 +33,6 @@ const resetSearch=async()=>{
 const handleChange=async()=>{
     useAdminUsersStore.setUsersPageLimit(page_controller.value)
     await useAdminUsersStore.getUsers(search_controller.value)
-}
-
-const handleDescription=(description)=>{
-    if(description.length<=30){
-        return description+'...'
-    }else{
-        return description.substring(0,30)+'...'
-    }
 }
 
 
@@ -58,15 +58,23 @@ const parseToNumber=(price)=>{
     }
 }
 const goToEditProduct=(user_id)=>{
-
+    router.push(`/admin/user/edit/${user_id}`)
 }
 
-const confirmProductDeletion=(usre)=>{
-    
+const confirmUserDeletion=(user)=>{
+    forUserDeleteConfirmation.value.user=user
+    forUserDeleteConfirmation.value.title=`Deleting ${user.username}`
+    forUserDeleteConfirmation.value.message=`Re-inter the correct name of \"${user.username}\" to confirm`
+    setTimeout(() => {
+        reload_controller.value=true
+    }, 2000);
 }
 const handleUsersReload=async()=>{
     useAdminUsersStore.resetUsersNetworkError()
     await useAdminUsersStore.getUsers('')
+}
+const handleUserDeleteConfirmation=(result)=>{
+    console.log(result)
 }
 
 </script>
@@ -241,10 +249,10 @@ const handleUsersReload=async()=>{
                     </button>
                     <button
                         data-te-toggle="modal"
-                        data-te-target="#leftTopModal"
+                        data-te-target="#userDeleteConfirmationModal"
                         data-te-ripple-init
                         data-te-ripple-color="light"
-                        @click="confirmProductDeletion(user)"
+                        @click="confirmUserDeletion(user)"
                         class="flex px-2 text-white gap-1 items-center justify-center bg-red-400 py-1 rounded"
                         >
                             <span>
@@ -279,4 +287,7 @@ const handleUsersReload=async()=>{
             <ShareblePagination :small-mode="true" :total-pages="parseToNumber(useAdminUsersStore.$state.users_total_page)" :initial-page="parseToNumber(useAdminUsersStore.$state.users_current_page)" :page-limit="4" @change_page="handleChangePage"/>
         </div>
     </div>
+    <teleport to="body">
+        <AdminDeleteUserConfirmation :reload="reload_controller" :user-information="forUserDeleteConfirmation.user" :title="forUserDeleteConfirmation.title" :message="forUserDeleteConfirmation.message" @delete_user_confirmation_result="handleUserDeleteConfirmation" />
+    </teleport>
 </template>
