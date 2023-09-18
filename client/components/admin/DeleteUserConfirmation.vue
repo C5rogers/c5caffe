@@ -2,6 +2,26 @@
 import {Form,Field} from 'vee-validate'
 import * as yup from 'yup'
 import {Modal,initTE,Ripple} from 'tw-elements'
+import ClipboardJS from 'clipboard'
+
+
+const is_copyed=ref(false)
+const copyToClipboard=()=>{
+    const clipboard=new ClipboardJS('.copy-button',{
+        text:()=>formController.value.username
+    })
+    clipboard.on('success',()=>{
+        is_copyed.value=true
+        setTimeout(() => {
+            is_copyed.value=false
+        }, 3000);
+    })
+    clipboard.on('error',()=>{
+        is_copyed.value=false
+    })
+    clipboard.onClick({ currentTarget: document.body })
+
+}
 
 const schema=yup.object().shape({
     username:yup.string().required("you must inter the correct name of the user to confirm!")
@@ -155,7 +175,24 @@ const handleConfirmation=(value)=>{
                         class="w-full flex flex-col font-Roboto gap-2 justify-center"
                         >
                             <!-- the form cont -->
-                            <div class="w-full flex flex-col gap-1">
+                            <div class="w-full flex flex-col gap-1 relative">
+                                <!-- the copy button -->
+                                <div class="absolute right-0 -top-3">
+                                    <button type="button" @click="copyToClipboard" v-if="is_copyed==false" class="flex justify-center items-center text-gray-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" 
+                                        class="h-4 w-4"
+                                        viewBox="0 0 448 512">
+                                            <path fill="currentColor" d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"/>
+                                        </svg>
+                                    </button>
+                                    <span v-else class="text-green-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" 
+                                        class="h-4 w-4" 
+                                        viewBox="0 0 512 512">
+                                            <path fill="currentColor" d="m173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69L432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/>
+                                        </svg>
+                                    </span>
+                                </div>
                                 <!-- the label -->
                                 <FormLabel :title="formController.message" />
                                 <!-- the input holder -->

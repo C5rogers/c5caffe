@@ -301,12 +301,13 @@ const handleUserDeleteConfirmation=async(result)=>{
                 </div>
             </div>
         </div>
-        <div class="w-full h-[55vh] flex justify-center items-center" v-else-if="useAdminUsersStore.$state.users.length==0 && useAdminUsersStore.$state.is_users_loading==false && useAdminUsersStore.$state.users_network_error==false">
-            <SharebleEmpty />
-        </div>
         <!-- the animation -->
         <div  class="min-h-[55vh] overflow-y-auto flex flex-col gap-[2px]" v-else-if="useAdminUsersStore.$state.is_users_loading==true && useAdminUsersStore.$state.users_network_error==false">
             <AnimationsAdminUsers/>
+        </div>
+        <!-- the empty one -->
+        <div class="w-full h-[55vh] flex justify-center items-center" v-else-if="useAdminUsersStore.$state.users.length==0 && useAdminUsersStore.$state.is_users_loading==false && useAdminUsersStore.$state.users_network_error==false">
+            <SharebleEmpty />
         </div>
         <!-- the network error -->
         <div class="min-h-[55vh] overflow-y-auto flex flex-col gap-[2px] items-center justify-center" v-else-if="useAdminUsersStore.$state.users_network_error==true&&useAdminUsersStore.$state.is_users_loading==false">
