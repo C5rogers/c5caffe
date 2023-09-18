@@ -6,6 +6,7 @@ import {useToast} from 'vue-toastification'
 const toast=useToast()
 
 const useCartStore=cartStore()
+const useOrderStore=orderStore()
 const empty_cart_message_controller=ref("Oops Your cart is empty")
 const checkout_controller=ref(false)
 
@@ -15,14 +16,42 @@ onMounted(async()=>{
         Ripple,
         Carousel
     })
+    if(useOrderStore.$state.the_initialized_user_order.length>0){
+        await useOrderStore.complteOrderPayment(useOrderStore.$state.the_initialized_user_order[0]._id)
+    }
     await useCartStore.fetchAllCarts('')
     await useCartStore.fetchFavoriteProducts()
     await useCartStore.fetchFavoriteProductCatagorys()
 })
 
 
-const handleCheckOut=()=>{
+const handleCheckOut=async()=>{
     checkout_controller.value=!checkout_controller.value
+    const result=await useOrderStore.initializeOrder()
+    if(result==true){
+        const paymentUri=useOrderStore.$state.initializing_order_payment_url
+        if(paymentUri){
+            useOrderStore.resetOrderPaymentUri()
+            checkout_controller.value=!checkout_controller.value
+            window.location.href=paymentUri
+        }else{
+            checkout_controller.value=!checkout_controller.value
+            toast.error('There is error in payment uri',{
+                position:'bottom-right'
+            })
+        }
+    }else{
+        checkout_controller.value=!checkout_controller.value
+        if(useOrderStore.$state.error_message){
+            toast.error(useOrderStore.$state.error_message,{
+                position:'bottom-right'
+            })
+        }else{
+            toast.error("Unable to initialize payment due to some errors!",{
+                position:'bottom-right'
+            })
+        }
+    }
 }
 
 

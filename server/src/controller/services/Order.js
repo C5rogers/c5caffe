@@ -156,9 +156,9 @@ module.exports.Order_complete = async(req, res) => {
         const user = User.findOne({ _id: user_id })
         if (isValidObjectId(order_id)) {
             const theOrder = await Order.findOne({ _id: order_id })
-            theOrder.updateOne({ status: "payed" })
+            await theOrder.updateOne({ status: "payed" })
             const updatedOrder = await Order.findOne({ _id: order_id }).populate("user", "_id username gender location profile").populate("carts")
-            await SelledOrder.create({ user, carts: updatedOrder.carts, total_price: updatedOrder.total_price })
+            await SelledOrder.create({ user: user_id, carts: updatedOrder.carts, total_price: updatedOrder.total_price })
             return res.status(200).json({ message: "Order payed successfully", updatedOrder })
         } else {
             return res.status(400).json({ message: "Invalid order id" })

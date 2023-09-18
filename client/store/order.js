@@ -20,7 +20,7 @@ export const orderStore = defineStore({
         orders_network_error: false,
         order_network_error: false,
         initializing_order_network_error: false,
-        the_initialized_user_order: [],
+        the_initialized_user_order: localStorage.getItem('C5_ONLINE_CAFFE_USER_INITIALIZED_ORDER') ? JSON.parse(localStorage.getItem('C5_ONLINE_CAFFE_USER_INITIALIZED_ORDER')) : [],
         initializing_order_payment_url: '',
         errors: [],
         error_message: '',
@@ -84,6 +84,7 @@ export const orderStore = defineStore({
                 const responce = await axiosInstance.post('/order/init')
                 if (responce.status == 201 || responce.status == 200) {
                     this.the_initialized_user_order = await responce.data.theOrder
+                    localStorage.setItem('C5_ONLINE_CAFFE_USER_INITIALIZED_ORDER', JSON.stringify(this.the_initialized_user_order))
                     this.initializing_order_payment_url = await responce.data.paymentUrl
                     this.is_user_initializing_order = false
                     return true
@@ -136,6 +137,7 @@ export const orderStore = defineStore({
                     this.success_message = await responce.data.message
                     this.the_initialized_user_order = await responce.data.updatedOrder
                     this.is_user_order_loading = false
+                    this.resetInitializedPaymentOrder()
                     return true
                 }
 
@@ -187,6 +189,8 @@ export const orderStore = defineStore({
         },
         resetInitializedPaymentOrder() {
             this.the_initialized_user_order = []
+            localStorage.removeItem('C5_ONLINE_CAFFE_USER_INITIALIZED_ORDER')
+            localStorage.clear()
         },
     },
     getters: {
