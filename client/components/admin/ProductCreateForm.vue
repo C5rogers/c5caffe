@@ -8,6 +8,7 @@ const inProcess=ref(false)
 const router=useRouter()
 const toast=useToast()
 const useAdminActionStore=adminProductAndCatagoryStore()
+const useChart_dataStore=chart_dataStore()
 
 onMounted(()=>{
     initTE({
@@ -77,6 +78,7 @@ const handleCreateProduct=async(value)=>{
         toast.info('Product upload alert also delivered to all yousers except you',{
             position:'bottom-left'
         })
+        await useChart_dataStore.getChartData()
         resetTheForm()
         router.push('/admin/product')
     }else{

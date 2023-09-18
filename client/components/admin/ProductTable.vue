@@ -76,6 +76,7 @@ const handleConfirmedProductDeletion=async(result)=>{
                 })
                 useAdminActionStore.resetSuccessMessage()
             }
+           await useAdminActionStore.getProducts(search_controller.value)
         }else{
             toast.error(`Unable to delete ${result.identifier.name} from site`,{
                 position:'bottom-left'

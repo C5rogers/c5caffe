@@ -9,6 +9,7 @@ const ProductRating = require('../../database/schemas/ProductRating')
 const SelledOrder = require('../../database/schemas/SelledOrder')
 const User = require('../../database/schemas/User')
 const ProductCatagoryRating = require('../../database/schemas/ProductCatagoryRating')
+const { deleteUploadedImage } = require('../../utils/fileRelated')
 
 
 module.exports.Products_get = async(req, res) => {
@@ -161,11 +162,8 @@ module.exports.Product_delete = async(req, res) => {
             } else {
                 await ProductRating.deleteMany({ product_id })
                 await Product.deleteOne({ _id: product_id })
-                await fs.unlink(theProduct.image, (error) => {
-                    if (error) {
-                        console.log("Error in deleting the file")
-                    }
-                })
+                const filename = theProduct.image.substring(38, theProduct.image.length)
+                deleteUploadedImage(filename)
                 return res.status(200).json({ message: "Product deleted successfully" })
             }
         } else {
