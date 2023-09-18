@@ -4,23 +4,35 @@ import {
   Ripple,
   initTE,
 } from "tw-elements";
-import { Form,Field } from 'vee-validate'
-import * as yup from 'yup'
 import {useToast} from 'vue-toastification'
+
+
+onMounted(() => {
+  initTE({
+    Modal,
+    Ripple
+  })  
+  if(props.catagoryInfo.catagory){
+    form_controller.value.catagory=props.catagoryInfo.catagory
+  }
+})
+
+const form_controller=ref({
+    catagory:'',
+    catagory_error:''
+})
 
 const useAdminActionStore=adminProductAndCatagoryStore()
 const toast=useToast()
-const schema=yup.object().shape({
-    catagory:yup.string().required().default(props.catagoryInfo.catagory)
-})
 
 
-const handleUpdateProductCatagory=async(value)=>{
-    console.log(value)
+
+const handleUpdateProductCatagory=async()=>{
+    validateTheForm()
     const payload={
         catagory_id:props.catagoryInfo._id,
         form:{
-            catagory:value.catagory
+            catagory:form_controller.value.catagory
         }
     }
     const result=await useAdminActionStore.editCatagorys(payload)
@@ -54,6 +66,23 @@ const props=defineProps({
     },
     title:{
         type:String
+    }
+})
+
+const validateTheForm=()=>{
+    if(form_controller.value.catagory.length==0){
+        form_controller.value.catagory_error="Catagory is required"
+    }else if(typeof form_controller.value.catagory!=='string'){
+        form_controller.value.catagory_error="Catagory must be string value"
+    }else{
+        form_controller.value.catagory_error=''
+    }
+}
+
+
+watch(()=>props.catagoryInfo,(newValue)=>{
+    if(newValue){
+        form_controller.value.catagory=newValue.catagory
     }
 })
 
@@ -117,14 +146,14 @@ const props=defineProps({
                     <!-- the notificaion icon -->
                     <span class="text-secondary [&>svg]:h-16 [&>svg]:w-14">
                         <svg xmlns="http://www.w3.org/2000/svg" 
-                            viewBox="0 0 24 24"
-                            fill="currentColor">
+                        width="32" height="32" 
+                        viewBox="0 0 512 512">
                             <path fill="currentColor" d="M136.6 138.79a64.003 64.003 0 0 0-43.31 41.35L0 460l14.69 14.69L164.8 324.58c-2.99-6.26-4.8-13.18-4.8-20.58c0-26.51 21.49-48 48-48s48 21.49 48 48s-21.49 48-48 48c-7.4 0-14.32-1.81-20.58-4.8L37.31 497.31L52 512l279.86-93.29a64.003 64.003 0 0 0 41.35-43.31L416 224L288 96l-151.4 42.79zm361.34-64.62l-60.11-60.11c-18.75-18.75-49.16-18.75-67.91 0l-56.55 56.55l128.02 128.02l56.55-56.55c18.75-18.75 18.75-49.15 0-67.91z"/>
                         </svg>
                     </span>
                     <!-- the form -->
                     <div class="w-full h-fit flex">
-                        <Form @submit="handleUpdateProductCatagory" :validation-schema="schema" v-slot="{errors}"
+                        <form @submit.prevent="handleUpdateProductCatagory"
                         class="w-full flex flex-col font-Roboto gap-2 justify-center"
                         >
                             <!-- the form cont -->
@@ -133,11 +162,11 @@ const props=defineProps({
                                 <FormLabel title="catagory" />
                                 <!-- the input holder -->
                                 <div class="w-full relative">
-                                    <Field name="catagory" type="text" placeholder="Sweets" class="formInput focus:bg-gray-200" />
-                                    <InputErrorMark v-if="errors.catagory" />
+                                    <input v-on:blur="validateTheForm" v-model="form_controller.catagory" name="catagory" type="text" placeholder="Sweets" class="formInput focus:bg-gray-200" />
+                                    <InputErrorMark v-if="form_controller.catagory_error" />
                                     <!-- the error message -->
-                                    <div class="formErrorMessage" v-if="errors.catagory">
-                                        {{ errors.catagory }}
+                                    <div class="formErrorMessage" v-if="form_controller.catagory_error">
+                                        {{ form_controller.catagory_error }}
                                     </div>
                                 </div>
                             </div>
@@ -148,13 +177,13 @@ const props=defineProps({
                                 data-te-ripple-color="light"
                                 data-te-modal-dismiss
                                 type="submit"
-                                :disabled="errors.catagory"
+                                :disabled="form_controller.catagory_error.length>0"
                                 class="w-full py-2 px-2 bg-black rounded-md text-white first-letter:capitalize text-xs font-bold"
                                 >
                                     Update
                                 </button>
                             </div>
-                        </Form>
+                        </form>
                     </div>
                 </div>
                 <!-- the footer -->

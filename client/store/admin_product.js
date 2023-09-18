@@ -259,7 +259,7 @@ export const adminProductAndCatagoryStore = defineStore({
         async editCatagorys(payload) {
             try {
                 this.is_catagory_loading = true
-                const responce = await axiosInstance.put('/catagory/' + payload.catagory_id, payload.form)
+                const responce = await axiosInstance.put('/catagory/' + payload.catagory_id + '/edit', payload.form)
                 if (responce.status == 201 || responce.status == 200) {
                     this.catagory = await responce.data.updated_catagory
                     this.success_message = await responce.data.message
