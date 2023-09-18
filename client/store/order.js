@@ -128,6 +128,32 @@ export const orderStore = defineStore({
                 return false
             }
         },
+        async complteOrderPayment(payload) {
+            try {
+                this.is_user_order_loading = true
+                const responce = await axiosInstance.post('/order/complete/' + payload)
+                if (responce.status == 200 || responce.status == 201) {
+                    this.success_message = await responce.data.message
+                    this.the_initialized_user_order = await responce.data.updatedOrder
+                    this.is_user_order_loading = false
+                    return true
+                }
+
+            } catch (error) {
+                console.log(error)
+                this.is_user_order_loading = true
+                if (error.response) {
+                    this.errors = error.response.data
+                    if (error.response.data.message) {
+                        this.error_message = error.response.data.message
+                    }
+                }
+                if (error.code == 'ERR_NETWORK') {
+                    this.order_network_error = true
+                }
+                return false
+            }
+        },
         resetErrors() {
             this.errors = []
         },
@@ -155,7 +181,13 @@ export const orderStore = defineStore({
         resetOrdersPageInformation() {
             this.orders_current_page = 1
             this.orders_page_limit = 5
-        }
+        },
+        resetOrderPaymentUri() {
+            this.initializing_order_payment_url = ''
+        },
+        resetInitializedPaymentOrder() {
+            this.the_initialized_user_order = []
+        },
     },
     getters: {
 
