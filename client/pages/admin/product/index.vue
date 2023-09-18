@@ -19,6 +19,10 @@ const forCatagoryDeleteConfirmation=ref({
     title:"",
     message:""
 })
+const forCatagoryEdit=ref({
+    identifier:{},
+    title:''
+})
 
 const router=useRouter()
 
@@ -65,6 +69,11 @@ const handleReloadCatagorys=async()=>{
 definePageMeta({
     layout:"admin"
 })
+
+const handleToEditProductCatagory=(catagory)=>{
+    forCatagoryEdit.value.identifier=catagory
+    forCatagoryEdit.value.title=`Editing ${catagory.catagory}`
+}
 </script>
 
 <template>
@@ -134,6 +143,9 @@ definePageMeta({
                     <div class="flex gap-[2px]">
                         <button
                         data-te-ripple-init
+                        data-te-toggle="modal"
+                        data-te-target="#catagoryUpdateModal"
+                        @click="handleToEditProductCatagory(catagory)"
                         data-te-ripple-color="light"
                         class="flex items-center justify-center p-2 rounded-full border-[1px] border-green-600 "
                         >
@@ -186,5 +198,8 @@ definePageMeta({
         :message="forCatagoryDeleteConfirmation.message"
         @confirmation-result="handleDeleteCatagoryResult"
         />
+    </teleport>
+    <teleport to="body">
+        <AdminCatagoryEditModal :catagory-info="forCatagoryEdit.identifier" :title="forCatagoryEdit.title" />
     </teleport>
 </template>
