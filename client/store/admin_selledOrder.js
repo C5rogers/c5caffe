@@ -123,3 +123,8 @@ export const adminSelledOrderStore = defineStore({
 
     }
 })
+if (
+    import.meta.hot) {
+    import.meta.hot.accept(acceptHMRUpdate(adminSelledOrderStore,
+        import.meta.hot))
+}
