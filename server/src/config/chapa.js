@@ -10,7 +10,7 @@ const init_payment = async(form) => {
         "phone_number": form.phone,
         "tx_ref": "user-" + form.id,
         "callback_url": "https://webhook.site/077164d6-29cb-40df-ba29-8a00e59a7e60",
-        "return_url": "https://www.google.com/",
+        "return_url": "http://localhost:3000/cart",
         "customization[title]": "c5caffe payment",
         "customization[description]": "Our system integrate the most relayeble and easy payment system for our users to have awsome shoping time"
     }
