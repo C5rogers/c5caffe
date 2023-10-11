@@ -66,7 +66,7 @@ export const authStore = defineStore({
             } catch (error) {
                 console.log(error)
                 if (error.response && error.response.status == 400) {
-                    this.attemptErrors = error.responce.data.errors
+                    this.attemptErrors = error.response.data.errors
                 } else if (error.response && error.response.status == 401) {
                     this.attemptErrors = error.response.data
                 }
